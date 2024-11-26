@@ -72,7 +72,7 @@ public class WorkFlowSystem extends Organization {
                     } else {
                         for (UserAccount employee : orgUsers) {
                             System.out.println("      - Username: " + employee.getUsername()
-                                    + ", Role: " + employee.getRole() + ", org" + employee.getOrganization());
+                                    + ", Role: " + employee.getRole() + ", Org: " + employee.getOrganization());
                             totalEmployees++;
                         }
                     }

@@ -4,10 +4,15 @@
  */
 package Business.Organization.Advertisement;
 
+import Business.Enterprise.Enterprise;
+import Business.Organization.Organization;
+
 /**
  *
  * @author yuta
  */
-public class PlannerOrganization {
-    
+public class PlannerOrganization extends Organization {
+    public PlannerOrganization(Enterprise enterprise) {
+        super("Planner", enterprise);
+    }
 }

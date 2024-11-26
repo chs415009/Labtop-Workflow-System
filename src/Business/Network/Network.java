@@ -4,34 +4,28 @@
  */
 package Business.Network;
 
+import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseDirectory;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author yuanchanglee
  */
 public class Network {
+    private List<Enterprise> enterpriseList;
     private String name;
-    private EnterpriseDirectory enterpriseDirectory;
     
-    public Network(){
-        enterpriseDirectory=new EnterpriseDirectory();
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public EnterpriseDirectory getEnterpriseDirectory() {
-        return enterpriseDirectory;
+    public Network() {
+        enterpriseList = new ArrayList<>();
     }
     
-    @Override
-    public String toString(){
-        return name;
+    public void addEnterprise(Enterprise enterprise) {
+        enterpriseList.add(enterprise);
     }
     
+    public List<Enterprise> getEnterpriseDirectory() {
+        return enterpriseList;
+    }
 }

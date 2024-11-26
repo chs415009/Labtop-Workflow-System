@@ -4,10 +4,15 @@
  */
 package Business.Organization.Retail;
 
+import Business.Enterprise.Enterprise;
+import Business.Organization.Organization;
+
 /**
  *
  * @author yuta
  */
-public class RetailSalesOrganization {
-    
+public class RetailSalesOrganization extends Organization {
+    public RetailSalesOrganization(Enterprise enterprise) {
+        super("Retail Sales", enterprise);
+    }
 }

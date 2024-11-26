@@ -4,10 +4,15 @@
  */
 package Business.Organization.Manufacturing;
 
+import Business.Enterprise.Enterprise;
+import Business.Organization.Organization;
+
 /**
  *
  * @author yuta
  */
-public class ProductionLineOrganization {
-    
+public class ProductionLineOrganization extends Organization {
+    public ProductionLineOrganization(Enterprise enterprise) {
+        super("Production Line", enterprise);
+    }
 }

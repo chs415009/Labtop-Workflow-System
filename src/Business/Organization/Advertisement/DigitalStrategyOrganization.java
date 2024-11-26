@@ -4,10 +4,15 @@
  */
 package Business.Organization.Advertisement;
 
+import Business.Enterprise.Enterprise;
+import Business.Organization.Organization;
+
 /**
  *
  * @author yuta
  */
-public class DigitalStrategyOrganization {
-    
+public class DigitalStrategyOrganization extends Organization {
+    public DigitalStrategyOrganization(Enterprise enterprise) {
+        super("Digital Strategy", enterprise);
+    }
 }

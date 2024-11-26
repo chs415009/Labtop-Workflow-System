@@ -11,8 +11,8 @@ import Business.Organization.Organization;
  *
  * @author yuta
  */
-public class RetailSalesOrganization extends Organization {
-    public RetailSalesOrganization(Enterprise enterprise) {
-        super("Retail Sales", enterprise);
+public class DeliveryOrganization extends Organization {
+    public DeliveryOrganization(Enterprise enterprise) {
+        super("Delivery", enterprise);
     }
 }

@@ -4,6 +4,9 @@
  */
 package ui;
 
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
+import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -138,15 +141,54 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // ====== 事件處理 ======
         loginButton.addActionListener(evt -> {
-            String username = userNameField.getText();
-            String password = new String(passwordField.getPassword());
+        String username = userNameField.getText();
+        String password = new String(passwordField.getPassword());
+        WorkFlowSystem wfs = WorkFlowSystem.getInstance();
 
-            // 用戶驗證邏輯
-            if (username.equals("1") && password.equals("1")) {
-                JOptionPane.showMessageDialog(this, "Login Successful!");
-                showSystemAdminPanel(); // 切換到下一個頁面
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid credentials. Please try again.");
+        // Check admin credentials
+        if (username.equals("admin") && password.equals("admin")) {
+            JOptionPane.showMessageDialog(this, "Welcome System Administrator!");
+            showSystemAdminPanel();
+            return;
+        }
+
+        // Check enterprise user credentials
+        boolean found = false;
+        for (Network network : wfs.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                for (UserAccount account : enterprise.getEmployerList()) {
+                    if (account.getUsername().equals(username) && 
+                        account.getPassword().equals(password)) {
+                        found = true;
+
+                        // Switch on enterprise type for specific welcome messages
+                        String enterpriseInfo = "";
+                        switch (enterprise.getType()) {
+                            case TECH -> enterpriseInfo = "Technology Enterprise";
+                            case MANUFACTURING -> enterpriseInfo = "Manufacturing Enterprise";
+                            case DELIVERY -> enterpriseInfo = "Delivery Enterprise";
+                            case RETAIL -> enterpriseInfo = "Retail Enterprise";
+                            case ADVERTISING -> enterpriseInfo = "Advertising Enterprise";
+                        }
+
+                        JOptionPane.showMessageDialog(this, 
+                            "Welcome to " + enterprise.getName() + 
+                            "\nType: " + enterpriseInfo +
+                            "\nNetwork: " + network.getName() +
+                            "\nRole: " + account.getRole());
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+            if (found) break;
+        }
+
+            if (!found) {
+                JOptionPane.showMessageDialog(this, 
+                    "Invalid credentials. Please try again.",
+                    "Login Failed",
+                    JOptionPane.ERROR_MESSAGE);
             }
         });
 

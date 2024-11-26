@@ -23,19 +23,24 @@ import static Business.Enterprise.EnterpriseType.ADVERTISING;
 import static Business.Enterprise.EnterpriseType.DELIVERY;
 import static Business.Enterprise.EnterpriseType.MANUFACTURING;
 import static Business.Enterprise.EnterpriseType.RETAIL;
+import Business.Admin;
 
 /**
  *
  * @author yuanchanglee
  */
+
 public class WorkFlowSystem extends Organization {
     private static WorkFlowSystem business;
     private ArrayList<Network> networkList;
+    private static Admin admin;
+    
     public static WorkFlowSystem getInstance(){
         if(business==null){
             business=new WorkFlowSystem();
+            business.createTestSystem();    
+            admin = new Admin();
         }
-        business.createTestSystem();
         return business;
     }
     

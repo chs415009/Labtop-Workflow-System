@@ -51,4 +51,9 @@ public abstract class Enterprise {
     public List<UserAccount> getEmployerList() {
         return employerList;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
 }

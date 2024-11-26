@@ -167,11 +167,11 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
             // 創建新的 Enterprise
             Enterprise enterprise = null;
             switch (selectedType) {
-                case TECH -> enterprise = new TechnologyProductEnterprise("Tech Corp");
-                case MANUFACTURING -> enterprise = new ManufacturingEnterprise("Manufacturing Corp");
-                case DELIVERY -> enterprise = new DeliveryEnterprise("Delivery Corp");
-                case RETAIL -> enterprise = new RetailEnterprise("Retail Corp");
-                case ADVERTISING -> enterprise = new AdvertisingEnterprise("Advertising Corp");
+                case TECH -> enterprise = new TechnologyProductEnterprise(name);
+                case MANUFACTURING -> enterprise = new ManufacturingEnterprise(name);
+                case DELIVERY -> enterprise = new DeliveryEnterprise(name);
+                case RETAIL -> enterprise = new RetailEnterprise(name);
+                case ADVERTISING -> enterprise = new AdvertisingEnterprise(name);
             }
             selectedNetwork.addEnterprise(enterprise);
             populateTable();

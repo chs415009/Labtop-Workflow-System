@@ -4,10 +4,14 @@
  */
 package ui.SystemAdminWorkAreaJPanel;
 
-import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
-import Business.Role.AdminRole;
+import Business.Role.*;
+import Business.Role.Advertisement.*;  
+import Business.Role.Delivery.*;       
+import Business.Role.Manufacturing.*;  
+import Business.Role.Retail.*;        
+import Business.Role.Tech.*;          
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
@@ -19,7 +23,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -37,6 +43,7 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
     private JTable enterpriseAdminTable;
     private JComboBox<Network> networkComboBox;
     private JComboBox<Enterprise> enterpriseComboBox;
+    private JComboBox<Role> roleComboBox;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField nameField;
@@ -109,139 +116,199 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
 
 
     private void customizeComponents() {
-        // 設置主面板的佈局
-        setLayout(new BorderLayout());
-        setBackground(Color.decode("#E8EEF1")); // 柔和藍灰色背景
+        // Main panel layout
+        setLayout(new BorderLayout(10, 10));  // Add spacing between components
+        setBackground(Color.decode("#F5F7FA")); // Lighter background color
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding
 
-        // ======= 上部表格區域 =======
-        JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBackground(Color.decode("#E8EEF1"));
+        // ======= Top Title Panel =======
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(Color.decode("#F5F7FA"));
+        JLabel titleLabel = new JLabel("Enterprise Admin Management", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.decode("#2C3E50"));
+        titlePanel.add(titleLabel);
+        add(titlePanel, BorderLayout.NORTH);
 
-        // 表格標題
-        JLabel tableLabel = new JLabel("Enterprise Admin Table", SwingConstants.CENTER);
-        tableLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        tablePanel.add(tableLabel, BorderLayout.NORTH);
+        // ======= Table Panel =======
+        JPanel tablePanel = new JPanel(new BorderLayout(0, 10));
+        tablePanel.setBackground(Color.decode("#F5F7FA"));
+        tablePanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+            javax.swing.BorderFactory.createTitledBorder("Enterprise Admins"),
+            javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-        // 表格
+        // Table
         enterpriseAdminTable = new JTable(new DefaultTableModel(
-                new Object[][]{}, // 空表格數據
-                new String[]{"Enterprise Name", "Network", "Username"}
+            new Object[][]{},
+            new String[]{"Enterprise Name", "Network", "Username"}
         ));
-        enterpriseAdminTable.setRowHeight(10); // 調整表格行高
-        enterpriseAdminTable.setPreferredScrollableViewportSize(new Dimension(300, 100)); // 限制表格顯示大小
+        enterpriseAdminTable.setRowHeight(25);
+        enterpriseAdminTable.setFillsViewportHeight(true);
+        enterpriseAdminTable.setSelectionBackground(Color.decode("#D4E6F1"));
+        enterpriseAdminTable.getTableHeader().setBackground(Color.decode("#2980B9"));
+        enterpriseAdminTable.getTableHeader().setForeground(Color.WHITE);
+        enterpriseAdminTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+
         JScrollPane scrollPane = new JScrollPane(enterpriseAdminTable);
+        scrollPane.setPreferredSize(new Dimension(600, 200));
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
-        add(tablePanel, BorderLayout.NORTH);
+        add(tablePanel, BorderLayout.CENTER);
 
-        // ======= 下部表單區域 =======
+        // ======= Form Panel =======
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
-        formPanel.setBackground(Color.decode("#E8EEF1"));
+        formPanel.setBackground(Color.decode("#F5F7FA"));
+        formPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+            javax.swing.BorderFactory.createTitledBorder("Add New Admin"),
+            javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // 縮小間距
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // ======= 表單字段 =======
-        // Network
-        JLabel networkLabel = new JLabel("Network:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(networkLabel, gbc);
-
-        networkComboBox = new JComboBox<>();
-        networkComboBox.setPreferredSize(new Dimension(120, 25)); // 減小寬高
+        // Network Selection
+        addFormField(formPanel, "Network:", networkComboBox = createStyledComboBox(), gbc, 0);
         networkComboBox.addActionListener(e -> {
-            Network selectedNetwork = (Network) networkComboBox.getSelectedItem(); // 直接取得 Network 物件
+            Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
             if (selectedNetwork != null) {
                 populateEnterpriseComboBox(selectedNetwork);
             }
         });
 
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(networkComboBox, gbc);
+        // Enterprise Selection
+        addFormField(formPanel, "Enterprise:", enterpriseComboBox = createStyledComboBox(), gbc, 1);
+        enterpriseComboBox.addActionListener(e -> {
+            Enterprise selectedEnterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
+            if (selectedEnterprise != null) {
+                populateRoleComboBox(selectedEnterprise);
+            }
+        });
 
-        // Enterprise
-        JLabel enterpriseLabel = new JLabel("Enterprise:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(enterpriseLabel, gbc);
-
-        enterpriseComboBox = new JComboBox<>();
-        enterpriseComboBox.setPreferredSize(new Dimension(120, 25)); // 減小寬高
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(enterpriseComboBox, gbc);
+        // Role Selection
+        addFormField(formPanel, "Role:", roleComboBox = createStyledComboBox(), gbc, 2);
 
         // Username
-        JLabel usernameLabel = new JLabel("Username:");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(usernameLabel, gbc);
-
-        usernameField = new JTextField(10); // 減小寬度
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(usernameField, gbc);
+        addFormField(formPanel, "Username:", usernameField = createStyledTextField(), gbc, 3);
 
         // Password
-        JLabel passwordLabel = new JLabel("Password:");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(passwordLabel, gbc);
-
-        passwordField = new JPasswordField(10); // 減小寬度
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(passwordField, gbc);
+        addFormField(formPanel, "Password:", passwordField = createStyledPasswordField(), gbc, 4);
 
         // Name
-        JLabel nameLabel = new JLabel("Name:");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(nameLabel, gbc);
-
-        nameField = new JTextField(10); // 減小寬度
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(nameField, gbc);
+        addFormField(formPanel, "Name:", nameField = createStyledTextField(), gbc, 5);
 
         // Submit Button
-        submitButton = new JButton("Submit");
+        submitButton = new JButton("Create Admin Account");
+        submitButton.setBackground(Color.decode("#2980B9"));
+        submitButton.setForeground(Color.WHITE);
+        submitButton.setFont(new Font("Arial", Font.BOLD, 14));
+        submitButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        submitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        submitButton.addActionListener(e -> submitEnterpriseAdmin());
+
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        submitButton.addActionListener(e -> submitEnterpriseAdmin());
         formPanel.add(submitButton, gbc);
 
-        add(formPanel, BorderLayout.CENTER);
+        add(formPanel, BorderLayout.SOUTH);
     }
 
+    // Helper methods for creating styled components
+    private JComboBox createStyledComboBox() {
+        JComboBox comboBox = new JComboBox();
+        comboBox.setPreferredSize(new Dimension(200, 30));
+        comboBox.setBackground(Color.WHITE);
+        comboBox.setFont(new Font("Arial", Font.PLAIN, 12));
+        return comboBox;
+    }
+
+    private JTextField createStyledTextField() {
+        JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(200, 30));
+        textField.setFont(new Font("Arial", Font.PLAIN, 12));
+        return textField;
+    }
+
+    private JPasswordField createStyledPasswordField() {
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setPreferredSize(new Dimension(200, 30));
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 12));
+        return passwordField;
+    }
+
+    private void addFormField(JPanel panel, String labelText, JComponent component, 
+                             GridBagConstraints gbc, int gridy) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.BOLD, 12));
+
+        gbc.gridx = 0;
+        gbc.gridy = gridy;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        panel.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        panel.add(component, gbc);
+    }
+    
     private void submitEnterpriseAdmin() {
-        Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-        Enterprise selectedEnterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
+        Enterprise enterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
+        Role role = (Role) roleComboBox.getSelectedItem();
 
-        String username = usernameField.getText();
-        String password = String.valueOf(passwordField.getPassword());
-        String name = nameField.getText();
-
-        if (selectedNetwork == null || selectedEnterprise == null || username.isEmpty() || password.isEmpty() || name.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "All fields are required.");
+        if (enterprise == null || role == null) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select both enterprise and role");
             return;
         }
 
-        // 創建 Employee 和 UserAccount
-        // Employee employee = selectedEnterprise.getEmployeeDirectory().createEmployee(name);
-        // selectedEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
-        populateTable();
-        javax.swing.JOptionPane.showMessageDialog(this, "Enterprise Admin created successfully.");
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
+        String name = nameField.getText();
+
+        if (username.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Please fill all fields");
+            return;
+        }
+        // TODO
+        // UserAccount account = enterprise.createUserAccount(username, password, role);
+//        if (account != null) {
+//            populateTable();
+//            clearFields();
+//            JOptionPane.showMessageDialog(this, 
+//                "Enterprise Admin created successfully");
+//        }
     }
+
+    private void clearFields() {
+        usernameField.setText("");
+        passwordField.setText("");
+        nameField.setText("");
+        roleComboBox.setSelectedIndex(-1);
+    }
+
+//    private void submitEnterpriseAdmin() {
+//        Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
+//        Enterprise selectedEnterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
+//
+//        String username = usernameField.getText();
+//        String password = String.valueOf(passwordField.getPassword());
+//        String name = nameField.getText();
+//
+//        if (selectedNetwork == null || selectedEnterprise == null || username.isEmpty() || password.isEmpty() || name.isEmpty()) {
+//            javax.swing.JOptionPane.showMessageDialog(this, "All fields are required.");
+//            return;
+//        }
+//
+//        // 創建 Employee 和 UserAccount
+//        // Employee employee = selectedEnterprise.getEmployeeDirectory().createEmployee(name);
+//        // selectedEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
+//        populateTable();
+//        javax.swing.JOptionPane.showMessageDialog(this, "Enterprise Admin created successfully.");
+//    }
 
 
     public JTable getEnterpriseAdminTable() {
@@ -270,6 +337,40 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
 
     public JButton getSubmitButton() {
         return submitButton;
+    }
+    
+        private void populateRoleComboBox(Enterprise enterprise) {
+        roleComboBox.removeAllItems();
+
+        if (enterprise != null) {
+            switch (enterprise.getType()) {
+                case TECH:
+                    roleComboBox.addItem(new ProductManagerRole());
+                    roleComboBox.addItem(new RDRole());
+                    roleComboBox.addItem(new PurchasingManagerRole());
+                    roleComboBox.addItem(new MarketingManagerRole());
+                    break;
+
+                case MANUFACTURING:
+                    roleComboBox.addItem(new ManufacturingManagerRole());
+                    roleComboBox.addItem(new ManufacturingWorkerRole());
+                    break;
+
+                case DELIVERY:
+                    roleComboBox.addItem(new DeliveryManagerRole());
+                    roleComboBox.addItem(new DeliveryRole());
+                    break;
+
+                case RETAIL:
+                    roleComboBox.addItem(new RetailManagerRole());
+                    break;
+
+                case ADVERTISING:
+                    roleComboBox.addItem(new AdvertisingManagerRole());
+                    roleComboBox.addItem(new DigitalAdsStrategistRole());
+                    break;
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,6 +18,12 @@ public class UserAccount {
     private Role role;
     private Employee employee;
     private WorkQueue workQueue;
+    
+    // user name
+    // password
+    // role
+    // enterprise
+    // organization
 
     public UserAccount() {
         this.workQueue = new WorkQueue(); // Initialize a WorkQueue

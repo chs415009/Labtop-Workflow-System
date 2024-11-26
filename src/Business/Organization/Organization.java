@@ -23,6 +23,8 @@ public abstract class Organization {
     private int organizationID;
     private static int counter=0;
     
+    // user account directory
+    
     public enum Type{
         Admin("Admin Organization"), Doctor("Doctor Organization"), Lab("Lab Organization");
         private String value;

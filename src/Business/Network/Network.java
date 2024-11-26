@@ -25,7 +25,15 @@ public class Network {
         enterpriseList.add(enterprise);
     }
     
-    public List<Enterprise> getEnterpriseDirectory() {
+    public List<Enterprise> getEnterpriseList() {
         return enterpriseList;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -80,8 +80,8 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
         model.setRowCount(0);
 
         for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
-                for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                for (UserAccount userAccount : enterprise.getEmployerList()) {
                     Object[] row = new Object[3];
                     row[0] = enterprise.getName(); // 企業名稱
                     row[1] = network.getName(); // 網絡名稱
@@ -102,7 +102,7 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
 
     private void populateEnterpriseComboBox(Network network) {
         enterpriseComboBox.removeAllItems();
-        for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
+        for (Enterprise enterprise : network.getEnterpriseList()) {
             enterpriseComboBox.addItem(enterprise); // 添加 Enterprise 物件
         }
     }
@@ -237,8 +237,8 @@ public class ManageEnterpriseAdminJPanel extends javax.swing.JPanel {
         }
 
         // 創建 Employee 和 UserAccount
-        Employee employee = selectedEnterprise.getEmployeeDirectory().createEmployee(name);
-        selectedEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
+        // Employee employee = selectedEnterprise.getEmployeeDirectory().createEmployee(name);
+        // selectedEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new AdminRole());
         populateTable();
         javax.swing.JOptionPane.showMessageDialog(this, "Enterprise Admin created successfully.");
     }

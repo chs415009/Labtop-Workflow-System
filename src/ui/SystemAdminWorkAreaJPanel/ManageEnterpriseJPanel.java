@@ -4,7 +4,11 @@
  */
 package ui.SystemAdminWorkAreaJPanel;
 
-import Business.Enterprise.Enterprise;
+import Business.Enterprise.*;
+import static Business.Enterprise.EnterpriseType.ADVERTISING;
+import static Business.Enterprise.EnterpriseType.DELIVERY;
+import static Business.Enterprise.EnterpriseType.MANUFACTURING;
+import static Business.Enterprise.EnterpriseType.RETAIL;
 import Business.Network.Network;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
@@ -31,7 +35,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
 
     private JTable enterpriseTable;
     private JComboBox<Network> networkComboBox;
-    private JComboBox<Enterprise.EnterpriseType> enterpriseTypeComboBox;
+    private JComboBox<EnterpriseType> enterpriseTypeComboBox;
     private JTextField nameField;
     private JButton submitButton;
     private JPanel userProcessContainer;
@@ -153,7 +157,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         submitButton.addActionListener(e -> {
             String name = nameField.getText();
             Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-            Enterprise.EnterpriseType selectedType = (Enterprise.EnterpriseType) enterpriseTypeComboBox.getSelectedItem();
+            EnterpriseType selectedType = (EnterpriseType) enterpriseTypeComboBox.getSelectedItem();
 
             if (name.isEmpty() || selectedNetwork == null || selectedType == null) {
                 javax.swing.JOptionPane.showMessageDialog(this, "All fields are required.");
@@ -161,7 +165,15 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
             }
 
             // 創建新的 Enterprise
-            selectedNetwork.getEnterpriseDirectory().createAndAddEnterprise(name, selectedType);
+            Enterprise enterprise = null;
+            switch (selectedType) {
+                case TECH -> enterprise = new TechnologyProductEnterprise("Tech Corp");
+                case MANUFACTURING -> enterprise = new ManufacturingEnterprise("Manufacturing Corp");
+                case DELIVERY -> enterprise = new DeliveryEnterprise("Delivery Corp");
+                case RETAIL -> enterprise = new RetailEnterprise("Retail Corp");
+                case ADVERTISING -> enterprise = new AdvertisingEnterprise("Advertising Corp");
+            }
+            selectedNetwork.addEnterprise(enterprise);
             populateTable();
             nameField.setText("");
         });
@@ -172,11 +184,11 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) enterpriseTable.getModel();
         model.setRowCount(0);
         for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
                 Object[] row = new Object[3];
                 row[0] = enterprise.getName();
                 row[1] = network.getName();
-                row[2] = enterprise.getEnterpriseType().getValue();
+                row[2] = enterprise.getType().toString();
                 model.addRow(row);
             }
         }
@@ -192,7 +204,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         }
 
         // 填充 Enterprise Type ComboBox
-        for (Enterprise.EnterpriseType type : Enterprise.EnterpriseType.values()) {
+        for (EnterpriseType type : EnterpriseType.values()) {
             enterpriseTypeComboBox.addItem(type); // 添加 EnterpriseType 物件
         }
     }
@@ -207,7 +219,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         return networkComboBox;
     }
 
-    public JComboBox<Enterprise.EnterpriseType> getEnterpriseTypeComboBox() {
+    public JComboBox<EnterpriseType> getEnterpriseTypeComboBox() {
         return enterpriseTypeComboBox;
     }
 

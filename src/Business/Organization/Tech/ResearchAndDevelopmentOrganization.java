@@ -2,25 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Jun.Business.Organization.Tech;
-
+package Business.Organization.Tech;
+import Business.Enterprise.Enterprise;
 import Business.Organization.Organization;
 import Business.Role.Role;
 import java.util.ArrayList;
-
 /**
  *
  * @author User
  */
-public class MarketingOrganization extends Organization{
-
-    public MarketingOrganization(String name) {
-        super(name);
+public class ResearchAndDevelopmentOrganization extends Organization {
+    public ResearchAndDevelopmentOrganization(Enterprise enterprise) {
+        super("Research and Development", enterprise);
     }
-
-    @Override
-    public ArrayList<Role> getSupportedRole() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-    
 }

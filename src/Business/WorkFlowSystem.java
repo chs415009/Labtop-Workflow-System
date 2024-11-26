@@ -29,16 +29,10 @@ public class WorkFlowSystem extends Organization {
         networkList.add(network);
         return network;
     }
-    @Override
-    public ArrayList<Role> getSupportedRole() {
-        ArrayList<Role> roleList=new ArrayList<Role>();
-        roleList.add(new SystemAdminRole());
-        return roleList;
-    }
 
 
-    private WorkFlowSystem(){
-        super(null);
+    private WorkFlowSystem() {
+        super("WorkFlowSystem", null);
         networkList=new ArrayList<Network>();
     }
     
@@ -48,15 +42,5 @@ public class WorkFlowSystem extends Organization {
 
     public void setNetworkList(ArrayList<Network> networkList) {
         this.networkList = networkList;
-    }
-    
-    public boolean checkIfUserIsUnique(String userName){
-        if(!this.getUserAccountDirectory().checkIfUsernameIsUnique(userName)){
-            return false;
-        }
-        for(Network network:networkList){
-            
-        }
-        return true;
     }
 }

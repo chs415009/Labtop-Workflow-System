@@ -6,51 +6,38 @@ package Business.Enterprise;
 
 import Business.Organization.Organization;
 import Business.Organization.OrganizationDirectory;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author yuanchanglee
+ * @author Bolin
  */
-public abstract class Enterprise extends Organization{
-    
-    private EnterpriseType enterpriseType;
-    private OrganizationDirectory organizationDirectory;
 
-    public OrganizationDirectory getOrganizationDirectory() {
-        return organizationDirectory;
+public abstract class Enterprise {
+    private EnterpriseType type;
+    private String name;
+    private List<Organization> organizationList;
+    
+    public Enterprise(String name, EnterpriseType type) {
+        this.name = name;
+        this.type = type;
+        this.organizationList = new ArrayList<>();
     }
     
-    public enum EnterpriseType{
-        Computer("Computer");
-        
-        private String value;
-        
-        private EnterpriseType(String value){
-            this.value=value;
-        }
-        public String getValue() {
-            return value;
-        }
-        @Override
-        public String toString(){
-        return value;
-    }
-    }
-
-    public EnterpriseType getEnterpriseType() {
-        return enterpriseType;
-    }
-
-    public void setEnterpriseType(EnterpriseType enterpriseType) {
-        this.enterpriseType = enterpriseType;
+    public void addOrganization(Organization org) {
+        organizationList.add(org);
     }
     
-    public Enterprise(String name,EnterpriseType type){
-        super(name);
-        this.enterpriseType=type;
-        organizationDirectory=new OrganizationDirectory();
+    public List<Organization> getOrganizationDirectory() {
+        return organizationList;
     }
     
+    public EnterpriseType getType() {
+        return type;
+    }
     
+    public String getName() {
+        return name;
+    }
 }
-

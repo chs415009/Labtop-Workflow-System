@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Business.Role.Retail;
-
-import Business.Role.Role;
+package Business.Enterprise;
 
 /**
  *
  * @author yuta
  */
-public class RetailManagerRole extends Role {
-    public RetailManagerRole() {
-        super("Retail Manager");
+public class TechnologyProductEnterprise extends Enterprise {
+    public TechnologyProductEnterprise(String name) {
+        super(name, EnterpriseType.TECH);
     }
 }

@@ -4,10 +4,14 @@
  */
 package Business.Role.Delivery;
 
+import Business.Role.Role;
+
 /**
  *
  * @author yuta
  */
-public class DeliveryRole {
-    
+public class DeliveryRole extends Role {
+    public DeliveryRole() {
+        super("Delivery Worker");
+    }
 }

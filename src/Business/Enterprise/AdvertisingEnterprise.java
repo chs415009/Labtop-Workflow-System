@@ -4,6 +4,9 @@
  */
 package Business.Enterprise;
 
+import Business.Organization.Advertisement.DigitalStrategyOrganization;
+import Business.Organization.Advertisement.PlannerOrganization;
+
 /**
  *
  * @author yuta
@@ -11,5 +14,11 @@ package Business.Enterprise;
 public class AdvertisingEnterprise extends Enterprise {
     public AdvertisingEnterprise(String name) {
         super(name, EnterpriseType.ADVERTISING);
+    }
+    
+    @Override
+    protected void initializeOrganizations() {
+        addOrganization(new PlannerOrganization(this));
+        addOrganization(new DigitalStrategyOrganization(this));
     }
 }

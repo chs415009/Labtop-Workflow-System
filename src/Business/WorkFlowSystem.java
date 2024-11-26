@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Business;
 
 import Business.Enterprise.Enterprise;
@@ -23,37 +19,30 @@ import static Business.Enterprise.EnterpriseType.ADVERTISING;
 import static Business.Enterprise.EnterpriseType.DELIVERY;
 import static Business.Enterprise.EnterpriseType.MANUFACTURING;
 import static Business.Enterprise.EnterpriseType.RETAIL;
-import Business.Admin;
-
-/**
- *
- * @author yuanchanglee
- */
 
 public class WorkFlowSystem extends Organization {
     private static WorkFlowSystem business;
     private ArrayList<Network> networkList;
     private static Admin admin;
     
-    public static WorkFlowSystem getInstance(){
-        if(business==null){
-            business=new WorkFlowSystem();
+    public static WorkFlowSystem getInstance() {
+        if (business == null) {
+            business = new WorkFlowSystem();
             business.createTestSystem();    
             admin = new Admin();
         }
         return business;
     }
     
-    public Network createAndAddNetwork(){
-        Network network=new Network();
+    public Network createAndAddNetwork() {
+        Network network = new Network();
         networkList.add(network);
         return network;
     }
 
-
     private WorkFlowSystem() {
         super("WorkFlowSystem", null);
-        networkList=new ArrayList<Network>();
+        networkList = new ArrayList<Network>();
     }
     
     public ArrayList<Network> getNetworkList() {
@@ -64,9 +53,6 @@ public class WorkFlowSystem extends Organization {
         this.networkList = networkList;
     }
     
-    
-    // Print All Employee
-    
     public void printAllEmployees() {
         System.out.println("\n=== All Employees in WorkFlow System ===");
 
@@ -76,16 +62,19 @@ public class WorkFlowSystem extends Organization {
 
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 System.out.println("\n  Enterprise: " + enterprise.getName() + " (" + enterprise.getType() + ")");
-
-                List<UserAccount> employees = enterprise.getEmployerList();
-                if (employees.isEmpty()) {
-                    System.out.println("    No employees");
-                } else {
-                    for (UserAccount employee : employees) {
-                        System.out.println("    - Username: " + employee.getUsername()
-                                + ", Role: " + employee.getRole()
-                                + ", Name: " + employee.getUsername());
-                        totalEmployees++;
+                
+                // Print by organization
+                for (Organization org : enterprise.getOrganizationDirectory()) {
+                    System.out.println("    Organization: " + org.getName());
+                    List<UserAccount> orgUsers = org.getUserAccounts();
+                    if (orgUsers.isEmpty()) {
+                        System.out.println("      No employees");
+                    } else {
+                        for (UserAccount employee : orgUsers) {
+                            System.out.println("      - Username: " + employee.getUsername()
+                                    + ", Role: " + employee.getRole());
+                            totalEmployees++;
+                        }
                     }
                 }
             }
@@ -95,8 +84,6 @@ public class WorkFlowSystem extends Organization {
         System.out.println("=====================================");
     }
     
-   
-    // fake data
     public void createTestSystem() {
         // Create Network
         Network network = createAndAddNetwork();
@@ -113,7 +100,7 @@ public class WorkFlowSystem extends Organization {
         createAdvertisingEnterprise(network);
         
         System.out.println("\n=== Test System Created Successfully ===");
-        printAllEmployees(); // Print all created accounts
+        printAllEmployees();
     }
     
     private void createTechEnterprise(Network network) {
@@ -121,11 +108,11 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(techEnterprise);
         System.out.println("\nCreated Tech Enterprise: " + techEnterprise.getName());
         
-        // Create user accounts for each role
-        createAccount(techEnterprise, "techpm", "test123", new ProductManagerRole());
-        createAccount(techEnterprise, "techrd", "test123", new RDRole());
-        createAccount(techEnterprise, "techpur", "test123", new PurchasingManagerRole());
-        createAccount(techEnterprise, "techmkt", "test123", new MarketingManagerRole());
+        // Each role matches to its specific organization
+        createAccount(techEnterprise, "techpm", "test123", new ProductManagerRole());    // Product Management Org
+        createAccount(techEnterprise, "techrd", "test123", new RDRole());                // R&D Org
+        createAccount(techEnterprise, "techpur", "test123", new PurchasingManagerRole()); // Purchasing Org
+        createAccount(techEnterprise, "techmkt", "test123", new MarketingManagerRole());  // Marketing Org
     }
     
     private void createManufacturingEnterprise(Network network) {
@@ -133,8 +120,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(mfgEnterprise);
         System.out.println("\nCreated Manufacturing Enterprise: " + mfgEnterprise.getName());
         
-        createAccount(mfgEnterprise, "mfgmgr", "test123", new ManufacturingManagerRole());
-        createAccount(mfgEnterprise, "mfgwrk", "test123", new ManufacturingWorkerRole());
+        createAccount(mfgEnterprise, "mfgmgr", "test123", new ManufacturingManagerRole()); // Manufacturing Management Org
+        createAccount(mfgEnterprise, "mfgwrk", "test123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
     }
     
     private void createDeliveryEnterprise(Network network) {
@@ -142,8 +129,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(delEnterprise);
         System.out.println("\nCreated Delivery Enterprise: " + delEnterprise.getName());
         
-        createAccount(delEnterprise, "delmgr", "test123", new DeliveryManagerRole());
-        createAccount(delEnterprise, "delwrk", "test123", new DeliveryRole());
+        createAccount(delEnterprise, "delmgr", "test123", new DeliveryManagerRole()); // Delivery Management Org
+        createAccount(delEnterprise, "delwrk", "test123", new DeliveryRole());        // Delivery Operations Org
     }
     
     private void createRetailEnterprise(Network network) {
@@ -151,7 +138,7 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(retEnterprise);
         System.out.println("\nCreated Retail Enterprise: " + retEnterprise.getName());
         
-        createAccount(retEnterprise, "retmgr", "test123", new RetailManagerRole());
+        createAccount(retEnterprise, "retmgr", "test123", new RetailManagerRole());   // Retail Sales Org
     }
     
     private void createAdvertisingEnterprise(Network network) {
@@ -159,13 +146,24 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(adEnterprise);
         System.out.println("\nCreated Advertising Enterprise: " + adEnterprise.getName());
         
-        createAccount(adEnterprise, "admgr", "test123", new AdvertisingManagerRole());
-        createAccount(adEnterprise, "adstr", "test123", new DigitalAdsStrategistRole());
+        createAccount(adEnterprise, "admgr", "test123", new AdvertisingManagerRole());     // Planner Org
+        createAccount(adEnterprise, "adstr", "test123", new DigitalAdsStrategistRole());   // Digital Strategy Org
     }
     
     private void createAccount(Enterprise enterprise, String username, String password, Role role) {
         UserAccount account = new UserAccount(username, password, role);
-        enterprise.addUserAccount(account);
-        System.out.println("  Created account: " + username + " (" + role + ")");
+        
+        // Find the matching organization for this role
+        Organization organization = enterprise.findOrganizationForRole(role);
+        if (organization != null) {
+            enterprise.addUserAccount(account);
+            organization.addUserAccount(account);
+            System.out.println("  Created account: " + username + 
+                             " (" + role + ") in " + 
+                             organization.getName() + " Organization");
+        } else {
+            System.out.println("  Warning: No matching organization found for " + 
+                             username + " with role " + role);
+        }
     }
 }

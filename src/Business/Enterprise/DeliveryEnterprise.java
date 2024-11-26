@@ -4,6 +4,9 @@
  */
 package Business.Enterprise;
 
+import Business.Organization.Delivery.DeliveryManagerOrganization;
+import Business.Organization.Delivery.DeliveryOrganization;
+
 /**
  *
  * @author yuta
@@ -11,5 +14,11 @@ package Business.Enterprise;
 public class DeliveryEnterprise extends Enterprise {
     public DeliveryEnterprise(String name) {
         super(name, EnterpriseType.DELIVERY);
+    }
+    
+    @Override
+    protected void initializeOrganizations() {
+        addOrganization(new DeliveryManagerOrganization(this));
+        addOrganization(new DeliveryOrganization(this));
     }
 }

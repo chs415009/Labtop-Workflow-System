@@ -6,6 +6,7 @@ package ui.SystemAdminWorkAreaJPanel;
 
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.Role.*;
 import Business.Role.Advertisement.*;  
 import Business.Role.Delivery.*;       
@@ -296,9 +297,18 @@ public class ManageEnterpriseEmployeeJPanel extends javax.swing.JPanel {
         try {
             // Create new UserAccount
             UserAccount userAccount = new UserAccount(username, password, selectedRole);            
-
+             Organization organization = selectedEnterprise.findOrganizationForRole(selectedRole);
+             
+            if (organization == null) {
+                JOptionPane.showMessageDialog(this,
+                    "No matching organization found for this role.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Add the user account to the selected enterprise's employee list
             selectedEnterprise.addUserAccount(userAccount);
+            organization.addUserAccount(userAccount);
 
             // Clear the form
             clearFields();

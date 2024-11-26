@@ -19,13 +19,13 @@ public abstract class Enterprise {
     private EnterpriseType type;
     private String name;
     private List<Organization> organizationList;
-    private List<UserAccount> employerList;
+    private List<UserAccount> employeeList;
     
     public Enterprise(String name, EnterpriseType type) {
         this.name = name;
         this.type = type;
         this.organizationList = new ArrayList<>();
-        this.employerList = new ArrayList<>();
+        this.employeeList = new ArrayList<>();
     }
     
     public void addOrganization(Organization org) {
@@ -33,7 +33,7 @@ public abstract class Enterprise {
     }
     
     public void addUserAccount(UserAccount userAccount) {
-        employerList.add(userAccount);
+        employeeList.add(userAccount);
     }
     
     public List<Organization> getOrganizationDirectory() {
@@ -49,7 +49,7 @@ public abstract class Enterprise {
     }
     
     public List<UserAccount> getEmployerList() {
-        return employerList;
+        return employeeList;
     }
     
     @Override

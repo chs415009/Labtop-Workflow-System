@@ -67,24 +67,24 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         setBackground(Color.decode("#F5F5F5"));
 
         // ======= 頂部標籤區域 =======
-        JPanel topPanel = new JPanel();
-        JLabel selectedNodeLabel = new JLabel("Selected Node: Networks");
-        selectedNodeLabel.setFont(new Font("Arial", Font.BOLD, 14)); // 設置標籤字體
-        topPanel.add(selectedNodeLabel); // 添加標籤到頂部面板
-        add(topPanel, BorderLayout.NORTH); // 添加頂部面板到主面板
+        // JPanel topPanel = new JPanel();
+        // JLabel selectedNodeLabel = new JLabel("Selected Node: Networks");
+        // selectedNodeLabel.setFont(new Font("Arial", Font.BOLD, 14)); // 設置標籤字體
+        // topPanel.add(selectedNodeLabel); // 添加標籤到頂部面板
+        // add(topPanel, BorderLayout.NORTH); // 添加頂部面板到主面板
 
         // ======= 左側導航按鈕區域 =======
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS)); // 垂直佈局
-        leftPanel.setPreferredSize(new Dimension(200, 0)); // 固定寬度200px
+        leftPanel.setPreferredSize(new Dimension(250, 0)); // 固定寬度200px
         leftPanel.setBackground(Color.decode("#F5F5F5")); // 統一左側背景色
 
-        Dimension buttonSize = new Dimension(180, 40);
+        Dimension buttonSize = new Dimension(220, 40);
 
         // 創建按鈕
         JButton manageNetworkButton = createButton("Manage Network", e -> showManageNetwork(), buttonSize);
         JButton manageEnterpriseButton = createButton("Manage Enterprise", e -> showManageEnterprise(), buttonSize);
-        JButton manageAdminButton = createButton("Manage Enterprise Admin", e -> showManageEnterpriseAdmin(), buttonSize);
+        JButton manageAdminButton = createButton("Manage Enterprise Employee", e -> showManageEnterpriseAdmin(), buttonSize);
         logoutButton = createButton("Logout", e -> logout(), buttonSize); // 添加 Logout 按鈕
 
         leftPanel.add(Box.createVerticalStrut(20));
@@ -132,12 +132,12 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
     }
 
     private void showManageEnterpriseAdmin() {
-        ManageEnterpriseAdminJPanel manageEnterpriseAdminPanel = new ManageEnterpriseAdminJPanel(system);
-        rightPanel.add("ManageEnterpriseAdminJPanel", manageEnterpriseAdminPanel);
+        ManageEnterpriseEmployeeJPanel manageEnterpriseAdminPanel = new ManageEnterpriseEmployeeJPanel(system);
+        rightPanel.add("ManageEnterpriseEmployeeJPanel", manageEnterpriseAdminPanel);
 
-        // 切換到 ManageEnterpriseAdminJPanel
+        // 切換到 ManageEnterpriseEmployeeJPanel
         CardLayout layout = (CardLayout) rightPanel.getLayout();
-        layout.show(rightPanel, "ManageEnterpriseAdminJPanel");
+        layout.show(rightPanel, "ManageEnterpriseEmployeeJPanel");
     }
 
     private void logout() {

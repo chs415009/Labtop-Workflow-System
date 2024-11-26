@@ -40,6 +40,8 @@ public class MainJFrame extends javax.swing.JFrame {
         customizeComponents(); // 自定義元件初始化
         this.setSize(700, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
+    
+        System.out.printf("test");
     }
 
     /**

@@ -8,6 +8,7 @@ import Business.Employee.EmployeeDirectory;
 import Business.Role.Role;
 import Business.UserAccount.UserAccountDirectory;
 import Business.WorkQueue.WorkQueue;
+import Jun.WorkRequest.WorkRequest;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,10 @@ import java.util.ArrayList;
 public abstract class Organization {
 
     private String name;
-    private WorkQueue workQueue;
+
+    // private WorkQueue workQueue;
+    
+    private ArrayList<WorkRequest> Workqueue;
     private EmployeeDirectory employeeDirectory;
     private UserAccountDirectory userAccountDirectory;
     private int organizationID;
@@ -36,13 +40,19 @@ public abstract class Organization {
 
     public Organization(String name) {
         this.name = name;
-        workQueue = new WorkQueue();
+        //workQueue = new WorkQueue();
         employeeDirectory = new EmployeeDirectory();
         userAccountDirectory = new UserAccountDirectory();
+        Workqueue = new ArrayList<>();
         organizationID = counter;
         ++counter;
     }
-
+    public ArrayList<WorkRequest> getWorkqueue() {
+        return Workqueue;
+    }
+     public void addWorkRequest(WorkRequest work){
+        Workqueue.add(work);
+    }
     public abstract ArrayList<Role> getSupportedRole();
     
     public UserAccountDirectory getUserAccountDirectory() {

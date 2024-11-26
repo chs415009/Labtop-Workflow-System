@@ -33,6 +33,7 @@ public abstract class Organization {
     
     public void addUserAccount(UserAccount userAccount) {
         userAccounts.add(userAccount);
+        userAccount.setOrganization(this);
     }
     
     public WorkQueue getWorkQueue() {

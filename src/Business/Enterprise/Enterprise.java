@@ -49,6 +49,7 @@ public abstract class Enterprise {
     
     public void addUserAccount(UserAccount userAccount) {
         employeeList.add(userAccount);
+        userAccount.setEnterprise(this);
     }
     
     public List<Organization> getOrganizationDirectory() {

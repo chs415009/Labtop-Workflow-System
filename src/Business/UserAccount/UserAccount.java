@@ -6,25 +6,48 @@ package Business.UserAccount;
 
 import Business.Employee.Employee;
 import Business.Role.Role;
-import Business.WorkQueue.WorkQueue;
+import Business.Organization.Organization;
+import Business.Enterprise.Enterprise;
 
 /**
  *
  * @author yuanchanglee
  */
+import Business.Enterprise.Enterprise;
 public class UserAccount {
     private String username;
     private String password;
     private Role role;
-    private Employee employee;
-    private WorkQueue workQueue;
-
-    public UserAccount() {
-        this.workQueue = new WorkQueue(); // Initialize a WorkQueue
+    private Organization organization;
+    private Enterprise enterprise;
+    
+    public UserAccount(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
-
-    // Getters and Setters
-    public String getUsername() {
+    
+    public void setOrganization(Organization org) {
+        this.organization = org;
+    }
+    
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+    
+    public Role getRole() {
+        return role;
+    }
+    
+    public Organization getOrganization() {
+        return organization;
+    }
+    
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+    
+        public String getUsername() {
         return username;
     }
 
@@ -38,30 +61,5 @@ public class UserAccount {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public WorkQueue getWorkQueue() {
-        return workQueue;
-    }
-
-    @Override
-    public String toString() {
-        return username;
     }
 }

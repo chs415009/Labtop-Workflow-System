@@ -4,7 +4,11 @@
  */
 package ui.SystemAdminWorkAreaJPanel;
 
-import Business.Enterprise.Enterprise;
+import Business.Enterprise.*;
+import static Business.Enterprise.EnterpriseType.ADVERTISING;
+import static Business.Enterprise.EnterpriseType.DELIVERY;
+import static Business.Enterprise.EnterpriseType.MANUFACTURING;
+import static Business.Enterprise.EnterpriseType.RETAIL;
 import Business.Network.Network;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
@@ -31,7 +35,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
 
     private JTable enterpriseTable;
     private JComboBox<Network> networkComboBox;
-    private JComboBox<Enterprise.EnterpriseType> enterpriseTypeComboBox;
+    private JComboBox<EnterpriseType> enterpriseTypeComboBox;
     private JTextField nameField;
     private JButton submitButton;
     private JPanel userProcessContainer;
@@ -79,15 +83,34 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         tablePanel.setBackground(Color.decode("#E8EEF1"));
 
         JLabel tableLabel = new JLabel("Enterprise Table", SwingConstants.CENTER);
-        tableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        tableLabel.setFont(new Font("Arial", Font.BOLD, 24));
         tablePanel.add(tableLabel, BorderLayout.NORTH);
 
+       // Initialize table with non-editable model
         enterpriseTable = new JTable(new DefaultTableModel(
-                new Object[][]{},
-                new String[]{"Enterprise Name", "Network", "Type"}
-        ));
-        enterpriseTable.setRowHeight(18);
-        enterpriseTable.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 80));
+            new Object[][]{},
+            new String[]{"Enterprise Name", "Network", "Type"}
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+
+        // Configure table appearance
+        enterpriseTable.setRowHeight(25);
+        enterpriseTable.setFillsViewportHeight(true);
+        enterpriseTable.setSelectionBackground(Color.decode("#D4E6F1"));
+        enterpriseTable.getTableHeader().setBackground(Color.decode("#2980B9"));
+        enterpriseTable.getTableHeader().setForeground(Color.WHITE);
+        enterpriseTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+
+        // Set column widths
+        if (enterpriseTable.getColumnModel().getColumnCount() > 0) {
+            enterpriseTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+            enterpriseTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            enterpriseTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        }
         JScrollPane scrollPane = new JScrollPane(enterpriseTable);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -153,7 +176,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         submitButton.addActionListener(e -> {
             String name = nameField.getText();
             Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-            Enterprise.EnterpriseType selectedType = (Enterprise.EnterpriseType) enterpriseTypeComboBox.getSelectedItem();
+            EnterpriseType selectedType = (EnterpriseType) enterpriseTypeComboBox.getSelectedItem();
 
             if (name.isEmpty() || selectedNetwork == null || selectedType == null) {
                 javax.swing.JOptionPane.showMessageDialog(this, "All fields are required.");
@@ -161,7 +184,15 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
             }
 
             // 創建新的 Enterprise
-            selectedNetwork.getEnterpriseDirectory().createAndAddEnterprise(name, selectedType);
+            Enterprise enterprise = null;
+            switch (selectedType) {
+                case TECH -> enterprise = new TechnologyProductEnterprise(name);
+                case MANUFACTURING -> enterprise = new ManufacturingEnterprise(name);
+                case DELIVERY -> enterprise = new DeliveryEnterprise(name);
+                case RETAIL -> enterprise = new RetailEnterprise(name);
+                case ADVERTISING -> enterprise = new AdvertisingEnterprise(name);
+            }
+            selectedNetwork.addEnterprise(enterprise);
             populateTable();
             nameField.setText("");
         });
@@ -172,11 +203,11 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) enterpriseTable.getModel();
         model.setRowCount(0);
         for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
                 Object[] row = new Object[3];
                 row[0] = enterprise.getName();
                 row[1] = network.getName();
-                row[2] = enterprise.getEnterpriseType().getValue();
+                row[2] = enterprise.getType().toString();
                 model.addRow(row);
             }
         }
@@ -192,7 +223,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         }
 
         // 填充 Enterprise Type ComboBox
-        for (Enterprise.EnterpriseType type : Enterprise.EnterpriseType.values()) {
+        for (EnterpriseType type : EnterpriseType.values()) {
             enterpriseTypeComboBox.addItem(type); // 添加 EnterpriseType 物件
         }
     }
@@ -207,7 +238,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         return networkComboBox;
     }
 
-    public JComboBox<Enterprise.EnterpriseType> getEnterpriseTypeComboBox() {
+    public JComboBox<EnterpriseType> getEnterpriseTypeComboBox() {
         return enterpriseTypeComboBox;
     }
 

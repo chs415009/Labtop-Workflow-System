@@ -4,9 +4,9 @@
  */
 package ui;
 
+import Business.Enterprise.*;
 import Business.Organization.Organization;
-import Jun.Business.Organization.Tech.ProductManagerOrganization;
-import Jun.Business.Organization.Tech.RDOrganization;
+import Business.Organization.Tech.*;
 import Jun.ui.Tech.ProductManager.ProductManagerWorkArea;
 import Jun.ui.Tech.RD.RDWorkArea;
 import java.awt.CardLayout;
@@ -23,8 +23,10 @@ public class JFrameForDemoJunCode extends javax.swing.JFrame {
      */// 
     
     //這個架構沒做任何userAccount跟role 只有建立Organiation然後把workRequest存進去
-    Organization ProductManagerOrganization = new ProductManagerOrganization("ProductManagerOrganization");
-    Organization RDOrganization = new ProductManagerOrganization("RDOrganization");
+    Enterprise techproductE = new TechnologyProductEnterprise("Tech Corp");
+    Organization ProductManagerOrganization = new ProductManagementOrganization(techproductE);
+    Organization RDOrganization = new ResearchAndDevelopmentOrganization(techproductE);
+   
     ArrayList<Organization> Organizations ;
     public JFrameForDemoJunCode() {
         initComponents();

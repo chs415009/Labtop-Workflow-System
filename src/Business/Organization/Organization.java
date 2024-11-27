@@ -5,88 +5,50 @@
 package Business.Organization;
 
 import Business.Employee.EmployeeDirectory;
+import Business.Enterprise.Enterprise;
 import Business.Role.Role;
+import Business.UserAccount.UserAccount;
 import Business.UserAccount.UserAccountDirectory;
 import Business.WorkQueue.WorkQueue;
 import Jun.WorkRequest.WorkRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author yuanchanglee
  */
 public abstract class Organization {
-
     private String name;
-
-    // private WorkQueue workQueue;
+    private Enterprise enterprise;
+    private List<UserAccount> userAccounts;
+    private WorkQueue workQueue;
     
-    private ArrayList<WorkRequest> Workqueue;
-    private EmployeeDirectory employeeDirectory;
-    private UserAccountDirectory userAccountDirectory;
-    private int organizationID;
-    private static int counter=0;
-    
-    public enum Type{
-        Admin("Admin Organization"), Doctor("Doctor Organization"), Lab("Lab Organization");
-        private String value;
-        private Type(String value) {
-            this.value = value;
-        }
-        public String getValue() {
-            return value;
-        }
-    }
-
-    public Organization(String name) {
+    public Organization(String name, Enterprise enterprise) {
         this.name = name;
-        //workQueue = new WorkQueue();
-        employeeDirectory = new EmployeeDirectory();
-        userAccountDirectory = new UserAccountDirectory();
-        Workqueue = new ArrayList<>();
-        organizationID = counter;
-        ++counter;
+        this.enterprise = enterprise;
+        this.userAccounts = new ArrayList<>();
+        this.workQueue = new WorkQueue();
     }
-    public ArrayList<WorkRequest> getWorkqueue() {
-        return Workqueue;
-    }
-     public void addWorkRequest(WorkRequest work){
-        Workqueue.add(work);
-    }
-    public abstract ArrayList<Role> getSupportedRole();
     
-    public UserAccountDirectory getUserAccountDirectory() {
-        return userAccountDirectory;
+    public void addUserAccount(UserAccount userAccount) {
+        userAccounts.add(userAccount);
+        userAccount.setOrganization(this);
     }
-
-    public int getOrganizationID() {
-        return organizationID;
-    }
-
-    public EmployeeDirectory getEmployeeDirectory() {
-        return employeeDirectory;
+    
+    public WorkQueue getWorkQueue() {
+        return workQueue;
     }
     
     public String getName() {
         return name;
     }
-
-    public WorkQueue getWorkQueue() {
-        return workQueue;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setWorkQueue(WorkQueue workQueue) {
-        this.workQueue = workQueue;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    
+    public Enterprise getEnterprise() {
+        return enterprise;
     }
     
-    
+    public List<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
 }

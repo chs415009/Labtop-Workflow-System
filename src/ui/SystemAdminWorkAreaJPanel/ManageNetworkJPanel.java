@@ -74,7 +74,7 @@ public class ManageNetworkJPanel extends javax.swing.JPanel {
 
         // 表格標題
         JLabel tableLabel = new JLabel("Network Table", SwingConstants.CENTER);
-        tableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        tableLabel.setFont(new Font("Arial", Font.BOLD, 24));
         tablePanel.add(tableLabel, BorderLayout.NORTH);
 
         // 表格

@@ -305,8 +305,8 @@ public class CreateNewWorkRequest extends javax.swing.JPanel {
             newWorkRequest.setDevelopmentWorkRequest(new DevelopmentWorkRequest(product));
             // 條件(Developement)觸發成功 加入workRequest到 RD Organization
             //詳見document Part1 中的Step1
-            CurrentOrganization.addWorkRequest(newWorkRequest);
-            RDOrganization.addWorkRequest(newWorkRequest);
+            CurrentOrganization.getWorkQueue().addWorkRequest(newWorkRequest);
+            RDOrganization.getWorkQueue().addWorkRequest(newWorkRequest);
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 

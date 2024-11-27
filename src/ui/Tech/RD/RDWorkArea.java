@@ -6,6 +6,8 @@ package ui.Tech.RD;
 
 
 import Business.Organization.Organization;
+import Business.UserAccount.UserAccount;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -23,10 +25,13 @@ public class RDWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    public RDWorkArea(JPanel container, Organization RDOrganization) {
+    UserAccount  UserAccount;
+    WorkFlowSystem system;
+    public RDWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system) {
         initComponents();
         this.container = container;
-        CurrentOrganization= RDOrganization;
+        this.CurrentOrganization=UserAccount.getOrganization();
+        this.system = system;
         populateRequestTable();
     }
 
@@ -153,7 +158,7 @@ public class RDWorkArea extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
         model.setRowCount(0);
-        for (WorkRequest request : CurrentOrganization.getWorkqueue()){
+        for (WorkRequest request :CurrentOrganization.getWorkQueue().getWorkRequests()){
             Object[] row = new Object[5];
             row[0] = request ;
             row[1] = request.getProduct();

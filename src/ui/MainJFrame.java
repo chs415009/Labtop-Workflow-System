@@ -6,6 +6,7 @@ package ui;
 
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import java.awt.CardLayout;
@@ -22,6 +23,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
+import ui.Tech.ProductManager.ProductManagerWorkArea;
+import ui.Tech.RD.RDWorkArea;
 
 /**
  *
@@ -37,7 +40,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private JTextField userNameField;
     private JPasswordField passwordField;
     private WorkFlowSystem system; // 系統的實例
-
+    private UserAccount loginAccount;
     public MainJFrame() {
         system = WorkFlowSystem.getInstance(); // 初始化系統實例
         customizeComponents(); // 自定義元件初始化
@@ -160,7 +163,14 @@ public class MainJFrame extends javax.swing.JFrame {
                     if (account.getUsername().equals(username) && 
                         account.getPassword().equals(password)) {
                         found = true;
-
+                        loginAccount = account;
+                        //
+                       
+                        switch(account.getOrganization().getName()){
+                            case "Product Management" ->showProductManagerWorkAreaPanel(account);
+                            case "Research and Development" ->showRDWorkAreaPanel(account);
+                        }
+                        
                         // Switch on enterprise type for specific welcome messages
                         String enterpriseInfo = "";
                         switch (enterprise.getType()) {
@@ -203,7 +213,22 @@ public class MainJFrame extends javax.swing.JFrame {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "SystemAdminWorkAreaJPanel");
     }
+     private void showProductManagerWorkAreaPanel(UserAccount loginAccount) {
+       
+        ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, system);
+        container.add("ProductManagerWorkArea", productManagerWorkArea);
 
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "ProductManagerWorkArea");
+    }
+    private void showRDWorkAreaPanel(UserAccount loginAccount) {
+       
+        RDWorkArea rDWorkArea = new RDWorkArea(container,loginAccount, system);
+        container.add("RDWorkArea", rDWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "RDWorkArea");
+    } 
 
     public void clearLoginFields() {
         userNameField.setText(""); // 清空帳號欄

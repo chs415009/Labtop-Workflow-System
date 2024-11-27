@@ -5,7 +5,12 @@
 package ui.Tech.ProductManager;
 
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
 import Business.Organization.Organization;
+import Business.UserAccount.UserAccount;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -25,11 +30,14 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     Organization RDOrganization;
-    public ProductManagerWorkArea(JPanel container, Organization ProductManagerOrganization,Organization RDOrganization) {
+    UserAccount  UserAccount;
+    WorkFlowSystem system;
+    public ProductManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
-        this.RDOrganization=RDOrganization;
+        this.CurrentOrganization=UserAccount.getOrganization();
+        this.system = system;
+        RDOrganization = findRDOrganizationInsystem();
         populateRequestTable();
     }
 
@@ -50,10 +58,6 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         btnDevProgress = new javax.swing.JButton();
         btnSendtoPurchaseOrganization = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -114,8 +118,6 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("這個按鈕還沒做，功能請見document Part2 中的Step4");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -128,11 +130,6 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(btnSendtoPurchaseOrganization)
                 .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(382, 382, 382)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,18 +140,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(btnDevProgress)
                     .addComponent(btnSendtoPurchaseOrganization))
                 .addContainerGap(110, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(45, 45, 45)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(67, Short.MAX_VALUE)))
         );
-
-        jLabel1.setText("這個表格瀏覽大張的WorkRequest，但後面的細項可以顯示小張的WorkReqeust的狀態");
-
-        jLabel4.setText("的Status，以及是否Verified過");
-
-        jLabel5.setText("像這裡就是Part1就做能看到DevWorkRequest");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -162,49 +148,33 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(168, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addGap(42, 42, 42))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(104, 104, 104))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(403, Short.MAX_VALUE)))
+                    .addContainerGap(275, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(btnBack)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39)
+                .addGap(45, 45, 45)
+                .addComponent(btnBack)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(29, 29, 29)
@@ -256,7 +226,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
         model.setRowCount(0);
-        for (WorkRequest request : CurrentOrganization.getWorkqueue()){
+        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()){
             Object[] row = new Object[5];
             row[0] = request ;
             row[1] = request.getProduct();
@@ -272,13 +242,27 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JButton btnDevProgress;
     private javax.swing.JButton btnSendtoPurchaseOrganization;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
+
+    private Organization findRDOrganizationInsystem() {
+        //遍歷所有network中的enterPrise 直到找到type 是TECH
+        //再搜尋當中Organiation 名稱符合的
+       for(Network network : system.getNetworkList()){
+           for(Enterprise enterprise : network.getEnterpriseList()){
+               if(enterprise.getType()==EnterpriseType.TECH){
+                   for(Organization organization : enterprise.getOrganizationDirectory()){
+                       if(organization.getName()=="Research and Development"){
+                           return organization;
+                       }
+                   }
+               }
+           }
+       }
+        return null;// return null if doesn't found
+    }
+   
 }

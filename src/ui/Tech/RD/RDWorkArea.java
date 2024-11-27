@@ -165,9 +165,12 @@ public class RDWorkArea extends javax.swing.JPanel {
             row[0] = request ;
             row[1] = request.getProduct();
             row[2] = request.getStatus();
+            if(request.getDevelopmentWorkRequest()==null){
+            row[3] = "Not Started yet";
+          
+            }else{ 
             row[3] = request.getDevelopmentWorkRequest().getdevStatus();
-            row[4] = request.getDevelopmentWorkRequest().getVerified();
-           
+            row[4] = request.getDevelopmentWorkRequest().getVerified();}
             model.addRow(row);
         }
     }

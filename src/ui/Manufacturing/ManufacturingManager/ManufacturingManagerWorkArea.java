@@ -43,7 +43,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         this.system = system;
         this.mainFrame=mainFrame;
         this.ManufacturingManagerOrganization = findManufacturingManagerOrganizationInsystem();
-        populateRequestTable();
+        populateProductDetail();
     }
 
     /**
@@ -57,9 +57,10 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
 
         btnLogout = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btnCreatePurWorkRequest = new javax.swing.JButton();
+        btnPurDetail = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
-        btnCreatePurWorkRequest = new javax.swing.JButton();
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -71,22 +72,36 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
         jLabel2.setText("Manufacturing Manager Role WorkArea");
 
+        btnCreatePurWorkRequest.setText("Start a new Purchase WorkReqeust");
+        btnCreatePurWorkRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreatePurWorkRequestActionPerformed(evt);
+            }
+        });
+
+        btnPurDetail.setText("Report Purchase");
+        btnPurDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurDetailActionPerformed(evt);
+            }
+        });
+
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "Purchase Status", "Verified"
+                "WorkRequest", "Product", "Status", "Purchase Status", "Order Signed", "Verified"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,13 +113,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblWorkRequest);
-
-        btnCreatePurWorkRequest.setText("Start a new Purchase WorkReqeust");
-        btnCreatePurWorkRequest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreatePurWorkRequestActionPerformed(evt);
-            }
-        });
+        if (tblWorkRequest.getColumnModel().getColumnCount() > 0) {
+            tblWorkRequest.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -118,7 +129,10 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCreatePurWorkRequest))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCreatePurWorkRequest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnPurDetail)))
                 .addContainerGap(102, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -131,11 +145,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(btnLogout)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(btnCreatePurWorkRequest)
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreatePurWorkRequest)
+                    .addComponent(btnPurDetail))
+                .addContainerGap(270, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(29, 29, 29)
@@ -164,30 +180,42 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         layout.next(container);
     }//GEN-LAST:event_btnCreatePurWorkRequestActionPerformed
 
+    private void btnPurDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurDetailActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewPurchaseWorkRequest viewPurchaseWorkRequest = new ViewPurchaseWorkRequest(container, CurrentOrganization,request);
+        container.add("ViewPurchaseWorkRequest", viewPurchaseWorkRequest);
+        CardLayout layout=(CardLayout)container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnPurDetailActionPerformed
+
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
         model.setRowCount(0);
         for (WorkRequest request :CurrentOrganization.getWorkQueue().getWorkRequests()){
-            Object[] row = new Object[5];
+            Object[] row = new Object[6];
             row[0] = request ;
             row[1] = request.getProduct();
             row[2] = request.getStatus();
-            row[3] = request.getDevelopmentWorkRequest().getdevStatus();
-            row[4] = request.getDevelopmentWorkRequest().getVerified();
-           
+            ////////////// Make sure the WorkRequest is correct! (Dev, purchase, Deliver, Marketing)
+            if(request.getPurchaseWorkRequest()==null){
+             row[3] = "Not Started Yet";
+            }else{
+            row[3] = request.getPurchaseWorkRequest().getPerchaseStatus();
+            row[4] = request.getPurchaseWorkRequest().getSigned();
+            row[5] = request.getPurchaseWorkRequest().getVerified();
+            }
             model.addRow(row);
         }
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreatePurWorkRequest;
-    private javax.swing.JButton btnLogout;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblWorkRequest;
-    // End of variables declaration//GEN-END:variables
-
-    private Organization findManufacturingManagerOrganizationInsystem() {
+     private Organization findManufacturingManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
        for(Network network : system.getNetworkList()){
@@ -203,4 +231,18 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
        }
         return null;// return null if doesn't found
     }
+     private void populateProductDetail() {
+      
+       
+    }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreatePurWorkRequest;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnPurDetail;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblWorkRequest;
+    // End of variables declaration//GEN-END:variables
+
+   
 }

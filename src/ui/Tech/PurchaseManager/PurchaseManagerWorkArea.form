@@ -25,7 +25,11 @@
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" min="-2" pref="551" max="-2" attributes="0"/>
-                  <Component id="btnCreatePurWorkRequest" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnCreatePurWorkRequest" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnPurProgress" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="102" max="32767" attributes="0"/>
           </Group>
@@ -46,7 +50,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="97" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Component id="btnCreatePurWorkRequest" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCreatePurWorkRequest" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPurProgress" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="246" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -86,16 +93,22 @@
         <Component class="javax.swing.JTable" name="tblWorkRequest">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="4">
+              <Table columnCount="6" rowCount="4">
                 <Column editable="false" title="WorkRequest" type="java.lang.Object"/>
                 <Column editable="false" title="Product" type="java.lang.Object"/>
                 <Column editable="false" title="Status" type="java.lang.String"/>
-                <Column editable="true" title="Purchase Status" type="java.lang.String"/>
+                <Column editable="false" title="Purchase Status" type="java.lang.String"/>
+                <Column editable="true" title="Order Signed" type="java.lang.String"/>
                 <Column editable="false" title="Verified" type="java.lang.Boolean"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -136,6 +149,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreatePurWorkRequestActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnPurProgress">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="View Purchase Progress"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPurProgressActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

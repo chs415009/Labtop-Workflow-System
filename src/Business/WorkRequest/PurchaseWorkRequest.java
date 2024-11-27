@@ -29,24 +29,14 @@ public class PurchaseWorkRequest {
     
    
     String feedback;//modified by three roles
-
-     public PurchaseWorkRequest(Product product, String OrderName, int targetQuantity) {
+    public PurchaseWorkRequest(Product product, String OrderName, int targetQuantity) {
         this.product = product;
         this.OrderName = OrderName;
         this.targetQuantity = targetQuantity;
         perchaseStatus="Processing";
-        
+        Verified= false;
+        Signed=false;
     }
-   
-    
-    public String getOrderName() {
-        return OrderName;
-    }
-
-    public void setOrderName(String OrderName) {
-        this.OrderName = OrderName;
-    }
-
     public Product getProduct() {
         return product;
     }
@@ -55,12 +45,20 @@ public class PurchaseWorkRequest {
         this.product = product;
     }
 
-    public int getProductPerPrice() {
-        return productPerPrice;
+    public String getOrderName() {
+        return OrderName;
     }
 
-    public void setProductPerPrice(int productPerPrice) {
-        this.productPerPrice = productPerPrice;
+    public void setOrderName(String OrderName) {
+        this.OrderName = OrderName;
+    }
+
+    public int getTargetQuantity() {
+        return targetQuantity;
+    }
+
+    public void setTargetQuantity(int targetQuantity) {
+        this.targetQuantity = targetQuantity;
     }
 
     public String getPerchaseStatus() {
@@ -71,6 +69,46 @@ public class PurchaseWorkRequest {
         this.perchaseStatus = perchaseStatus;
     }
 
+    public Boolean getVerified() {
+        return Verified;
+    }
+
+    public void setVerified(Boolean Verified) {
+        this.Verified = Verified;
+    }
+
+    public Boolean getSigned() {
+        return Signed;
+    }
+
+    public void setSigned(Boolean Signed) {
+        this.Signed = Signed;
+    }
+
+    public int getProductPerPrice() {
+        return productPerPrice;
+    }
+
+    public void setProductPerPrice(int productPerPrice) {
+        this.productPerPrice = productPerPrice;
+    }
+
+    public int getCurrentManufacturedQuantity() {
+        return currentManufacturedQuantity;
+    }
+
+    public void setCurrentManufacturedQuantity(int currentManufacturedQuantity) {
+        this.currentManufacturedQuantity = currentManufacturedQuantity;
+    }
+
+    public String getProductionStatus() {
+        return productionStatus;
+    }
+
+    public void setProductionStatus(String productionStatus) {
+        this.productionStatus = productionStatus;
+    }
+
     public String getFeedback() {
         return feedback;
     }
@@ -79,12 +117,9 @@ public class PurchaseWorkRequest {
         this.feedback = feedback;
     }
 
-    public Boolean getVerified() {
-        return Verified;
-    }
-
-    public void setVerified(Boolean Verified) {
-        this.Verified = Verified;
-    }
+    
+   
+    
+   
    
 }

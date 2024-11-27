@@ -246,7 +246,12 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
             row[0] = request ;
             row[1] = request.getProduct();
             row[2] = request.getStatus();
+            if( request.getDevelopmentWorkRequest().getdevStatus()==null){
+                row[3]="N/A";
+            }
+            else{
             row[3] = request.getDevelopmentWorkRequest().getdevStatus();
+            }
             row[4] = request.getDevelopmentWorkRequest().getVerified();
            
             model.addRow(row);

@@ -26,7 +26,8 @@ public class WorkRequest {
      public WorkRequest(String name, Product product) {
         this.name = name;
         this.product = product;
-        this.status = "processing";  // 
+        this.status = "Processing";  // 
+       
     }
 
     // getter and setter
@@ -55,6 +56,17 @@ public class WorkRequest {
     }
     public DevelopmentWorkRequest getDevelopmentWorkRequest() {
         return developmentWorkRequest;
+    }
+    public PurchaseWorkRequest getPurchaseWorkRequest() {
+        return purchaseWorkRequest;
+    }
+
+    public DelieverWorkRequest getDelieverWorkRequeset() {
+        return delieverWorkRequeset;
+    }
+
+    public MarketingWorkRequest getMarketingWorkRequest() {
+        return marketingWorkRequest;
     }
 
     public void setDevelopmentWorkRequest(DevelopmentWorkRequest developmentWorkRequest) {

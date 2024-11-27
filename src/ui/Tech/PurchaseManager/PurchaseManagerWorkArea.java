@@ -10,8 +10,10 @@ import Business.Enterprise.EnterpriseType;
 import Business.Network.Network;
 import ui.Tech.RD.*;
 import Business.Organization.Organization;
+import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
+import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -42,6 +44,7 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         this.system = system;
         this.mainFrame=mainFrame;
         this.ManufacturingManagerOrganization = findManufacturingManagerOrganizationInsystem();
+        populateDemoWorkRequest();
         populateRequestTable();
     }
 
@@ -59,6 +62,7 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
         btnCreatePurWorkRequest = new javax.swing.JButton();
+        btnPurProgress = new javax.swing.JButton();
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -72,20 +76,20 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "Purchase Status", "Verified"
+                "WorkRequest", "Product", "Status", "Purchase Status", "Order Signed", "Verified"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,6 +109,13 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnPurProgress.setText("View Purchase Progress");
+        btnPurProgress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurProgressActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,7 +128,10 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCreatePurWorkRequest))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCreatePurWorkRequest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPurProgress)))
                 .addContainerGap(102, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -133,7 +147,9 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(btnCreatePurWorkRequest)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreatePurWorkRequest)
+                    .addComponent(btnPurProgress))
                 .addContainerGap(246, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -154,6 +170,7 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Pls select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         
@@ -163,24 +180,51 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         layout.next(container);
     }//GEN-LAST:event_btnCreatePurWorkRequestActionPerformed
 
+    private void btnPurProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurProgressActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewPurchaseWorkRequest viewPurchaseWorkRequest = new ViewPurchaseWorkRequest(container, CurrentOrganization,request);
+        container.add("ViewPurchaseWorkRequest", viewPurchaseWorkRequest);
+        CardLayout layout=(CardLayout)container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnPurProgressActionPerformed
+    private void populateDemoWorkRequest() {
+        Product demoProduct = new Product("demoProduct","demoDescription",10,15.3,16,256);
+        WorkRequest demoRequest = new WorkRequest("demo",demoProduct);
+        demoRequest.setDevelopmentWorkRequest(new DevelopmentWorkRequest(demoProduct));
+        demoRequest.getDevelopmentWorkRequest().setVerified(true);
+        CurrentOrganization.getWorkQueue().addWorkRequest(demoRequest);
+    }
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
         model.setRowCount(0);
         for (WorkRequest request :CurrentOrganization.getWorkQueue().getWorkRequests()){
-            Object[] row = new Object[5];
+            Object[] row = new Object[6];
             row[0] = request ;
             row[1] = request.getProduct();
             row[2] = request.getStatus();
-            row[3] = request.getDevelopmentWorkRequest().getdevStatus();
-            row[4] = request.getDevelopmentWorkRequest().getVerified();
-           
+            ////////////// Make sure the WorkRequest is correct! (Dev, purchase, Deliver, Marketing)
+            if(request.getPurchaseWorkRequest()==null){
+             row[3] = "Not Started Yet";
+            }else{
+            row[3] = request.getPurchaseWorkRequest().getPerchaseStatus();
+            row[4] = request.getPurchaseWorkRequest().getSigned();
+            row[5] = request.getPurchaseWorkRequest().getVerified();
+            }
             model.addRow(row);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreatePurWorkRequest;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnPurProgress;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

@@ -7,8 +7,11 @@ package ui;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
+import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
+import Business.WorkRequest.DevelopmentWorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
 import ui.Tech.ProductManager.ProductManagerWorkArea;
 import ui.Tech.PurchaseManager.PurchaseManagerWorkArea;
@@ -47,7 +51,6 @@ public class MainJFrame extends javax.swing.JFrame {
         customizeComponents(); // 自定義元件初始化
         this.setSize(700, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
-    
         System.out.printf("test");
     }
 
@@ -170,7 +173,9 @@ public class MainJFrame extends javax.swing.JFrame {
                         switch(account.getOrganization().getName()){
                             case "Product Management" ->showProductManagerWorkAreaPanel(account);
                             case "Research and Development" ->showRDWorkAreaPanel(account);
-                            case "Purchasing" -> PurchaseManagerWorkArea(account);
+                            case "Purchasing" -> showPurchaseManagerWorkArea(account);
+                            case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
+                            //case  "Production Line"
                         }
                         
                         // Switch on enterprise type for specific welcome messages
@@ -231,13 +236,22 @@ public class MainJFrame extends javax.swing.JFrame {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "RDWorkArea");
     } 
-     private void PurchaseManagerWorkArea(UserAccount loginAccount) {
+     private void showPurchaseManagerWorkArea(UserAccount loginAccount) {
        
         PurchaseManagerWorkArea purchaseManagerWorkArea = new PurchaseManagerWorkArea(container,loginAccount, system,this);
         container.add("PurchaseManagerWorkArea", purchaseManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "PurchaseManagerWorkArea");
+    } 
+     
+      private void showManufacturingManagerWorkArea(UserAccount loginAccount) {
+       
+       ManufacturingManagerWorkArea manufacturingManagerWorkArea = new ManufacturingManagerWorkArea(container,loginAccount, system,this);
+        container.add("ManufacturingManagerWorkArea",  manufacturingManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "ManufacturingManagerWorkArea");
     } 
 
     public void clearLoginFields() {
@@ -251,7 +265,7 @@ public class MainJFrame extends javax.swing.JFrame {
         layout.show(container, "LoginPanel");
     }
     
-
+    
 
 
     
@@ -289,6 +303,8 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
     }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

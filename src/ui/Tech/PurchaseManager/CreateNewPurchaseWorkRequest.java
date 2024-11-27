@@ -34,6 +34,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
         this.container = container;
         this.CurrentOrganization=ProductManagerOrganization;
         this.workRequest =request;
+        
         this.ManufacturingManagerOrganization=ManufacturingManagerOrganization;
         demo();
     }
@@ -291,8 +292,8 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
          container.remove(this);
         Component[] componentArray = container.getComponents();
         Component component = componentArray[componentArray.length -1];
-        ProductManagerWorkArea  productManagerWorkArea = ( ProductManagerWorkArea) component;
-        productManagerWorkArea.populateRequestTable();
+        PurchaseManagerWorkArea  PurchaseManagerWorkArea = ( PurchaseManagerWorkArea) component;
+       PurchaseManagerWorkArea.populateRequestTable();
        
         CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
@@ -317,7 +318,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
             ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
             workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
              JOptionPane.showMessageDialog(this,
-                      "A PurchaseWorkRequest is added to WorkReqeust!\n WorkReqeust is passed to ManufacturingManagerOrganization.");
+                      "A PurchaseWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to ManufacturingManagerOrganization.");
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 
@@ -357,7 +358,6 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void demo() {
-       txtOrderName.setText("new X-model Project");
        txtProductName.setText("Laptop X-model");
        txtCpuCore.setText(String.valueOf(10));
        txtScreenSize.setText(String.valueOf(15.3));

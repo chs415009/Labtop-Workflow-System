@@ -120,8 +120,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(mfgEnterprise);
         System.out.println("\nCreated Manufacturing Enterprise: " + mfgEnterprise.getName());
         
-        createAccount(mfgEnterprise, "mfgmgr", "test123", new ManufacturingManagerRole()); // Manufacturing Management Org
-        createAccount(mfgEnterprise, "mfgwrk", "test123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
+        createAccount(mfgEnterprise, "mm", "123", new ManufacturingManagerRole()); // Manufacturing Management Org
+        createAccount(mfgEnterprise, "mw", "123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
     }
     
     private void createDeliveryEnterprise(Network network) {

@@ -31,6 +31,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     Organization RDOrganization;
+    Organization PurchaseOrganization;
     UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
@@ -41,6 +42,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         this.system = system;
         this.mainFrame=mainFrame;
         RDOrganization = findRDOrganizationInsystem();
+        PurchaseOrganization= findPurchaseOrganizationInsystem();
         populateRequestTable();
     }
 
@@ -70,7 +72,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Product Manager WorkArea");
+        jLabel2.setText("Product Manager Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -80,7 +82,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "DevStatus", "Verified"
+                "WorkRequest", "Product", "Status", "DevStatus", "Dev Status Verified"
             }
         ) {
             Class[] types = new Class [] {
@@ -149,12 +151,8 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnLogout)
@@ -162,6 +160,10 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -204,7 +206,8 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Pls select  WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         
@@ -218,9 +221,19 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Pls select  WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
+        // When verified is true, passing Workrequest to Purchasing Organization
+        // Part2 starting....
+        if(request.getDevelopmentWorkRequest().getVerified()==true){
+            PurchaseOrganization.getWorkQueue().addWorkRequest(request);
+            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purchase Organization!");
+        }else{
+            JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!");
+            return;
+        }
         
     }//GEN-LAST:event_btnSendtoPurchaseOrganizationActionPerformed
 
@@ -266,5 +279,20 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
        }
         return null;// return null if doesn't found
     }
-   
+   private Organization findPurchaseOrganizationInsystem() {
+        //遍歷所有network中的enterPrise 直到找到type 是TECH
+        //再搜尋當中Organiation 名稱符合的
+       for(Network network : system.getNetworkList()){
+           for(Enterprise enterprise : network.getEnterpriseList()){
+               if(enterprise.getType()==EnterpriseType.TECH){
+                   for(Organization organization : enterprise.getOrganizationDirectory()){
+                       if(organization.getName()=="Purchasing"){
+                           return organization;
+                       }
+                   }
+               }
+           }
+       }
+        return null;// return null if doesn't found
+    }
 }

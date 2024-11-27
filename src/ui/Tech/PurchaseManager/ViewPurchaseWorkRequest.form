@@ -211,7 +211,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft JhengHei UI" size="18" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Development Request Detail"/>
+            <Property name="text" type="java.lang.String" value="Purchase Request Detail"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtProductName">
@@ -337,7 +337,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Microsoft JhengHei UI" size="18" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Development Progress Report"/>
+                <Property name="text" type="java.lang.String" value="Purchase Progress Report"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDevStatus">

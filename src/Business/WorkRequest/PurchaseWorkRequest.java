@@ -11,6 +11,8 @@ import Business.Product.Product;
  * @author User
  */
 public class PurchaseWorkRequest {
+
+   
     Product product;
     
     String OrderName;//modified by Purhcasing Manager
@@ -28,15 +30,14 @@ public class PurchaseWorkRequest {
    
     String feedback;//modified by three roles
 
-    
-    
-    public PurchaseWorkRequest(String OrderName, Product product, int productPerPrice, int quantity, String perchaseStatus, String feedback, Boolean Signed, Boolean Verified) {
-       
+     public PurchaseWorkRequest(Product product, String OrderName, int targetQuantity) {
+        this.product = product;
+        this.OrderName = OrderName;
+        this.targetQuantity = targetQuantity;
+        perchaseStatus="Processing";
+        
     }
-
-    
    
-    
     
     public String getOrderName() {
         return OrderName;

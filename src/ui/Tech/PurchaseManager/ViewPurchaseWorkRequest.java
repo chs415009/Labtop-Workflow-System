@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package ui.Tech.ProductManager;
+package ui.Tech.PurchaseManager;
 
 
+import ui.Tech.ProductManager.*;
 import Business.Organization.Organization;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
@@ -16,7 +17,7 @@ import javax.swing.JPanel;
  *
  * @author User
  */
-public class ViewDevWorkRequest extends javax.swing.JPanel {
+public class ViewPurchaseWorkRequest extends javax.swing.JPanel {
 
     /**
      * Creates new form CreateNewWorkRequest
@@ -24,7 +25,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     WorkRequest workRequest;
-    public ViewDevWorkRequest(JPanel container, Organization ProductManagerOrganization,WorkRequest request) {
+    public ViewPurchaseWorkRequest(JPanel container, Organization ProductManagerOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=ProductManagerOrganization;
@@ -89,7 +90,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         jLabel4.setText(" Description");
 
         jLabel11.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel11.setText("Development Request Detail");
+        jLabel11.setText("Purchase Request Detail");
 
         txtProductName.setEditable(false);
 
@@ -120,7 +121,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         jLabel9.setText("inch");
 
         jLabel10.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel10.setText("Development Progress Report");
+        jLabel10.setText("Purchase Progress Report");
 
         jLabel14.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         jLabel14.setText("Develop Status");

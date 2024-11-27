@@ -20,6 +20,8 @@ public class WorkRequest {
     PurchaseWorkRequest purchaseWorkRequest;
     DelieverWorkRequest delieverWorkRequeset;
     MarketingWorkRequest marketingWorkRequest ;
+
+  
     
      public WorkRequest(String name, Product product) {
         this.name = name;
@@ -58,6 +60,19 @@ public class WorkRequest {
     public void setDevelopmentWorkRequest(DevelopmentWorkRequest developmentWorkRequest) {
         this.developmentWorkRequest = developmentWorkRequest;
     }
+    
+     public void setPurchaseWorkRequest(PurchaseWorkRequest purchaseWorkRequest) {
+        this.purchaseWorkRequest = purchaseWorkRequest;
+    }
+
+    public void setDelieverWorkRequeset(DelieverWorkRequest delieverWorkRequeset) {
+        this.delieverWorkRequeset = delieverWorkRequeset;
+    }
+
+    public void setMarketingWorkRequest(MarketingWorkRequest marketingWorkRequest) {
+        this.marketingWorkRequest = marketingWorkRequest;
+    }
+    
     @Override
     public String toString() {
         return  name ;

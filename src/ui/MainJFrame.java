@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
 import ui.Tech.ProductManager.ProductManagerWorkArea;
+import ui.Tech.PurchaseManager.PurchaseManagerWorkArea;
 import ui.Tech.RD.RDWorkArea;
 
 /**
@@ -169,6 +170,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         switch(account.getOrganization().getName()){
                             case "Product Management" ->showProductManagerWorkAreaPanel(account);
                             case "Research and Development" ->showRDWorkAreaPanel(account);
+                            case "Purchasing" -> PurchaseManagerWorkArea(account);
                         }
                         
                         // Switch on enterprise type for specific welcome messages
@@ -228,6 +230,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "RDWorkArea");
+    } 
+     private void PurchaseManagerWorkArea(UserAccount loginAccount) {
+       
+        PurchaseManagerWorkArea purchaseManagerWorkArea = new PurchaseManagerWorkArea(container,loginAccount, system,this);
+        container.add("PurchaseManagerWorkArea", purchaseManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "PurchaseManagerWorkArea");
     } 
 
     public void clearLoginFields() {

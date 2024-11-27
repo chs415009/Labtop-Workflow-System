@@ -2,9 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package ui.Tech.RD;
+package ui.Manufacturing.ManufacturingManager;
 
 
+import ui.Tech.PurchaseManager.*;
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
+import ui.Tech.RD.*;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -14,27 +19,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import ui.MainJFrame;
+import ui.Tech.ProductManager.ViewDevWorkRequest;
 
 /**
  *
  * @author User
  */
-public class RDWorkArea extends javax.swing.JPanel {
+public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
 
     /**
      * Creates new form ProductManagerWorkArea
      */
     JPanel container;
     Organization CurrentOrganization;
+    Organization ManufacturingManagerOrganization;
     UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
-    public RDWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
-        this.mainFrame=mainFrame;;
+        this.mainFrame=mainFrame;
+        this.ManufacturingManagerOrganization = findManufacturingManagerOrganizationInsystem();
         populateRequestTable();
     }
 
@@ -49,9 +57,9 @@ public class RDWorkArea extends javax.swing.JPanel {
 
         btnLogout = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
+        btnCreatePurWorkRequest = new javax.swing.JButton();
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -61,14 +69,7 @@ public class RDWorkArea extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Research and Development Role WorkArea");
-
-        jButton1.setText("Report Developement Process");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Manufacturing Manager Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -78,7 +79,7 @@ public class RDWorkArea extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "DevStatus", "Verified"
+                "WorkRequest", "Product", "Status", "Purchase Status", "Verified"
             }
         ) {
             Class[] types = new Class [] {
@@ -98,6 +99,13 @@ public class RDWorkArea extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblWorkRequest);
 
+        btnCreatePurWorkRequest.setText("Start a new Purchase WorkReqeust");
+        btnCreatePurWorkRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreatePurWorkRequestActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,9 +117,9 @@ public class RDWorkArea extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(133, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreatePurWorkRequest))
+                .addContainerGap(102, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -123,11 +131,11 @@ public class RDWorkArea extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(btnLogout)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(jButton1)
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(btnCreatePurWorkRequest)
+                .addContainerGap(246, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(29, 29, 29)
@@ -142,19 +150,19 @@ public class RDWorkArea extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCreatePurWorkRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatePurWorkRequestActionPerformed
         // TODO add your handling code here:
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Pls select  WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Pls select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         
-        ReportDevWorkRequest rdwr = new ReportDevWorkRequest(container, CurrentOrganization,request);
-        container.add("ReportDevelopeWorkRequest", rdwr);
+        CreateNewPurchaseWorkRequest cnpwr = new CreateNewPurchaseWorkRequest(container, CurrentOrganization,ManufacturingManagerOrganization,request);
+        container.add("CreateNewPurchaseWorkRequest", cnpwr);
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCreatePurWorkRequestActionPerformed
 
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
@@ -172,10 +180,27 @@ public class RDWorkArea extends javax.swing.JPanel {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreatePurWorkRequest;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
+
+    private Organization findManufacturingManagerOrganizationInsystem() {
+        //遍歷所有network中的enterPrise 直到找到type 符合
+        //再搜尋當中Organiation 名稱符合的
+       for(Network network : system.getNetworkList()){
+           for(Enterprise enterprise : network.getEnterpriseList()){
+               if(enterprise.getType()==EnterpriseType.MANUFACTURING){
+                   for(Organization organization : enterprise.getOrganizationDirectory()){
+                       if(organization.getName()=="Manufacturing Management"){
+                           return organization;
+                       }
+                   }
+               }
+           }
+       }
+        return null;// return null if doesn't found
+    }
 }

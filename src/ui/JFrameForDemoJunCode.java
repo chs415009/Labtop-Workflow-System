@@ -7,8 +7,8 @@ package ui;
 import Business.Enterprise.*;
 import Business.Organization.Organization;
 import Business.Organization.Tech.*;
-import Jun.ui.Tech.ProductManager.ProductManagerWorkArea;
-import Jun.ui.Tech.RD.RDWorkArea;
+import ui.Tech.ProductManager.ProductManagerWorkArea;
+import ui.Tech.RD.RDWorkArea;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 

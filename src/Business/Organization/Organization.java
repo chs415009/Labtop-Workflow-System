@@ -10,7 +10,7 @@ import Business.Role.Role;
 import Business.UserAccount.UserAccount;
 import Business.UserAccount.UserAccountDirectory;
 import Business.WorkQueue.WorkQueue;
-import Jun.WorkRequest.WorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Jun.ui.Tech.RD;
+package ui.Tech.RD;
 
 
 import Business.Organization.Organization;
-import Jun.WorkRequest.WorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

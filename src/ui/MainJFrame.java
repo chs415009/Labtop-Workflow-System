@@ -215,7 +215,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
      private void showProductManagerWorkAreaPanel(UserAccount loginAccount) {
        
-        ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, system);
+        ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, system,this);
         container.add("ProductManagerWorkArea", productManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -223,7 +223,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     private void showRDWorkAreaPanel(UserAccount loginAccount) {
        
-        RDWorkArea rDWorkArea = new RDWorkArea(container,loginAccount, system);
+        RDWorkArea rDWorkArea = new RDWorkArea(container,loginAccount, system,this);
         container.add("RDWorkArea", rDWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();

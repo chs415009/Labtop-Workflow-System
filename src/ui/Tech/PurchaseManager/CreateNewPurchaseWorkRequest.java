@@ -289,10 +289,10 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-         container.remove(this);
-        Component[] componentArray = container.getComponents();
-        Component component = componentArray[componentArray.length -1];
-        PurchaseManagerWorkArea  PurchaseManagerWorkArea = ( PurchaseManagerWorkArea) component;
+       container.remove(this);
+       Component[] componentArray = container.getComponents();
+       Component component = componentArray[componentArray.length -1];
+       PurchaseManagerWorkArea  PurchaseManagerWorkArea = ( PurchaseManagerWorkArea) component;
        PurchaseManagerWorkArea.populateRequestTable();
        
         CardLayout layout = (CardLayout)container.getLayout();

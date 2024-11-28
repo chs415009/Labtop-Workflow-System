@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package ui.Manufacturing.ManufacturingManager;
+package ui.Manufacturing.ManufacturingWorkerRole;
 
 
+import ui.Manufacturing.ManufacturingManager.*;
 import ui.Tech.PurchaseManager.*;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseType;
@@ -25,7 +26,7 @@ import ui.Tech.ProductManager.ViewDevWorkRequest;
  *
  * @author User
  */
-public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
+public class ManufacturingWorkerWorkArea extends javax.swing.JPanel {
 
     /**
      * Creates new form ProductManagerWorkArea
@@ -36,7 +37,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
-    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public ManufacturingWorkerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
@@ -57,11 +58,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
 
         btnLogout = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        btnSendWorkRequestToProductionLine = new javax.swing.JButton();
         btnPurDetail = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
-        btnViewProductionProgress = new javax.swing.JButton();
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -71,16 +70,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Manufacturing Manager Role WorkArea");
+        jLabel2.setText("Manufacturing Worker Role WorkArea");
 
-        btnSendWorkRequestToProductionLine.setText("Send WorkRequest to Production Line ");
-        btnSendWorkRequestToProductionLine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSendWorkRequestToProductionLineActionPerformed(evt);
-            }
-        });
-
-        btnPurDetail.setText("Report Purchase Order");
+        btnPurDetail.setText("Report Production Progress");
         btnPurDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPurDetailActionPerformed(evt);
@@ -95,11 +87,11 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "Purchase Status", "Order Signed", "Verified"
+                "WorkRequest", "Product", "Status", "Purchase Status", "Target Quantity", "Current Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, true, false
@@ -118,32 +110,23 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             tblWorkRequest.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        btnViewProductionProgress.setText("View Production Progress");
-        btnViewProductionProgress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewProductionProgressActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogout)
-                .addGap(42, 42, 42))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnPurDetail)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 426, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnPurDetail)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSendWorkRequestToProductionLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnViewProductionProgress))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout)))
+                .addGap(42, 42, 42))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -158,10 +141,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPurDetail)
-                    .addComponent(btnSendWorkRequestToProductionLine)
-                    .addComponent(btnViewProductionProgress))
+                .addComponent(btnPurDetail)
                 .addContainerGap(282, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -177,24 +157,6 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void btnSendWorkRequestToProductionLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendWorkRequestToProductionLineActionPerformed
-        // TODO add your handling code here:
-        int selectedRowIndex = tblWorkRequest.getSelectedRow();
-        if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
-        // When signed is true, passing Workrequest to Manufacturing Organization
-        if(request.getDevelopmentWorkRequest().getVerified()==true){
-            ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
-            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Manufacturing Organization!");
-        }else{
-            JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not Signed!");
-            return;
-        }
-    }//GEN-LAST:event_btnSendWorkRequestToProductionLineActionPerformed
-
     private void btnPurDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurDetailActionPerformed
         // TODO add your handling code here:
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
@@ -209,10 +171,6 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnPurDetailActionPerformed
-
-    private void btnViewProductionProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProductionProgressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnViewProductionProgressActionPerformed
 
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
@@ -254,8 +212,6 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPurDetail;
-    private javax.swing.JButton btnSendWorkRequestToProductionLine;
-    private javax.swing.JButton btnViewProductionProgress;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

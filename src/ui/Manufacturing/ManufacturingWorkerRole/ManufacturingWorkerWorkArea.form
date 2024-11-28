@@ -17,23 +17,23 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="btnPurDetail" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnSendWorkRequestToProductionLine" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnViewProductionProgress" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="btnPurDetail" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="426" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="jScrollPane1" min="-2" pref="551" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="51" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
@@ -52,11 +52,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="97" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnPurDetail" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnSendWorkRequestToProductionLine" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnViewProductionProgress" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="btnPurDetail" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="282" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -83,20 +79,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Microsoft JhengHei UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Manufacturing Manager Role WorkArea"/>
+        <Property name="text" type="java.lang.String" value="Manufacturing Worker Role WorkArea"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnSendWorkRequestToProductionLine">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Send WorkRequest to Production Line "/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSendWorkRequestToProductionLineActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnPurDetail">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Report Purchase Order"/>
+        <Property name="text" type="java.lang.String" value="Report Production Progress"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPurDetailActionPerformed"/>
@@ -117,8 +105,8 @@
                 <Column editable="false" title="Product" type="java.lang.Object"/>
                 <Column editable="false" title="Status" type="java.lang.String"/>
                 <Column editable="false" title="Purchase Status" type="java.lang.String"/>
-                <Column editable="true" title="Order Signed" type="java.lang.Boolean"/>
-                <Column editable="false" title="Verified" type="java.lang.Boolean"/>
+                <Column editable="true" title="Target Quantity" type="java.lang.Integer"/>
+                <Column editable="false" title="Current Quantity" type="java.lang.Integer"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -162,13 +150,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnViewProductionProgress">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="View Production Progress"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewProductionProgressActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>

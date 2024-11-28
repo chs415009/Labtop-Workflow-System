@@ -86,10 +86,10 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -187,14 +187,18 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
-
+        if(request.getPurchaseWorkRequest()==null){
+            return;
+        }
         ViewPurchaseWorkRequest viewPurchaseWorkRequest = new ViewPurchaseWorkRequest(container, CurrentOrganization,request);
         container.add("ViewPurchaseWorkRequest", viewPurchaseWorkRequest);
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnPurProgressActionPerformed
     private void populateDemoWorkRequest() {
+        
         Product demoProduct = new Product("demoProduct","demoDescription",10,15.3,16,256);
         WorkRequest demoRequest = new WorkRequest("demo",demoProduct);
         demoRequest.setDevelopmentWorkRequest(new DevelopmentWorkRequest(demoProduct));

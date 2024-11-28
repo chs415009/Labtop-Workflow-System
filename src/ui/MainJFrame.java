@@ -26,6 +26,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
+import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
 import ui.Tech.ProductManager.ProductManagerWorkArea;
 import ui.Tech.PurchaseManager.PurchaseManagerWorkArea;
@@ -175,7 +176,8 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Research and Development" ->showRDWorkAreaPanel(account);
                             case "Purchasing" -> showPurchaseManagerWorkArea(account);
                             case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
-                            //case  "Production Line"
+                            case  "Production Line" ->showManufacturingManagerWorkerWorkArea(account);
+                            //case ""
                         }
                         
                         // Switch on enterprise type for specific welcome messages
@@ -252,6 +254,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "ManufacturingManagerWorkArea");
+    } 
+      private void showManufacturingManagerWorkerWorkArea(UserAccount loginAccount) {
+       
+       ManufacturingWorkerWorkArea manufacturingWorkerWorkArea = new ManufacturingWorkerWorkArea(container,loginAccount, system,this);
+        container.add("ManufacturingWorkerWorkArea",  manufacturingWorkerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "ManufacturingWorkerWorkArea");
     } 
 
     public void clearLoginFields() {

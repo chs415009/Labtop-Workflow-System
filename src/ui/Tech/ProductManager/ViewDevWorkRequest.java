@@ -29,7 +29,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         this.container = container;
         this.CurrentOrganization=ProductManagerOrganization;
         this.workRequest= request;
-        populateRequestTable();
+        populateData();
     }
 
     /**
@@ -311,6 +311,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         // TODO add your handling code here:
        String isVerified =  (String)cmbDevVerified.getSelectedItem();
        if(isVerified=="Verified"){
+            JOptionPane.showMessageDialog(this, "The DevelopeWorkRequest has been Verified Successfully!");
            workRequest.getDevelopmentWorkRequest().setVerified(true);
        }else{
            workRequest.getDevelopmentWorkRequest().setVerified(false);
@@ -350,10 +351,10 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
     private javax.swing.JTextField txtStorage;
     // End of variables declaration//GEN-END:variables
 
-    private void populateRequestTable() {
-       String[] DevVerified = new String[]{"Rejected","Verified"};
+    private void populateData() {
+       String[] Verified = new String[]{"Rejected","Verified"};
        cmbDevVerified.removeAllItems();
-        for(String status : DevVerified){
+        for(String status : Verified){
             cmbDevVerified.addItem(status);
         }
         

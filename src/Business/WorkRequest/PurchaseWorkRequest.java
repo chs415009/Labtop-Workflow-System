@@ -33,9 +33,11 @@ public class PurchaseWorkRequest {
         this.product = product;
         this.OrderName = OrderName;
         this.targetQuantity = targetQuantity;
-        perchaseStatus="Processing";
-        Verified= false;
-        Signed=false;
+        this.perchaseStatus="Processing";
+        this.productionStatus="pending";
+        this.currentManufacturedQuantity=0;
+        this.Verified= false;
+        this.Signed=false;
     }
     public Product getProduct() {
         return product;

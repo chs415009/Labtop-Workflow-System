@@ -228,8 +228,12 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         // When verified is true, passing Workrequest to Purchasing Organization
         // Part2 starting....
         if(request.getDevelopmentWorkRequest().getVerified()==true){
+            if(isWorkRequestExist(PurchaseOrganization,request)==true){
             PurchaseOrganization.getWorkQueue().addWorkRequest(request);
-            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purchase Organization!");
+            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purchase Organization!");}
+            else{JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Purchase Organization!");
+                    return;}
+            
         }else{
             JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!");
             return;
@@ -299,5 +303,15 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
            }
        }
         return null;// return null if doesn't found
+    }
+
+    private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+           if(CurrentRequest==request){
+              
+               return false;
+           }
+        }
+        return true;
     }
 }

@@ -94,7 +94,7 @@ public class ManufacturingWorkerWorkArea extends javax.swing.JPanel {
                 java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,9 +106,6 @@ public class ManufacturingWorkerWorkArea extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblWorkRequest);
-        if (tblWorkRequest.getColumnModel().getColumnCount() > 0) {
-            tblWorkRequest.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -166,8 +163,8 @@ public class ManufacturingWorkerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        ReportPurchaseWorkRequest reportPurchaseWorkRequest = new ReportPurchaseWorkRequest(container, CurrentOrganization,request);
-        container.add("ReportPurchaseWorkRequest", reportPurchaseWorkRequest);
+         ReportProductionWorkRequest reportProductionWorkRequest = new  ReportProductionWorkRequest(container, CurrentOrganization,request);
+        container.add("ReportProductionWorkRequest", reportProductionWorkRequest);
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnPurDetailActionPerformed
@@ -186,8 +183,8 @@ public class ManufacturingWorkerWorkArea extends javax.swing.JPanel {
              row[3] = "Not Started Yet";
             }else{
             row[3] = request.getPurchaseWorkRequest().getPerchaseStatus();
-            row[4] = request.getPurchaseWorkRequest().getSigned();
-            row[5] = request.getPurchaseWorkRequest().getVerified();
+            row[4] = request.getPurchaseWorkRequest().getTargetQuantity();
+            row[5] = request.getPurchaseWorkRequest().getCurrentManufacturedQuantity();
             }
             model.addRow(row);
         }

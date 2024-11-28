@@ -114,9 +114,6 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblWorkRequest);
-        if (tblWorkRequest.getColumnModel().getColumnCount() > 0) {
-            tblWorkRequest.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         btnViewProductionProgress.setText("View Production Progress");
         btnViewProductionProgress.addActionListener(new java.awt.event.ActionListener() {
@@ -138,9 +135,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPurDetail)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSendWorkRequestToProductionLine)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSendWorkRequestToProductionLine)
+                        .addGap(18, 18, 18)
                         .addComponent(btnViewProductionProgress))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
@@ -186,9 +183,14 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         // When signed is true, passing Workrequest to Manufacturing Organization
-        if(request.getDevelopmentWorkRequest().getVerified()==true){
-            ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
-            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Manufacturing Organization!");
+        if(request.getPurchaseWorkRequest().getSigned()==true){
+            if(isWorkRequestExist(ProductionLineOrganization,request)==true){
+                ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
+                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to ProductionLine Organization!");}
+            else{
+                JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!");
+            return;}
+
         }else{
             JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not Signed!");
             return;
@@ -212,6 +214,17 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
 
     private void btnViewProductionProgressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProductionProgressActionPerformed
         // TODO add your handling code here:
+         int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewProductionWorkRequest viewProductionWorkRequest = new ViewProductionWorkRequest(container, CurrentOrganization,request);
+        container.add("ReportPurchaseWorkRequest", viewProductionWorkRequest);
+        CardLayout layout=(CardLayout)container.getLayout();
+        layout.next(container);
     }//GEN-LAST:event_btnViewProductionProgressActionPerformed
 
     public void populateRequestTable(){
@@ -250,7 +263,15 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
        }
         return null;// return null if doesn't found
     }
-     
+     private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+           if(CurrentRequest==request){
+              
+               return false;
+           }
+        }
+        return true;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPurDetail;

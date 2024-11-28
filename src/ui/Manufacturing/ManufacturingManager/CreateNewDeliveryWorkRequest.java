@@ -164,18 +164,18 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBack)
-                .addGap(81, 81, 81))
+                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(btnBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(109, Short.MAX_VALUE))
         );
@@ -214,10 +214,14 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                     "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(workRequest.getPurchaseWorkRequest().getVerified()==true){
             DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
             workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
              JOptionPane.showMessageDialog(this,
                       "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");
+            }else{
+                JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
+            return;}
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 

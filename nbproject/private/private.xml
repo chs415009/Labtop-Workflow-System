@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/PurchaseWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/MarketingWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/ProductManager/CreateNewWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/WorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Product/Product.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/PurchaseManager/CreateNewPurchaseWorkRequest.java</file>
@@ -18,11 +19,12 @@
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/RD/ReportDevWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ReportPurchaseWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ViewProductionWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkFlowSystem.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingWorkerRole/ManufacturingWorkerWorkArea.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/ProductManager/ViewDevWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingWorkerRole/ReportProductionWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/CreateNewDeliveryWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Delivery/DeliveryManager/DeliveryManagerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/DeliverWorkRequest.java</file>
         </group>
     </open-files>
 </project-private>

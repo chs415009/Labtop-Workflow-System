@@ -36,7 +36,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
         this.workRequest =request;
         
         this.ManufacturingManagerOrganization=ManufacturingManagerOrganization;
-        demo();
+         populateData();
     }
 
     /**
@@ -357,12 +357,12 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
     private javax.swing.JTextField txtStorage;
     // End of variables declaration//GEN-END:variables
 
-    private void demo() {
-       txtProductName.setText("Laptop X-model");
-       txtCpuCore.setText(String.valueOf(10));
-       txtScreenSize.setText(String.valueOf(15.3));
-       txtRam.setText(String.valueOf(16));
-       txtStorage.setText(String.valueOf(256));
-       txtDescription.setText("Laptop X-model Development Requirement.");
+    private void populateData() {
+       txtProductName.setText(workRequest.getProduct().getName());
+       txtCpuCore.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
+       txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
+       txtDescription.setText(workRequest.getProduct().getDescription());
     }
 }

@@ -418,10 +418,22 @@ public class ViewPurchaseWorkRequest extends javax.swing.JPanel {
     private void ReplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReplyActionPerformed
         // TODO add your handling code here:
         String isVerified =  (String)cmbVerified.getSelectedItem();
-        if(isVerified=="Verified"){
+        if(isVerified=="Verified"&&txtProductionStatus.getText().equals("Completed")){
             JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest has been Verified Successfully!");
             workRequest.getPurchaseWorkRequest().setVerified(true);
-        }else{
+        }else if(isVerified=="Rejected"){
+            JOptionPane.showMessageDialog(this, 
+                    "You Rejected the WorkRequest.",
+                    "Verified Fail",
+                    JOptionPane.ERROR_MESSAGE);
+             workRequest.getPurchaseWorkRequest().setVerified(false);
+        }
+        else{
+            System.out.println(txtProductionStatus.getText());
+           JOptionPane.showMessageDialog(this, 
+                    "PleasCheck ProductionStatus and Quantity",
+                    "Verified Fail",
+                    JOptionPane.ERROR_MESSAGE);
             workRequest.getPurchaseWorkRequest().setVerified(false);
         }
 
@@ -431,7 +443,7 @@ public class ViewPurchaseWorkRequest extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbVerifiedActionPerformed
      private void populateProductDetail() {
-        String[] Verified = new String[]{"Rejected","Verified"};
+       String[] Verified = new String[]{"Rejected","Verified"};
        cmbVerified.removeAllItems();
         for(String status : Verified){
             cmbVerified.addItem(status);

@@ -14,7 +14,6 @@ public class PurchaseWorkRequest {
 
    
     Product product;
-    
     String OrderName;//modified by Purhcasing Manager
     int targetQuantity;//modified by Purhcasing Manager
     String perchaseStatus;//modified by Purhcasing Manager
@@ -120,8 +119,18 @@ public class PurchaseWorkRequest {
     }
 
     
-   
-    
+   // for Testing
+    public PurchaseWorkRequest(String OrderName) {
+        this.OrderName = "Demo OrderName";
+        this.targetQuantity = 50;
+        this.perchaseStatus = "Demo:N/A";
+        this.Verified = true;
+        this.Signed = true;
+        this.productPerPrice = 100;
+        this.currentManufacturedQuantity = 50;
+        this.productionStatus = "Demo:N/A";
+        this.feedback = feedback;
+    }
    
    
 }

@@ -221,7 +221,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
@@ -235,7 +235,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                     return;}
             
         }else{
-            JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!");
+            JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
             return;
         }
         

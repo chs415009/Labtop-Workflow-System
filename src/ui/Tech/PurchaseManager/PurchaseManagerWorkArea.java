@@ -44,7 +44,7 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         this.system = system;
         this.mainFrame=mainFrame;
         this.ManufacturingManagerOrganization = findManufacturingManagerOrganizationInsystem();
-        populateDemoWorkRequest();
+        //populateDemoWorkRequest();
         populateRequestTable();
     }
 

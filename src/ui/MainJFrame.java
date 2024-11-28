@@ -53,6 +53,7 @@ public class MainJFrame extends javax.swing.JFrame {
         this.setSize(700, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
         System.out.printf("test");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**

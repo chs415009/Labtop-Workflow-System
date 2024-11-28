@@ -129,8 +129,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(delEnterprise);
         System.out.println("\nCreated Delivery Enterprise: " + delEnterprise.getName());
         
-        createAccount(delEnterprise, "delmgr", "123", new DeliveryManagerRole()); // Delivery Management Org
-        createAccount(delEnterprise, "delwrk", "123", new DeliveryRole());        // Delivery Operations Org
+        createAccount(delEnterprise, "delm", "123", new DeliveryManagerRole()); // Delivery Management Org
+        createAccount(delEnterprise, "delw", "123", new DeliveryRole());        // Delivery Operations Org
     }
     
     private void createRetailEnterprise(Network network) {

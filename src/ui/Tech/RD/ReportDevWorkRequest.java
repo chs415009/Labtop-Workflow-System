@@ -25,10 +25,10 @@ public class ReportDevWorkRequest extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     WorkRequest workRequest;
-    public ReportDevWorkRequest(JPanel container, Organization ProductManagerOrganization,WorkRequest request) {
+    public ReportDevWorkRequest(JPanel container, Organization CurrentOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
+        this.CurrentOrganization=CurrentOrganization;
         this.workRequest= request;
         populateData();
     }
@@ -290,7 +290,7 @@ public class ReportDevWorkRequest extends javax.swing.JPanel {
        DevelopmentWorkRequest devWorkRequest = workRequest.getDevelopmentWorkRequest();
        devWorkRequest.setdevStatus((String)cmbDevStatus.getSelectedItem());
        devWorkRequest.setFeedback(txtFeedBack.getText());
-        
+       JOptionPane.showMessageDialog(this, "Information Updated");
     }//GEN-LAST:event_CreateActionPerformed
 
 
@@ -330,7 +330,7 @@ public class ReportDevWorkRequest extends javax.swing.JPanel {
         }
        txtProductName.setText(workRequest.getProduct().getName());
        txtCpuCore.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
-       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getScreenSize()));
        txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
        txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
        txtDescription.setText(workRequest.getProduct().getDescription());

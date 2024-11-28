@@ -29,10 +29,10 @@ public class ViewProductionWorkRequest extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     WorkRequest workRequest;
-    public ViewProductionWorkRequest(JPanel container, Organization ProductManagerOrganization,WorkRequest request) {
+    public ViewProductionWorkRequest(JPanel container, Organization CurrentOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
+        this.CurrentOrganization=CurrentOrganization;
         this.workRequest= request;
         populateData();
     }

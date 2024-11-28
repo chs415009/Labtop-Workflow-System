@@ -9,6 +9,7 @@ import ui.Tech.PurchaseManager.*;
 import ui.Tech.ProductManager.*;
 import Business.Organization.Organization;
 import Business.Product.Product;
+import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
@@ -28,15 +29,15 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization ManufacturingManagerOrganization;
+    Organization DeliveryManagerOrganization;
     WorkRequest workRequest;
-    public CreateNewDeliveryWorkRequest(JPanel container, Organization ProductManagerOrganization,Organization ManufacturingManagerOrganization,WorkRequest request) {
+    public CreateNewDeliveryWorkRequest(JPanel container, Organization CurrentOrganization,Organization DeliveryManagerOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
+        this.CurrentOrganization=CurrentOrganization;
         this.workRequest =request;
         
-        this.ManufacturingManagerOrganization=ManufacturingManagerOrganization;
+        this.DeliveryManagerOrganization=DeliveryManagerOrganization;
         
     }
 
@@ -60,6 +61,8 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
         Create = new javax.swing.JButton();
         lbShipTo = new javax.swing.JLabel();
         txtShipTo = new javax.swing.JTextField();
+        Quantity = new javax.swing.JLabel();
+        txtQuantity = new javax.swing.JTextField();
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +92,9 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
         lbShipTo.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         lbShipTo.setText("Ship To");
 
+        Quantity.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
+        Quantity.setText("Quantity");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -116,7 +122,11 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Create)
-                                    .addComponent(txtShipTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtShipTo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -138,9 +148,13 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbShipTo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtShipTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addComponent(Create)
-                .addGap(0, 147, Short.MAX_VALUE))
+                .addGap(0, 128, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -181,24 +195,29 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
 
     private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
         // TODO add your handling code here:
-         String RequestName = txtOrderName.getText();  // 
+         String OrderName = txtOrderName.getText();  // 
+         String ShipFrom =txtShipFrom.getText();
+         String ShipTo = txtShipTo.getText();
         // PurchaseRequest detail;
-        String TargetQuantityText = txtShipFrom.getText();
+        String QuantityText = txtQuantity.getText();
        // input valid check
-        if (RequestName == null || RequestName.isEmpty()) {
+        if (OrderName.isEmpty()||ShipFrom.isEmpty()||ShipTo.isEmpty()) {
 
             JOptionPane.showMessageDialog(this, "Error: Please fill in all required fields.", 
                     "Input Error", JOptionPane.ERROR_MESSAGE);
             return;}
         // Parsing Integer and Double
         try {
-            int TargetQuantity = Integer.parseInt(TargetQuantityText);  
-        // 條件(Developement)觸發成功 加入workRequest到 RD Organization
-        // //Create PurchaseWorkRequest 到WorkRequest中
-            ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
-            workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
+            int Quantity = Integer.parseInt(QuantityText);  
+            if(Quantity >workRequest.getPurchaseWorkRequest().getTargetQuantity()){
+                JOptionPane.showMessageDialog(this, "Error: input is greater than Real quantity.", 
+                    "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
+            workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
              JOptionPane.showMessageDialog(this,
-                      "A PurchaseWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to ManufacturingManagerOrganization.");
+                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 
@@ -210,6 +229,7 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Create;
+    private javax.swing.JLabel Quantity;
     private javax.swing.JButton btnBack;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -218,6 +238,7 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
     private javax.swing.JLabel lbShipFrom;
     private javax.swing.JLabel lbShipTo;
     private javax.swing.JTextField txtOrderName;
+    private javax.swing.JTextField txtQuantity;
     private javax.swing.JTextField txtShipFrom;
     private javax.swing.JTextField txtShipTo;
     // End of variables declaration//GEN-END:variables

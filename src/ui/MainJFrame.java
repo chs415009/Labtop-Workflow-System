@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import ui.Delivery.DeliveryManager.DeliveryManagerWorkArea;
 import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
 import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
@@ -53,7 +54,7 @@ public class MainJFrame extends javax.swing.JFrame {
         this.setSize(700, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
         System.out.printf("test");
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
@@ -178,7 +179,11 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Purchasing" -> showPurchaseManagerWorkArea(account);
                             case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
                             case  "Production Line" ->showManufacturingManagerWorkerWorkArea(account);
-                            //case ""
+                            case "Delivery Management" ->showDeliveryManagerWorkerWorkArea(account);
+//                            case "Delivery"       ;
+//                            case"Retail Sales";
+//                            case "Planner" ;
+//                            case"Digital Strategy";
                         }
                         
                         // Switch on enterprise type for specific welcome messages
@@ -263,6 +268,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "ManufacturingWorkerWorkArea");
+    } 
+      private void showDeliveryManagerWorkerWorkArea(UserAccount loginAccount) {
+       
+       DeliveryManagerWorkArea deliveryManagerWorkArea = new DeliveryManagerWorkArea(container,loginAccount, system,this);
+        container.add("DeliveryManagerWorkArea",  deliveryManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "DeliveryManagerWorkArea");
     } 
 
     public void clearLoginFields() {

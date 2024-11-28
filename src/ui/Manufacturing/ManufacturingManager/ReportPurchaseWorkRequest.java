@@ -27,10 +27,10 @@ public class ReportPurchaseWorkRequest extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     WorkRequest workRequest;
-    public ReportPurchaseWorkRequest(JPanel container, Organization ProductManagerOrganization,WorkRequest request) {
+    public ReportPurchaseWorkRequest(JPanel container, Organization CurrentOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
+        this.CurrentOrganization=CurrentOrganization;
         this.workRequest= request;
         populateProductDetail();
     }
@@ -351,7 +351,7 @@ public class ReportPurchaseWorkRequest extends javax.swing.JPanel {
        txtQuantity.setText(String.valueOf(workRequest.getPurchaseWorkRequest().getTargetQuantity()));
        txtProductName.setText(workRequest.getProduct().getName());
        txtCpuCore.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
-       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getScreenSize()));
        txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
        txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
        txtDescription.setText(workRequest.getProduct().getDescription());

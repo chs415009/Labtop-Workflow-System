@@ -10,7 +10,7 @@ import Business.Product.Product;
  *
  * @author User
  */
-public class DelieverWorkRequest {
+public class DeliverWorkRequest {
 
    
     Product product;
@@ -26,17 +26,21 @@ public class DelieverWorkRequest {
     String ShippingStatus; // modified by Deliever
     Boolean ShipConfirmed;//verifiedBy RetailManager
     String feedback;// modifeid by everyone
+
     
-     public DelieverWorkRequest(Product product, String OrderName, String ShipFromAddress, String shipToAddress, int shippingQuantity) {
+    
+     public DeliverWorkRequest(Product product, String OrderName, String ShipFromAddress, String shipToAddress, int shippingQuantity) {
         this.product = product;
         this.OrderName = OrderName;
         this.ShipFromAddress = ShipFromAddress;
+        this.ShippingStatus="pending";
         this.shipToAddress = shipToAddress;
         this.shippingQuantity = shippingQuantity;
         this.signed = false;
         this.ShipConfirmed =false;
     }
-    public Product getProduct() {
+    
+public Product getProduct() {
         return product;
     }
 
@@ -76,7 +80,7 @@ public class DelieverWorkRequest {
         this.shippingQuantity = shippingQuantity;
     }
 
-    public boolean isSigned() {
+    public boolean getSigned() {
         return signed;
     }
 
@@ -115,6 +119,5 @@ public class DelieverWorkRequest {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
-
    
 }

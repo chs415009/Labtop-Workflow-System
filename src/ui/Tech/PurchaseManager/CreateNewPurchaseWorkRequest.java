@@ -29,10 +29,10 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
     Organization CurrentOrganization;
     Organization ManufacturingManagerOrganization;
     WorkRequest workRequest;
-    public CreateNewPurchaseWorkRequest(JPanel container, Organization ProductManagerOrganization,Organization ManufacturingManagerOrganization,WorkRequest request) {
+    public CreateNewPurchaseWorkRequest(JPanel container, Organization CurrentOrganization,Organization ManufacturingManagerOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=ProductManagerOrganization;
+        this.CurrentOrganization=CurrentOrganization;
         this.workRequest =request;
         
         this.ManufacturingManagerOrganization=ManufacturingManagerOrganization;
@@ -313,8 +313,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
         // Parsing Integer and Double
         try {
             int TargetQuantity = Integer.parseInt(TargetQuantityText);  
-        // 條件(Developement)觸發成功 加入workRequest到 RD Organization
-        // //Create PurchaseWorkRequest 到WorkRequest中
+      
             ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
             workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
              JOptionPane.showMessageDialog(this,
@@ -360,7 +359,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
     private void populateData() {
        txtProductName.setText(workRequest.getProduct().getName());
        txtCpuCore.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
-       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getScreenSize()));
        txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
        txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
        txtDescription.setText(workRequest.getProduct().getDescription());

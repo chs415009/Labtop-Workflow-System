@@ -360,7 +360,7 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         
        txtProductName.setText(workRequest.getProduct().getName());
        txtCpuCore.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
-       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getCpuCoreNumber()));
+       txtScreenSize.setText(String.valueOf(workRequest.getProduct().getScreenSize()));
        txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
        txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
        txtDescription.setText(workRequest.getProduct().getDescription());

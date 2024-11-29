@@ -4,7 +4,7 @@ import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Role.Role;
-import Business.Role.SystemAdminRole;
+
 import Business.UserAccount.UserAccount;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,10 +109,10 @@ public class WorkFlowSystem extends Organization {
         System.out.println("\nCreated Tech Enterprise: " + techEnterprise.getName());
         
         // Each role matches to its specific organization
-        createAccount(techEnterprise, "techpm", "test123", new ProductManagerRole());    // Product Management Org
-        createAccount(techEnterprise, "techrd", "test123", new RDRole());                // R&D Org
-        createAccount(techEnterprise, "techpur", "test123", new PurchasingManagerRole()); // Purchasing Org
-        createAccount(techEnterprise, "techmkt", "test123", new MarketingManagerRole());  // Marketing Org
+        createAccount(techEnterprise, "techpm", "123", new ProductManagerRole());    // Product Management Org
+        createAccount(techEnterprise, "techrd", "123", new RDRole());                // R&D Org
+        createAccount(techEnterprise, "pu", "123", new PurchasingManagerRole()); // Purchasing Org
+        createAccount(techEnterprise, "techmkt", "123", new MarketingManagerRole());  // Marketing Org
     }
     
     private void createManufacturingEnterprise(Network network) {
@@ -120,8 +120,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(mfgEnterprise);
         System.out.println("\nCreated Manufacturing Enterprise: " + mfgEnterprise.getName());
         
-        createAccount(mfgEnterprise, "mfgmgr", "test123", new ManufacturingManagerRole()); // Manufacturing Management Org
-        createAccount(mfgEnterprise, "mfgwrk", "test123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
+        createAccount(mfgEnterprise, "mm", "123", new ManufacturingManagerRole()); // Manufacturing Management Org
+        createAccount(mfgEnterprise, "mw", "123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
     }
     
     private void createDeliveryEnterprise(Network network) {
@@ -129,8 +129,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(delEnterprise);
         System.out.println("\nCreated Delivery Enterprise: " + delEnterprise.getName());
         
-        createAccount(delEnterprise, "delmgr", "test123", new DeliveryManagerRole()); // Delivery Management Org
-        createAccount(delEnterprise, "delwrk", "test123", new DeliveryRole());        // Delivery Operations Org
+        createAccount(delEnterprise, "delm", "123", new DeliveryManagerRole()); // Delivery Management Org
+        createAccount(delEnterprise, "delw", "123", new DeliveryRole());        // Delivery Operations Org
     }
     
     private void createRetailEnterprise(Network network) {
@@ -138,7 +138,7 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(retEnterprise);
         System.out.println("\nCreated Retail Enterprise: " + retEnterprise.getName());
         
-        createAccount(retEnterprise, "retmgr", "test123", new RetailManagerRole());   // Retail Sales Org
+        createAccount(retEnterprise, "retmgr", "123", new RetailManagerRole());   // Retail Sales Org
     }
     
     private void createAdvertisingEnterprise(Network network) {
@@ -146,8 +146,8 @@ public class WorkFlowSystem extends Organization {
         network.addEnterprise(adEnterprise);
         System.out.println("\nCreated Advertising Enterprise: " + adEnterprise.getName());
         
-        createAccount(adEnterprise, "admgr", "test123", new AdvertisingManagerRole());     // Planner Org
-        createAccount(adEnterprise, "adstr", "test123", new DigitalAdsStrategistRole());   // Digital Strategy Org
+        createAccount(adEnterprise, "admgr", "123", new AdvertisingManagerRole());     // Planner Org
+        createAccount(adEnterprise, "adstr", "123", new DigitalAdsStrategistRole());   // Digital Strategy Org
     }
     
     private void createAccount(Enterprise enterprise, String username, String password, Role role) {

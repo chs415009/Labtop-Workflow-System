@@ -5,7 +5,6 @@
 package Business.Network;
 
 import Business.Enterprise.Enterprise;
-import Business.Enterprise.EnterpriseDirectory;
 import java.util.ArrayList;
 import java.util.List;
 

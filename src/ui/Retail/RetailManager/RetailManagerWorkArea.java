@@ -8,6 +8,7 @@ import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
+import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -67,20 +68,20 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "OrderName", "ProductName", "ShipFrom", "ShipTo", "Quantity", "Price", "Status", "Sign"
+                "WorkRequest", "OrderName", "ProductName", "ShipFrom", "ShipTo", "Quantity", "Price"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -143,8 +144,6 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
                 row[4] = deliverRequest.getShipToAddress();
                 row[5] = deliverRequest.getShippingQuantity();
                 row[6] = deliverRequest.getShippingPrice();
-                row[7] = deliverRequest.getShippingStatus();
-                row[8] = deliverRequest.getSigned() ? "Signed" : "Not Signed";
                 model.addRow(row);
             }
         }
@@ -158,8 +157,14 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
             return;
         }
 
+        // 获取选中的 DeliverWorkRequest
         DeliverWorkRequest deliverRequest = (DeliverWorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
-        confirmDelivery(deliverRequest);
+
+        // 转到 ConfirmDeliveryPanel
+        ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest);
+        container.add("ConfirmDeliveryPanel", confirmPanel);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
     }//GEN-LAST:event_btnConfirmDeliveryActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed

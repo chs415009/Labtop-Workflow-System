@@ -28,10 +28,13 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
     /**
      * Creates new form DeliveryWorkerWorkArea
      */
-    public DeliveryWorkerWorkArea(JPanel container, Organization organization) {
+    public DeliveryWorkerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization = organization; // 初始化組織
+        this.CurrentOrganization = UserAccount.getOrganization(); // 从 UserAccount 获取组织
+        this.system = system;
+        this.mainFrame = mainFrame;
+
         populateTable();
     }
 

@@ -26,6 +26,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import ui.Delivery.DeliveryManager.DeliveryManagerWorkArea;
+import ui.Delivery.DeliveryWorkerRole.DeliveryWorkerWorkArea;
 import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
 import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
@@ -180,6 +181,7 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
                             case  "Production Line" ->showManufacturingManagerWorkerWorkArea(account);
                             case "Delivery Management" ->showDeliveryManagerWorkerWorkArea(account);
+                            case "Delivery" -> showDeliveryWorkerWorkArea(account);
 //                            case "Delivery"       ;
 //                            case"Retail Sales";
 //                            case "Planner" ;
@@ -277,6 +279,15 @@ public class MainJFrame extends javax.swing.JFrame {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "DeliveryManagerWorkArea");
     } 
+      
+    private void showDeliveryWorkerWorkArea(UserAccount loginAccount) {
+        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount.getOrganization(), system, this);
+        container.add("DeliveryWorkerWorkArea", deliveryWorkerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "DeliveryWorkerWorkArea");
+    }
+
 
     public void clearLoginFields() {
         userNameField.setText(""); // 清空帳號欄

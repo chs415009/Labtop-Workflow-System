@@ -18,7 +18,7 @@ public class WorkRequest {
 
     DevelopmentWorkRequest developmentWorkRequest;
     PurchaseWorkRequest purchaseWorkRequest;
-    DeliverWorkRequest deliverWorkRequeset;
+    DeliverWorkRequest delieverWorkRequeset;
     MarketingWorkRequest marketingWorkRequest ;
 
   
@@ -62,7 +62,7 @@ public class WorkRequest {
     }
 
     public DeliverWorkRequest getDeliverWorkRequest() {
-        return deliverWorkRequeset;
+        return delieverWorkRequeset;
     }
 
     public MarketingWorkRequest getMarketingWorkRequest() {
@@ -78,7 +78,7 @@ public class WorkRequest {
     }
 
     public void setDeliverWorkRequest(DeliverWorkRequest delieverWorkRequeset) {
-        this.deliverWorkRequeset = delieverWorkRequeset;
+        this.delieverWorkRequeset = delieverWorkRequeset;
     }
 
     public void setMarketingWorkRequest(MarketingWorkRequest marketingWorkRequest) {

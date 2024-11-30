@@ -4,11 +4,14 @@
  */
 package ui.Delivery.DeliveryWorkerRole;
 
+import Business.Organization.Organization;
 import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import ui.MainJFrame;
 
 /**
  *
@@ -18,13 +21,17 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
     private JPanel container; // 父級容器
     private javax.swing.table.DefaultTableModel model;
+    private Organization CurrentOrganization;
+    private MainJFrame mainFrame;
+
     
     /**
      * Creates new form DeliveryWorkerWorkArea
      */
-    public DeliveryWorkerWorkArea(JPanel container) {
+    public DeliveryWorkerWorkArea(JPanel container, Organization organization) {
         initComponents();
         this.container = container;
+        this.CurrentOrganization = organization; // 初始化組織
         populateTable();
     }
 
@@ -124,29 +131,32 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
     
     private void populateTable() {
-        model = (javax.swing.table.DefaultTableModel) tblWorkRequest.getModel();
+        // 獲取表格模型
+        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         model.setRowCount(0); // 清空表格
 
-        // 示例假數據（你應該從實際的工作流中獲取）
-        for (WorkRequest request : getDeliveryWorkRequests()) {
-            DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-            if (deliverRequest != null) {
+        // 從當前組織獲取工作請求
+        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
+            DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest(); // 確認是 DeliverWorkRequest
+            if (deliverRequest != null) { // 如果是 DeliverWorkRequest 類型
                 Object[] row = new Object[7];
-                row[0] = request; // WorkRequest Object
-                row[1] = request.getProduct().getName(); // Product Name
-                row[2] = deliverRequest.getOrderName(); // Order Name
-                row[3] = deliverRequest.getShippingStatus(); // Current Status
-                row[4] = deliverRequest.getShipFromAddress(); // Ship From
-                row[5] = deliverRequest.getShipToAddress(); // Ship To
-                row[6] = deliverRequest.getShippingQuantity(); // Quantity
+                row[0] = request; // WorkRequest 對象
+                row[1] = request.getProduct().getName(); // 產品名稱
+                row[2] = deliverRequest.getOrderName(); // 訂單名稱
+                row[3] = deliverRequest.getShippingStatus(); // 當前狀態
+                row[4] = deliverRequest.getShipFromAddress(); // 發貨地址
+                row[5] = deliverRequest.getShipToAddress(); // 收貨地址
+                row[6] = deliverRequest.getShippingQuantity(); // 運輸數量
                 model.addRow(row);
             }
         }
     }
+
     
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         // 登出並返回主頁面
+        mainFrame.showLoginPanel();
         JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 

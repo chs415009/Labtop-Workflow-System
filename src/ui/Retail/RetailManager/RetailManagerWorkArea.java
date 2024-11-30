@@ -4,17 +4,33 @@
  */
 package ui.Retail.RetailManager;
 
+import Business.Organization.Organization;
+import Business.UserAccount.UserAccount;
+import Business.WorkRequest.DeliverWorkRequest;
+import Business.WorkRequest.WorkRequest;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import ui.MainJFrame;
+
 /**
  *
  * @author yuanchanglee
  */
 public class RetailManagerWorkArea extends javax.swing.JPanel {
-
+    
+    private JPanel container;
+    private Organization CurrentOrganization;
+    MainJFrame mainFrame;
     /**
      * Creates new form RetailManagerWorkArea
      */
-    public RetailManagerWorkArea() {
+    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, Organization CurrentOrganization,MainJFrame mainFrame) {
         initComponents();
+        this.container = container;
+        this.CurrentOrganization=UserAccount.getOrganization();
+        this.mainFrame=mainFrame;
+        populateTable();
     }
 
     /**
@@ -26,19 +42,138 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        btnConfirmDelivery = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblWorkRequest = new javax.swing.JTable();
+
+        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        jLabel2.setText("Retail Manager Role WorkArea");
+
+        btnConfirmDelivery.setText("Confirm Delivery");
+        btnConfirmDelivery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmDeliveryActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "WorkRequest", "OrderName", "ProductName", "ShipFrom", "ShipTo", "Quantity", "Price", "Status", "Sign"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblWorkRequest);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115)
+                                .addComponent(btnLogout)))
+                        .addGap(0, 202, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnConfirmDelivery)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogout))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnConfirmDelivery)
+                .addContainerGap(95, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+        private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
+        model.setRowCount(0);
+
+        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
+            DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
+            if (deliverRequest != null) {
+                Object[] row = new Object[9];
+                row[0] = request;
+                row[1] = deliverRequest.getOrderName();
+                row[2] = deliverRequest.getProduct().getName();
+                row[3] = deliverRequest.getShipFromAddress();
+                row[4] = deliverRequest.getShipToAddress();
+                row[5] = deliverRequest.getShippingQuantity();
+                row[6] = deliverRequest.getShippingPrice();
+                row[7] = deliverRequest.getShippingStatus();
+                row[8] = deliverRequest.getSigned() ? "Signed" : "Not Signed";
+                model.addRow(row);
+            }
+        }
+    }
+    
+    private void btnConfirmDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmDeliveryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DeliverWorkRequest deliverRequest = (DeliverWorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+        confirmDelivery(deliverRequest);
+    }//GEN-LAST:event_btnConfirmDeliveryActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        mainFrame.showLoginPanel();
+        javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfirmDelivery;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
 }

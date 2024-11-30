@@ -5,9 +5,11 @@
 package ui.Delivery.DeliveryWorkerRole;
 
 import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.WorkRequest.DeliverWorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -225,36 +227,61 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         // TODO add your handling code here:
-        // 更新運輸狀態
+        // 更新狀態
         String selectedStatus = cmbShippingStatus.getSelectedItem().toString();
         deliverRequest.setShippingStatus(selectedStatus);
 
         JOptionPane.showMessageDialog(this, "Shipping status updated to: " + selectedStatus);
 
         if ("Delivered".equals(selectedStatus)) {
-            // 流向 RetailManagerOrganization
+            // 傳送到 Retail Manager
             forwardToRetailManagerOrganization();
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
+
     private void forwardToRetailManagerOrganization() {
-        // 假設 system 包含所有的網路和企業信息
+        // 確認 deliverRequest 已經存在
+        if (deliverRequest == null) {
+            JOptionPane.showMessageDialog(this, "DeliverWorkRequest is null. Cannot forward.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 查找 RetailManagerOrganization
+        Organization retailManagerOrg = findRetailManagerOrganization();
+        if (retailManagerOrg != null) {
+            // 創建新的 WorkRequest 並關聯 DeliverWorkRequest
+            WorkRequest request = new WorkRequest(deliverRequest.getOrderName(), deliverRequest.getProduct());
+            request.setDeliverWorkRequest(deliverRequest); // 關聯 DeliverWorkRequest
+
+            // 添加到 RetailManager 的工作隊列
+            retailManagerOrg.getWorkQueue().addWorkRequest(request);
+
+            System.out.println("Forwarded DeliverWorkRequest to RetailManager: " + deliverRequest.getOrderName());
+            System.out.println("Current Queue Size (RetailManager): " + retailManagerOrg.getWorkQueue().getWorkRequests().size());
+            JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Retail Manager.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Retail Manager Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+
+    // 尋找 Retail Manager Organization
+    private Organization findRetailManagerOrganization() {
         for (Network network : system.getNetworkList()) {
             for (Enterprise enterprise : network.getEnterpriseList()) {
-                if (enterprise.getType() == EnterpriseType.RETAIL) { // 找到 Retail Enterprise
+                if (enterprise.getType() == EnterpriseType.RETAIL) {
                     for (Organization org : enterprise.getOrganizationDirectory()) {
-                        if (org.getName().equalsIgnoreCase("RetailSales")) { // 找到 RetailSales Organization
-                            org.getWorkQueue().addWorkRequest(deliverRequest); // 加入到 Retail Manager 的工作隊列
-                            JOptionPane.showMessageDialog(this, "WorkRequest has been forwarded to Retail Manager.");
-                            return; // 結束方法
+                        if ("Retail Manager Organization".equalsIgnoreCase(org.getName())) {
+                            return org;
                         }
                     }
                 }
             }
         }
-        JOptionPane.showMessageDialog(this, "RetailSales Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        return null; // 未找到組織
     }
-
     
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:

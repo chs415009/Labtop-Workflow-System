@@ -272,27 +272,36 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void forwardToDeliveryOrganization() {
+        // 確認 deliverRequest 已簽名
         if (deliverRequest.getSigned()) {
+            // 查找 Delivery Organization
             Organization deliveryOrganization = findDeliveryOrganization();
+
             if (deliveryOrganization != null) {
-                // 添加請求到送貨管理部門
+                // 創建新的 WorkRequest，並關聯 DeliverWorkRequest
                 WorkRequest request = new WorkRequest(deliverRequest.getOrderName(), deliverRequest.getProduct());
                 request.setDeliverWorkRequest(deliverRequest); // 將 DeliverWorkRequest 關聯到 WorkRequest
+
+                // 將 WorkRequest 添加到 Delivery Organization 的工作隊列
                 deliveryOrganization.getWorkQueue().addWorkRequest(request);
 
+                // 輸出日誌以確認成功
                 System.out.println("Forwarded DeliverWorkRequest: " + deliverRequest.getOrderName());
                 System.out.println("Current Queue Size: " + deliveryOrganization.getWorkQueue().getWorkRequests().size());
+
+                // 顯示成功消息給用戶
                 JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
             } else {
+                // 顯示錯誤消息，表示未找到 Delivery Organization
                 JOptionPane.showMessageDialog(this, "Delivery Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
+            // 如果未簽名，不進行傳遞並提示用戶
             JOptionPane.showMessageDialog(this, "WorkRequest was not approved. No forwarding occurred.");
         }
     }
 
 
-    
     private Organization findDeliveryOrganization() {
         for (Network network : system.getNetworkList()) {
             for (Enterprise enterprise : network.getEnterpriseList()) {

@@ -185,7 +185,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
         if (request.getDeliverWorkRequest() != null) {
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest);
+            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,system);
             container.add("DeliveryStatusUpdatePanel", updatePanel);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);

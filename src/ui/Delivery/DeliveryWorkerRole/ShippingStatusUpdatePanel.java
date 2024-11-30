@@ -4,6 +4,9 @@
  */
 package ui.Delivery.DeliveryWorkerRole;
 
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
+import Business.Organization.Organization;
 import Business.WorkRequest.DeliverWorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -17,15 +20,17 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
 
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
+    private Business.WorkFlowSystem system;
     
     /**
      * Creates new form ShippingStatusUpdatePanel
      */
-    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest) {
+    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest, Business.WorkFlowSystem system) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
-
+        this.system = system;
+        
         populateShippingDetails();
     }
 
@@ -199,8 +204,16 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         txtShipFrom.setText(deliverRequest.getShipFromAddress());
         txtShipTo.setText(deliverRequest.getShipToAddress());
         txtTargetQuantity.setText(String.valueOf(deliverRequest.getShippingQuantity()));
+
+        // 清空並重新加入選項
+        cmbShippingStatus.removeAllItems();
+        cmbShippingStatus.addItem("In Transit");
+        cmbShippingStatus.addItem("Delivered");
+
+        // 根據 deliverRequest 的值選取對應的狀態
         cmbShippingStatus.setSelectedItem(deliverRequest.getShippingStatus());
     }
+
 
     
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -212,22 +225,36 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         // TODO add your handling code here:
-        // Update the shipping status
+        // 更新運輸狀態
         String selectedStatus = cmbShippingStatus.getSelectedItem().toString();
         deliverRequest.setShippingStatus(selectedStatus);
 
         JOptionPane.showMessageDialog(this, "Shipping status updated to: " + selectedStatus);
 
         if ("Delivered".equals(selectedStatus)) {
-            // Flow to RetailManagerOrganization
+            // 流向 RetailManagerOrganization
             forwardToRetailManagerOrganization();
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void forwardToRetailManagerOrganization() {
-        JOptionPane.showMessageDialog(this, "WorkRequest has been forwarded to RetailManagerOrganization.");
-        // TODO: Add business logic for forwarding the WorkRequest
+        // 假設 system 包含所有的網路和企業信息
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.RETAIL) { // 找到 Retail Enterprise
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("RetailSales")) { // 找到 RetailSales Organization
+                            org.getWorkQueue().addWorkRequest(deliverRequest); // 加入到 Retail Manager 的工作隊列
+                            JOptionPane.showMessageDialog(this, "WorkRequest has been forwarded to Retail Manager.");
+                            return; // 結束方法
+                        }
+                    }
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(this, "RetailSales Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
     }
+
     
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:

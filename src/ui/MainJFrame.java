@@ -281,7 +281,7 @@ public class MainJFrame extends javax.swing.JFrame {
     } 
       
     private void showDeliveryWorkerWorkArea(UserAccount loginAccount) {
-        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount.getOrganization(), system, this);
+        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount, system, this);
         container.add("DeliveryWorkerWorkArea", deliveryWorkerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();

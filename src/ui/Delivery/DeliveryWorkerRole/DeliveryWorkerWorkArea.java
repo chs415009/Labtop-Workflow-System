@@ -5,6 +5,8 @@
 package ui.Delivery.DeliveryWorkerRole;
 
 import Business.Organization.Organization;
+import Business.UserAccount.UserAccount;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
@@ -23,6 +25,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
     private javax.swing.table.DefaultTableModel model;
     private Organization CurrentOrganization;
     private MainJFrame mainFrame;
+    private WorkFlowSystem system;
 
     
     /**

@@ -4,7 +4,13 @@
  */
 package ui.Manufacturing.ManufacturingManager;
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
+import Business.Organization.Organization;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,14 +23,16 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
 
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
+    private WorkFlowSystem system;
     
     /**
      * Creates new form ManufacturingManagerSignPanel
      */
-    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest) {
+    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
+        this.system = system;
 
         // 初始化 UI 項目
         populateDeliveryDetails();
@@ -247,38 +255,60 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         // TODO add your handling code here:
         try {
-            // 驗證 Shipping Price 是否為有效數值
-            int shippingPrice = Integer.parseInt(txtShippingPrice.getText());
-            if (shippingPrice < 0) {
-                throw new NumberFormatException("Shipping price cannot be negative.");
+                // 獲取選擇的簽核狀態
+                String signedStatus = (String) cmbSignedStatus.getSelectedItem();
+                if ("Accept".equals(signedStatus)) {
+                   deliverRequest.setSigned(true); // 標記請求為已簽核
+                   JOptionPane.showMessageDialog(this, "WorkRequest approved for delivery.");
+                   forwardToDeliveryOrganization(); // 流轉請求
+                } else if ("Reject".equals(signedStatus)) {
+                    deliverRequest.setSigned(false); // 標記請求為拒絕
+                    JOptionPane.showMessageDialog(this, "WorkRequest rejected. Delivery not approved.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            deliverRequest.setShippingPrice(shippingPrice);
-
-            // 獲取選擇的 Signed Status
-            String signedStatus = (String) cmbSignedStatus.getSelectedItem();
-            if ("Accept".equals(signedStatus)) {
-                deliverRequest.setSigned(true);
-                JOptionPane.showMessageDialog(this, "WorkRequest approved for delivery.");
-                // 將 WorkRequest 流向 Delivery Organization
-                forwardToDeliveryOrganization();
-            } else if ("Reject".equals(signedStatus)) {
-                deliverRequest.setSigned(false);
-                JOptionPane.showMessageDialog(this, "WorkRequest rejected. Delivery not approved.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid shipping price.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        }
 
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void forwardToDeliveryOrganization() {
         if (deliverRequest.getSigned()) {
-            // 添加 WorkRequest 到 Delivery Organization 的工作隊列
-            System.out.println("WorkRequest sent to Delivery Worker Role.");
-            // 例如：DeliveryWorkerOrganization.addWorkRequest(deliverRequest);
-            JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
+            Organization deliveryOrganization = findDeliveryOrganization();
+            if (deliveryOrganization != null) {
+                // 添加請求到送貨管理部門
+                WorkRequest request = new WorkRequest(deliverRequest.getOrderName(), deliverRequest.getProduct());
+                request.setDeliverWorkRequest(deliverRequest); // 將 DeliverWorkRequest 關聯到 WorkRequest
+                deliveryOrganization.getWorkQueue().addWorkRequest(request);
+
+                System.out.println("Forwarded DeliverWorkRequest: " + deliverRequest.getOrderName());
+                System.out.println("Current Queue Size: " + deliveryOrganization.getWorkQueue().getWorkRequests().size());
+                JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Delivery Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "WorkRequest was not approved. No forwarding occurred.");
         }
     }
+
+
+    
+    private Organization findDeliveryOrganization() {
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.DELIVERY) {
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("Delivery")) { // 確保名稱匹配
+                            return org;
+                        }
+                    }
+                }
+            }
+        }
+        return null; // 未找到 Delivery Organization
+    }
+   
+
     
     private void txtShippingPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtShippingPriceActionPerformed
         // TODO add your handling code here:

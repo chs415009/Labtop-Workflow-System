@@ -143,8 +143,12 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
         // 從當前組織獲取工作請求
         for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
+            System.out.println("WorkRequest: " + request);
+
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest(); // 確認是 DeliverWorkRequest
             if (deliverRequest != null) { // 如果是 DeliverWorkRequest 類型
+                System.out.println("DeliverWorkRequest Found: " + deliverRequest.getOrderName());
+
                 Object[] row = new Object[7];
                 row[0] = request; // WorkRequest 對象
                 row[1] = request.getProduct().getName(); // 產品名稱
@@ -154,9 +158,12 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
                 row[5] = deliverRequest.getShipToAddress(); // 收貨地址
                 row[6] = deliverRequest.getShippingQuantity(); // 運輸數量
                 model.addRow(row);
+            } else {
+                System.out.println("No DeliverWorkRequest associated with this WorkRequest.");
             }
         }
     }
+
 
     
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed

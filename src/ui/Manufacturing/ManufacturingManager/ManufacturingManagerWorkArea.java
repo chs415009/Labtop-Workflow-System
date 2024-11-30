@@ -292,7 +292,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
 
         // 跳轉到簽署界面
-        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest);
+        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, system);
         container.add("ManufacturingManagerSignPanel", signPanel);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);

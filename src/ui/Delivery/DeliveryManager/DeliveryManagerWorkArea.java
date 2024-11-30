@@ -153,6 +153,17 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        DeliveryDetailPanel detailPanel = new DeliveryDetailPanel(container, request);
+        container.add("DeliveryDetailPanel", detailPanel);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
     public void populateRequestTable(){

@@ -122,6 +122,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void populateTable() {
         model = (javax.swing.table.DefaultTableModel) tblWorkRequest.getModel();
         model.setRowCount(0); // 清空表格

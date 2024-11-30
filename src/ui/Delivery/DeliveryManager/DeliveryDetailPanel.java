@@ -93,7 +93,12 @@ public class DeliveryDetailPanel extends javax.swing.JPanel {
 
         txtTargetQuantity.setEditable(false);
 
-        txtShippingPrice.setEditable(false);
+        txtShippingPrice.setEditable(true);
+        txtShippingPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtShippingPriceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -233,6 +238,10 @@ public class DeliveryDetailPanel extends javax.swing.JPanel {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void txtShippingPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtShippingPriceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtShippingPriceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

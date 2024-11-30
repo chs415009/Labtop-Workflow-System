@@ -15,6 +15,7 @@ import Business.Organization.Organization;
 import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
+import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
@@ -153,17 +154,29 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
+        // 確保有選取行
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
+
+        // 獲取選取行的 WorkRequest
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        DeliveryDetailPanel detailPanel = new DeliveryDetailPanel(container, request);
-        container.add("DeliveryDetailPanel", detailPanel);
-        CardLayout layout = (CardLayout) container.getLayout();
-        layout.next(container);
+        // 檢查是否存在 DeliverWorkRequest
+        if (request.getDeliverWorkRequest() != null) {
+            DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
+
+            // 創建並切換到 DeliveryDetailPanel
+            DeliveryDetailPanel detailPanel = new DeliveryDetailPanel(container, deliverRequest);
+            container.add("DeliveryDetailPanel", detailPanel);
+
+            CardLayout layout = (CardLayout) container.getLayout();
+            layout.next(container);
+        } else {
+            JOptionPane.showMessageDialog(this, "This WorkRequest does not contain a Delivery Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
     public void populateRequestTable(){

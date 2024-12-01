@@ -26,9 +26,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import ui.Delivery.DeliveryManager.DeliveryManagerWorkArea;
+import ui.Delivery.DeliveryWorkerRole.DeliveryWorkerWorkArea;
 import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
 import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
+import ui.Retail.RetailManager.RetailManagerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
+import ui.Tech.MarketingOrganization.MarketingManagerWorkArea;
 import ui.Tech.ProductManager.ProductManagerWorkArea;
 import ui.Tech.PurchaseManager.PurchaseManagerWorkArea;
 import ui.Tech.RD.RDWorkArea;
@@ -180,8 +183,10 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
                             case  "Production Line" ->showManufacturingManagerWorkerWorkArea(account);
                             case "Delivery Management" ->showDeliveryManagerWorkerWorkArea(account);
-//                            case "Delivery"       ;
-//                            case"Retail Sales";
+                            case "Delivery" -> showDeliveryWorkerWorkArea(account);
+                            case "Retail Sales" -> showRetailManagerWorkArea(account);
+                            case "Marketing" -> showMarketingManagerWorkArea(account);
+
 //                            case "Planner" ;
 //                            case"Digital Strategy";
                         }
@@ -277,6 +282,32 @@ public class MainJFrame extends javax.swing.JFrame {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "DeliveryManagerWorkArea");
     } 
+      
+    private void showDeliveryWorkerWorkArea(UserAccount loginAccount) {
+        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount, system, this);
+        container.add("DeliveryWorkerWorkArea", deliveryWorkerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "DeliveryWorkerWorkArea");
+    }
+    
+    private void showRetailManagerWorkArea(UserAccount loginAccount) {
+        RetailManagerWorkArea retailManagerWorkArea = new RetailManagerWorkArea(container, loginAccount, system,this);
+        container.add("RetailManagerWorkArea", retailManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "RetailManagerWorkArea");
+    }
+    
+    private void showMarketingManagerWorkArea(UserAccount loginAccount) {
+        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, system,this);
+        container.add("MarketingManagerWorkArea", marketingManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "MarketingManagerWorkArea");
+    }
+
+
 
     public void clearLoginFields() {
         userNameField.setText(""); // 清空帳號欄

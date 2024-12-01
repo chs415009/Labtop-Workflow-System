@@ -14,6 +14,7 @@ import Business.Organization.Organization;
 import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
+import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
@@ -69,6 +70,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         tblWorkRequest = new javax.swing.JTable();
         btnViewProductionProgress = new javax.swing.JButton();
         btnCreateDeliveryWorkRequest = new javax.swing.JButton();
+        btnSignDeliveryWorkRequest = new javax.swing.JButton();
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +138,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnSignDeliveryWorkRequest.setText("Sign Delivery WorkRequest");
+        btnSignDeliveryWorkRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignDeliveryWorkRequestActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,7 +154,10 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnLogout)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnCreateDeliveryWorkRequest)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnCreateDeliveryWorkRequest)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnSignDeliveryWorkRequest))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnPurDetail)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,7 +185,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(btnSendWorkRequestToProductionLine)
                     .addComponent(btnViewProductionProgress))
                 .addGap(18, 18, 18)
-                .addComponent(btnCreateDeliveryWorkRequest)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreateDeliveryWorkRequest)
+                    .addComponent(btnSignDeliveryWorkRequest))
                 .addContainerGap(241, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -257,6 +271,33 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         layout.next(container);
     }//GEN-LAST:event_btnCreateDeliveryWorkRequestActionPerformed
 
+    private void btnSignDeliveryWorkRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignDeliveryWorkRequestActionPerformed
+        // TODO add your handling code here:
+        // 獲取選中的行索引
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            // 如果沒有選中行，顯示警告消息
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 從表格中獲取選中的 WorkRequest
+        WorkRequest selectedRequest = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        // 檢查該 WorkRequest 是否是 DeliveryWorkRequest
+        DeliverWorkRequest deliverRequest = selectedRequest.getDeliverWorkRequest();
+        if (deliverRequest == null) {
+            JOptionPane.showMessageDialog(this, "The selected WorkRequest is not a DeliveryWorkRequest.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 跳轉到簽署界面
+        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, system, selectedRequest);
+        container.add("ManufacturingManagerSignPanel", signPanel);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnSignDeliveryWorkRequestActionPerformed
+
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
@@ -332,6 +373,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPurDetail;
     private javax.swing.JButton btnSendWorkRequestToProductionLine;
+    private javax.swing.JButton btnSignDeliveryWorkRequest;
     private javax.swing.JButton btnViewProductionProgress;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

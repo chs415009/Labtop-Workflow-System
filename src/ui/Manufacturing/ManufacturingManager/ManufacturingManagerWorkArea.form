@@ -21,7 +21,11 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnCreateDeliveryWorkRequest" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="btnCreateDeliveryWorkRequest" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnSignDeliveryWorkRequest" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="btnPurDetail" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -57,7 +61,10 @@
                   <Component id="btnViewProductionProgress" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnCreateDeliveryWorkRequest" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCreateDeliveryWorkRequest" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSignDeliveryWorkRequest" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="241" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -177,6 +184,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateDeliveryWorkRequestActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSignDeliveryWorkRequest">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sign Delivery WorkRequest"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignDeliveryWorkRequestActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

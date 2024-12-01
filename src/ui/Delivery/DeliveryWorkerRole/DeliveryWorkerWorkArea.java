@@ -2,54 +2,43 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package ui.Delivery.DeliveryManager;
+package ui.Delivery.DeliveryWorkerRole;
 
-
-import ui.Manufacturing.ManufacturingManager.*;
-import ui.Tech.PurchaseManager.*;
-import Business.Enterprise.Enterprise;
-import Business.Enterprise.EnterpriseType;
-import Business.Network.Network;
-import ui.Tech.RD.*;
 import Business.Organization.Organization;
-import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
-import Business.WorkRequest.DevelopmentWorkRequest;
-import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import ui.MainJFrame;
-import ui.Tech.ProductManager.ViewDevWorkRequest;
 
 /**
  *
- * @author User
+ * @author yuanchanglee
  */
-public class DeliveryManagerWorkArea extends javax.swing.JPanel {
+public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
+    private JPanel container; // 父級容器
+    private javax.swing.table.DefaultTableModel model;
+    private Organization CurrentOrganization;
+    private MainJFrame mainFrame;
+    private WorkFlowSystem system;
+
+    
     /**
-     * Creates new form ProductManagerWorkArea
+     * Creates new form DeliveryWorkerWorkArea
      */
-    JPanel container;
-    Organization CurrentOrganization;
-    Organization DeliveryManagerOrganization;
-    UserAccount  UserAccount;
-    WorkFlowSystem system;
-    MainJFrame mainFrame;
-    public DeliveryManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public DeliveryWorkerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=UserAccount.getOrganization();
+        this.CurrentOrganization = UserAccount.getOrganization(); // 从 UserAccount 获取组织
         this.system = system;
-        this.mainFrame=mainFrame;
-        this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
-       
-       populateRequestTable();
+        this.mainFrame = mainFrame;
+
+        populateTable();
     }
 
     /**
@@ -75,24 +64,24 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Delivery Manager Role WorkArea");
+        jLabel2.setText("Delivery Worker Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "Status", "OrderName", "Shipping Status", "ShipFrom", "ShipTo", "Quantity", "Signed", "ShipConfirmed"
+                "WorkRequest", "Product", "OrderName", "Shipping Status", "ShipFrom", "ShipTo", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -124,7 +113,7 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLogout)
                         .addGap(102, 102, 102))
                     .addGroup(layout.createSequentialGroup()
@@ -142,36 +131,62 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnViewDetails)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void populateTable() {
+        // 獲取表格模型
+        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
+        model.setRowCount(0); // 清空表格
+
+        // 從當前組織獲取工作請求
+        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
+            System.out.println("WorkRequest: " + request);
+
+            DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest(); // 確認是 DeliverWorkRequest
+            if (deliverRequest != null) { // 如果是 DeliverWorkRequest 類型
+                System.out.println("DeliverWorkRequest Found: " + deliverRequest.getOrderName());
+
+                Object[] row = new Object[7];
+                row[0] = request; // WorkRequest 對象
+                row[1] = request.getProduct().getName(); // 產品名稱
+                row[2] = deliverRequest.getOrderName(); // 訂單名稱
+                row[3] = deliverRequest.getShippingStatus(); // 當前狀態
+                row[4] = deliverRequest.getShipFromAddress(); // 發貨地址
+                row[5] = deliverRequest.getShipToAddress(); // 收貨地址
+                row[6] = deliverRequest.getShippingQuantity(); // 運輸數量
+                model.addRow(row);
+            } else {
+                System.out.println("No DeliverWorkRequest associated with this WorkRequest.");
+            }
+        }
+    }
+
+
+    
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
+        // 登出並返回主頁面
         mainFrame.showLoginPanel();
-        javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
+        JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnViewDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewDetailsActionPerformed
         // TODO add your handling code here:
-        // 確保有選取行
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 獲取選取行的 WorkRequest
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        // 檢查是否存在 DeliverWorkRequest
         if (request.getDeliverWorkRequest() != null) {
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-
-            // 創建並切換到 DeliveryDetailPanel
-            DeliveryDetailPanel detailPanel = new DeliveryDetailPanel(container, deliverRequest);
-            container.add("DeliveryDetailPanel", detailPanel);
-
+            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,system,request);
+            container.add("DeliveryStatusUpdatePanel", updatePanel);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);
         } else {
@@ -179,70 +194,7 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnViewDetailsActionPerformed
 
-    public void populateRequestTable(){
-        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
-        
-        model.setRowCount(0);
-        for (WorkRequest request :CurrentOrganization.getWorkQueue().getWorkRequests()){
-            Object[] row = new Object[10];
-            row[0] = request ;
-            row[1] = request.getProduct();
-            row[2] = request.getStatus();
-            ////////////// Make sure the WorkRequest is correct! (Dev, purchase, Deliver, Marketing)
-            
-            row[3] = request.getDeliverWorkRequest().getOrderName();
-            row[4] = request.getDeliverWorkRequest().getShippingStatus();
-            row[5] = request.getDeliverWorkRequest().getShipFromAddress();
-            row[6] = request.getDeliverWorkRequest().getShipToAddress();
-            row[7] = request.getDeliverWorkRequest().getShippingQuantity();
-            row[8] = request.getDeliverWorkRequest().getSigned();
-            row[9] = request.getDeliverWorkRequest().getShipConfirmed();
-            
-            model.addRow(row);
-        }
-    }
-     private Organization findProductionLineOrganizationInsystem() {
-        //遍歷所有network中的enterPrise 直到找到type 符合
-        //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
-           for(Enterprise enterprise : network.getEnterpriseList()){
-               if(enterprise.getType()==EnterpriseType.MANUFACTURING){
-                   for(Organization organization : enterprise.getOrganizationDirectory()){
-                       if(organization.getName()=="Production Line"){
-                           return organization;
-                       }
-                   }
-               }
-           }
-       }
-        return null;// return null if doesn't found
-    }
-    private Organization findDeliveryManagerOrganizationInsystem() {
-        //遍歷所有network中的enterPrise 直到找到type 符合
-        //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
-           for(Enterprise enterprise : network.getEnterpriseList()){
-               if(enterprise.getType()==EnterpriseType.DELIVERY){
-                   for(Organization organization : enterprise.getOrganizationDirectory()){
-                       if(organization.getName()=="Delivery Management"){
-                           return organization;
-                       }
-                   }
-               }
-           }
-       }
-        return null;// return null if doesn't found
-    } 
-     private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
-        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
-           if(CurrentRequest==request){
-              
-               return false;
-           }
-        }
-        return true;
-    }
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnViewDetails;
@@ -250,6 +202,4 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
-
-   
 }

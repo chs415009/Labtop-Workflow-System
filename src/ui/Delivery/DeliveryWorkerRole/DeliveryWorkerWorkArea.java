@@ -74,7 +74,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "OrderName", "Current Status", "ShipFrom", "ShipTo", "Quantity"
+                "WorkRequest", "Product", "OrderName", "Shipping Status", "ShipFrom", "ShipTo", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
@@ -136,7 +136,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void populateTable() {
+    public void populateTable() {
         // 獲取表格模型
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         model.setRowCount(0); // 清空表格
@@ -185,7 +185,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
         if (request.getDeliverWorkRequest() != null) {
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,system);
+            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,system,request);
             container.add("DeliveryStatusUpdatePanel", updatePanel);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);

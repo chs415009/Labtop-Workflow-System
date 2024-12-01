@@ -24,15 +24,17 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
     private WorkFlowSystem system;
+    WorkRequest request;
     
     /**
      * Creates new form ManufacturingManagerSignPanel
      */
-    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system) {
+    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system, WorkRequest request) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
         this.system = system;
+        this.request = request;
 
         // 初始化 UI 項目
         populateDeliveryDetails();
@@ -278,10 +280,7 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
             Organization deliveryOrganization = findDeliveryOrganization();
 
             if (deliveryOrganization != null) {
-                // 創建新的 WorkRequest，並關聯 DeliverWorkRequest
-                WorkRequest request = new WorkRequest(deliverRequest.getOrderName(), deliverRequest.getProduct());
-                request.setDeliverWorkRequest(deliverRequest); // 將 DeliverWorkRequest 關聯到 WorkRequest
-
+         
                 // 將 WorkRequest 添加到 Delivery Organization 的工作隊列
                 deliveryOrganization.getWorkQueue().addWorkRequest(request);
 

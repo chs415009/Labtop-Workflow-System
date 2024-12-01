@@ -85,7 +85,7 @@
                 <Column editable="false" title="WorkRequest" type="java.lang.Object"/>
                 <Column editable="false" title="Product" type="java.lang.Object"/>
                 <Column editable="false" title="OrderName" type="java.lang.String"/>
-                <Column editable="false" title="Current Status" type="java.lang.String"/>
+                <Column editable="false" title="Shipping Status" type="java.lang.String"/>
                 <Column editable="false" title="ShipFrom" type="java.lang.String"/>
                 <Column editable="false" title="ShipTo" type="java.lang.String"/>
                 <Column editable="false" title="Quantity" type="java.lang.Integer"/>

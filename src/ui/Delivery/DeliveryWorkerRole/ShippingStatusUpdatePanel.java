@@ -11,8 +11,10 @@ import Business.Organization.Organization;
 import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
 
 /**
  *
@@ -23,16 +25,16 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
     private Business.WorkFlowSystem system;
-    
+    WorkRequest request;
     /**
      * Creates new form ShippingStatusUpdatePanel
      */
-    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest, Business.WorkFlowSystem system) {
+    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest, Business.WorkFlowSystem system, WorkRequest request) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
         this.system = system;
-        
+        this.request = request;
         populateShippingDetails();
     }
 
@@ -216,12 +218,15 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         cmbShippingStatus.setSelectedItem(deliverRequest.getShippingStatus());
     }
 
-
-    
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        DeliveryWorkerWorkArea  deliveryWorkerWorkArea = ( DeliveryWorkerWorkArea) component;
+        deliveryWorkerWorkArea.populateTable();
+
+        CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -250,9 +255,8 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         // 查找 RetailManagerOrganization
         Organization retailManagerOrg = findRetailManagerOrganization();
         if (retailManagerOrg != null) {
-            // 創建新的 WorkRequest 並關聯 DeliverWorkRequest
-            WorkRequest request = new WorkRequest(deliverRequest.getOrderName(), deliverRequest.getProduct());
-            request.setDeliverWorkRequest(deliverRequest); // 關聯 DeliverWorkRequest
+
+            
 
             // 添加到 RetailManager 的工作隊列
             retailManagerOrg.getWorkQueue().addWorkRequest(request);

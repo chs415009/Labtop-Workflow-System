@@ -31,6 +31,7 @@ import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
 import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
 import ui.Retail.RetailManager.RetailManagerWorkArea;
 import ui.SystemAdminWorkAreaJPanel.SystemAdminWorkAreaJPanel;
+import ui.Tech.MarketingOrganization.MarketingManagerWorkArea;
 import ui.Tech.ProductManager.ProductManagerWorkArea;
 import ui.Tech.PurchaseManager.PurchaseManagerWorkArea;
 import ui.Tech.RD.RDWorkArea;
@@ -184,8 +185,8 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Delivery Management" ->showDeliveryManagerWorkerWorkArea(account);
                             case "Delivery" -> showDeliveryWorkerWorkArea(account);
                             case "Retail Sales" -> showRetailManagerWorkArea(account);
-//                            case "Delivery"       ;
-//                            case"Retail Sales";
+                            case "Marketing" -> showMarketingManagerWorkArea(account);
+
 //                            case "Planner" ;
 //                            case"Digital Strategy";
                         }
@@ -296,6 +297,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "RetailManagerWorkArea");
+    }
+    
+    private void showMarketingManagerWorkArea(UserAccount loginAccount) {
+        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, system,this);
+        container.add("MarketingManagerWorkArea", marketingManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "MarketingManagerWorkArea");
     }
 
 

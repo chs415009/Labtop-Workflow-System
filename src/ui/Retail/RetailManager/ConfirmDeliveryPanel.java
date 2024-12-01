@@ -27,6 +27,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         this.container = container;
         this.deliverRequest = deliverRequest;
 
+        initializeShippingStatusComboBox(); // 初始化選項為 true 和 false
         populateDeliveryDetails();
     }
 
@@ -201,6 +202,12 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initializeShippingStatusComboBox() {
+        cmbShippingStatus.removeAllItems(); // 清空現有選項
+        cmbShippingStatus.addItem("true");  // 添加選項 true
+        cmbShippingStatus.addItem("false"); // 添加選項 false
+    }
+    
     private void populateDeliveryDetails() {
         if (deliverRequest == null) {
             JOptionPane.showMessageDialog(this, "No delivery request data available!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -216,6 +223,8 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         cmbShippingStatus.setSelectedItem(deliverRequest.getShipConfirmed() ? "true" : "false");
 }
 
+    
+    
     
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
@@ -239,17 +248,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
 
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:
-        // 獲取當前選擇的值
-        String selectedStatus = (String) cmbShippingStatus.getSelectedItem();
-
-        // 根據選擇的值設置 ShipConfirmed 狀態
-        if ("true".equalsIgnoreCase(selectedStatus)) {
-            deliverRequest.setShipConfirmed(true);
-            JOptionPane.showMessageDialog(this, "ShipConfirmed has been set to true.");
-        } else if ("false".equalsIgnoreCase(selectedStatus)) {
-            deliverRequest.setShipConfirmed(false);
-            JOptionPane.showMessageDialog(this, "ShipConfirmed has been set to false.");
-        }
     }//GEN-LAST:event_cmbShippingStatusActionPerformed
 
 

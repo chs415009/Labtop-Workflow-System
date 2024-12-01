@@ -4,10 +4,18 @@
  */
 package ui.Retail.RetailManager;
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
+import Business.Organization.Organization;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
+import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import ui.Delivery.DeliveryWorkerRole.DeliveryWorkerWorkArea;
 
 /**
  *
@@ -18,15 +26,18 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
     
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
+    private WorkFlowSystem system;
+    WorkRequest request;    
     /**
      * Creates new form ConfirmDeliveryPanel
      */
-    public ConfirmDeliveryPanel(JPanel container, DeliverWorkRequest deliverRequest) {
+    public ConfirmDeliveryPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system, WorkRequest request) {
         initComponents();
         
         this.container = container;
         this.deliverRequest = deliverRequest;
-
+        this.system = system;
+        this.request = request;
         initializeShippingStatusComboBox(); // 初始化選項為 true 和 false
         populateDeliveryDetails();
     }
@@ -228,24 +239,97 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
     
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        RetailManagerWorkArea  retailmanagerWorkArea = (RetailManagerWorkArea) component;
+        retailmanagerWorkArea.populateTable();
+        CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
+        
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         // TODO add your handling code here:
         try {
-            // Update shipping confirmed status
-            String shippingConfirmed = (String) cmbShippingStatus.getSelectedItem();
-            boolean isConfirmed = "True".equalsIgnoreCase(shippingConfirmed);
-            deliverRequest.setShipConfirmed(isConfirmed);
-            JOptionPane.showMessageDialog(this, "Shipping status updated to: " + shippingConfirmed);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating shipping status.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+                // 獲取選定的 shippingConfirmed 值
+                String shippingConfirmed = (String) cmbShippingStatus.getSelectedItem();
+
+                // 檢查是否選擇了值
+                if (shippingConfirmed == null) {
+                    JOptionPane.showMessageDialog(this, "No shipping status selected.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // 更新 shipping confirmed 狀態
+                boolean isConfirmed = "true".equalsIgnoreCase(shippingConfirmed);
+                deliverRequest.setShipConfirmed(isConfirmed);
+
+                // 顯示更新結果
+                String message = isConfirmed ? "Confirmed" : "Not Confirmed";
+                JOptionPane.showMessageDialog(this, "Shipping status updated to: " + message);
+
+                // 如果狀態是確認的，轉發給 Marketing Manager
+                if (isConfirmed) {
+                    forwardToMarketingOrganization();
+                }
+            } catch (Exception e) {
+                // 捕捉異常並提示用戶
+                JOptionPane.showMessageDialog(this, "Error updating shipping status.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
+    private void forwardToMarketingOrganization() {
+        // 確認 deliverRequest 和 request 不為 null
+        if (deliverRequest == null || request == null) {
+            JOptionPane.showMessageDialog(this, "DeliverWorkRequest or WorkRequest is null. Cannot forward.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 確認 shipping confirmed 是否為 true
+        if (deliverRequest.getShipConfirmed()) {
+            // 查找 Marketing Organization
+            Organization marketingOrganization = findMarketingOrganization();
+
+            if (marketingOrganization != null) {
+                // 將 WorkRequest 添加到 Marketing Organization 的工作隊列
+                marketingOrganization.getWorkQueue().addWorkRequest(request);
+
+                // 輸出日誌以確認成功
+                System.out.println("Forwarded DeliverWorkRequest to Marketing: " + deliverRequest.getOrderName());
+                System.out.println("Current Queue Size (Marketing Organization): " + marketingOrganization.getWorkQueue().getWorkRequests().size());
+
+                // 顯示成功消息給用戶
+                JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Marketing Manager.");
+            } else {
+                // 顯示錯誤消息，表示未找到 Marketing Organization
+                JOptionPane.showMessageDialog(this, "Marketing Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // 如果 shipping confirmed 不為 true，則顯示消息
+            JOptionPane.showMessageDialog(this, "Shipping is not confirmed. Cannot forward to Marketing Manager.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+
+    
+    
+    private Organization findMarketingOrganization() {
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.TECH) { // 確保企業類型是 TECH
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("Marketing")) { // 確保名稱匹配
+                            return org;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbShippingStatusActionPerformed

@@ -4,6 +4,9 @@
  */
 package ui.Tech.MarketingOrganization;
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -22,17 +25,17 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
-        Organization CurrentOrganization;
+    Organization CurrentOrganization;
     /**
      * Creates new form MarketingManagerWorkArea
      */
-    public MarketingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public MarketingManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
         this.mainFrame=mainFrame;
-     
+        this.CurrentOrganization = findMarketingOrganization(); // 確保找到正確的組織
         populateRequestTable();
     }
 
@@ -115,7 +118,20 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private Organization findMarketingOrganization() {
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.TECH) {
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("Marketing")) {
+                            return org;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
     
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
@@ -124,19 +140,23 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     
-    public void populateRequestTable(){
+    public void populateRequestTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
-        
         model.setRowCount(0);
-        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()){
-            Object[] row = new Object[2];
-            row[0] = request ;
-            row[1] = request.getProduct();
 
- 
-            model.addRow(row);
+        // 從 CurrentOrganization 獲取工作請求
+        if (CurrentOrganization != null) {
+            for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
+                Object[] row = new Object[2];
+                row[0] = request;
+                row[1] = request.getProduct();
+                model.addRow(row);
+            }
+        } else {
+            System.err.println("CurrentOrganization is null. Cannot populate table.");
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;

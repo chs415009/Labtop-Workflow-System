@@ -6,9 +6,11 @@ package ui.Retail.RetailManager;
 
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import static java.time.Clock.system;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -23,14 +25,16 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     private JPanel container;
     private Organization CurrentOrganization;
     MainJFrame mainFrame;
+    WorkFlowSystem system; 
     /**
      * Creates new form RetailManagerWorkArea
      */
-    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, Organization CurrentOrganization, MainJFrame mainFrame) {
+    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.mainFrame=mainFrame;
+        this.mainFrame = mainFrame;
+        this.system = system;
         populateTable();
     }
 
@@ -129,7 +133,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     
 
-    private void populateTable() {
+    public void populateTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         model.setRowCount(0); // 清空表格
 
@@ -168,7 +172,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         }
 
         // 打開 ConfirmDeliveryPanel
-        ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest);
+        ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest,system,request);
         container.add("ConfirmDeliveryPanel", confirmPanel);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);

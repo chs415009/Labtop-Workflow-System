@@ -52,9 +52,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         txtShipTo = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         btnSaveChanges = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
         txtTargetQuantity = new javax.swing.JTextField();
-        txtShippingPrice = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         cmbShippingStatus = new javax.swing.JComboBox<>();
 
@@ -79,7 +77,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         txtShipFrom.setEditable(false);
 
         txtProductPrice.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
-        txtProductPrice.setText("Product Name");
+        txtProductPrice.setText("Shipping Status");
 
         txtProductName.setEditable(false);
 
@@ -89,7 +87,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         txtShipTo.setEditable(false);
 
         jLabel16.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
-        jLabel16.setText("Target Quantity");
+        jLabel16.setText("Shipping Quantity");
 
         btnSaveChanges.setText("Save Changes");
         btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
@@ -98,17 +96,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel17.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
-        jLabel17.setText("Shipping Price");
-
         txtTargetQuantity.setEditable(false);
-
-        txtShippingPrice.setEditable(true);
-        txtShippingPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtShippingPriceActionPerformed(evt);
-            }
-        });
 
         jLabel18.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         jLabel18.setText("Shipping Confirmed");
@@ -147,10 +135,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTargetQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtShippingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbShippingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -181,13 +165,9 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
                     .addComponent(txtTargetQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtShippingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbShippingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(btnSaveChanges, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -217,7 +197,7 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
                     .addComponent(btnBack))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -233,7 +213,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         txtShipFrom.setText(deliverRequest.getShipFromAddress());
         txtShipTo.setText(deliverRequest.getShipToAddress());
         txtTargetQuantity.setText(String.valueOf(deliverRequest.getShippingQuantity()));
-        txtShippingPrice.setText(String.valueOf(deliverRequest.getShippingPrice()));
         cmbShippingStatus.setSelectedItem(deliverRequest.getShipConfirmed() ? "true" : "false");
 }
 
@@ -257,10 +236,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error updating shipping status.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
-
-    private void txtShippingPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtShippingPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtShippingPriceActionPerformed
 
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:
@@ -287,7 +262,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtOrderName;
@@ -295,7 +269,6 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
     private javax.swing.JLabel txtProductPrice;
     private javax.swing.JTextField txtShipFrom;
     private javax.swing.JTextField txtShipTo;
-    private javax.swing.JTextField txtShippingPrice;
     private javax.swing.JTextField txtTargetQuantity;
     // End of variables declaration//GEN-END:variables
 }

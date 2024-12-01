@@ -267,21 +267,21 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
 
 
 
-    // 尋找 Retail Manager Organization
     private Organization findRetailManagerOrganization() {
         for (Network network : system.getNetworkList()) {
             for (Enterprise enterprise : network.getEnterpriseList()) {
-                if (enterprise.getType() == EnterpriseType.RETAIL) {
+                if (enterprise.getType() == EnterpriseType.RETAIL) { // 確保企業類型是 RETAIL
                     for (Organization org : enterprise.getOrganizationDirectory()) {
-                        if ("Retail Manager Organization".equalsIgnoreCase(org.getName())) {
+                        if (org.getName().equalsIgnoreCase("Retail Sales")) { // 確保名稱匹配
                             return org;
                         }
                     }
                 }
             }
         }
-        return null; // 未找到組織
+        return null; // 找不到匹配的組織
     }
+
     
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:

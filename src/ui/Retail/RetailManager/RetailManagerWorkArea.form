@@ -90,23 +90,17 @@
         <Component class="javax.swing.JTable" name="tblWorkRequest">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="4">
+              <Table columnCount="6" rowCount="4">
                 <Column editable="false" title="WorkRequest" type="java.lang.Object"/>
                 <Column editable="false" title="OrderName" type="java.lang.String"/>
-                <Column editable="false" title="ProductName" type="java.lang.String"/>
+                <Column editable="false" title="ShippingStatus" type="java.lang.String"/>
                 <Column editable="false" title="ShipFrom" type="java.lang.String"/>
                 <Column editable="false" title="ShipTo" type="java.lang.String"/>
-                <Column editable="false" title="Quantity" type="java.lang.Integer"/>
-                <Column editable="false" title="Price" type="java.lang.Integer"/>
+                <Column editable="false" title="ShippingQuantity" type="java.lang.Integer"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>

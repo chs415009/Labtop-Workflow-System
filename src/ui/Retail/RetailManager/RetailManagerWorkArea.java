@@ -26,7 +26,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     /**
      * Creates new form RetailManagerWorkArea
      */
-    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, Organization CurrentOrganization,MainJFrame mainFrame) {
+    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, Organization CurrentOrganization, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
@@ -68,20 +68,20 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "OrderName", "ProductName", "ShipFrom", "ShipTo", "Quantity", "Price"
+                "WorkRequest", "OrderName", "ShippingStatus", "ShipFrom", "ShipTo", "ShippingQuantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -127,27 +127,28 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
                 .addContainerGap(95, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
     
-        private void populateTable() {
-        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
-        model.setRowCount(0);
 
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
+        model.setRowCount(0); // 清空表格
+
+        // 獲取當前組織的所有工作請求
         for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-            if (deliverRequest != null) {
-                Object[] row = new Object[9];
-                row[0] = request;
-                row[1] = deliverRequest.getOrderName();
-                row[2] = deliverRequest.getProduct().getName();
-                row[3] = deliverRequest.getShipFromAddress();
-                row[4] = deliverRequest.getShipToAddress();
-                row[5] = deliverRequest.getShippingQuantity();
-                row[6] = deliverRequest.getShippingPrice();
+            if (deliverRequest != null) { // 確認 deliverRequest 不為 null
+                Object[] row = new Object[6];
+                row[0] = request;                            // WorkRequest 本身
+                row[1] = deliverRequest.getOrderName();      // 訂單名稱
+                row[2] = deliverRequest.getShippingStatus(); // 運輸狀態
+                row[3] = deliverRequest.getShipFromAddress();// 發貨地址
+                row[4] = deliverRequest.getShipToAddress();  // 收貨地址
+                row[5] = deliverRequest.getShippingQuantity();// 運輸數量
                 model.addRow(row);
             }
         }
     }
+
     
     private void btnConfirmDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmDeliveryActionPerformed
         // TODO add your handling code here:
@@ -157,10 +158,16 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
             return;
         }
 
-        // 获取选中的 DeliverWorkRequest
-        DeliverWorkRequest deliverRequest = (DeliverWorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+        // 從表格中獲取 WorkRequest 對象
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+        DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
 
-        // 转到 ConfirmDeliveryPanel
+        if (deliverRequest == null) {
+            JOptionPane.showMessageDialog(this, "No associated DeliverWorkRequest found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 打開 ConfirmDeliveryPanel
         ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest);
         container.add("ConfirmDeliveryPanel", confirmPanel);
         CardLayout layout = (CardLayout) container.getLayout();

@@ -26,15 +26,17 @@ public class MarketingWorkRequest {
     
     String AdsExecutionStatus;//modified by AdvertisingManager Role
     String AdsPerformance;//modified by AdvertisingManager Role
-    int currentBedgetUsed;//modifeid by  DigitalStrategist role
+    int usedBudget;//modifeid by  DigitalStrategist role
     
     public MarketingWorkRequest(Product product, String MarketingPlanName, int budget) {
         this.product = product;
         this.MarketingPlanName = MarketingPlanName;
         this.budget = budget;
-        this.MarketingPlanStatus ="pending";
+        this.MarketingPlanStatus ="Pending";
         this.Verified = false;
         this.Signed = false;
+        AdsPerformance = "";
+        usedBudget = 0;
     }
 
     String feedback;//modified by three roles
@@ -102,12 +104,12 @@ public class MarketingWorkRequest {
         this.AdsPerformance = AdsPerformance;
     }
 
-    public int getCurrentBedgetUsed() {
-        return currentBedgetUsed;
+    public int getUsedBudget() {
+        return usedBudget;
     }
 
-    public void setCurrentBedgetUsed(int currentBedgetUsed) {
-        this.currentBedgetUsed = currentBedgetUsed;
+    public void setUsedBudget(int currentBedgetUsed) {
+        this.usedBudget = currentBedgetUsed;
     }
 
     public String getFeedback() {

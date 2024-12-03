@@ -32,11 +32,12 @@ public class MarketingWorkRequest {
         this.product = product;
         this.MarketingPlanName = MarketingPlanName;
         this.budget = budget;
-        this.MarketingPlanStatus ="Pending";
+        this.MarketingPlanStatus ="";
         this.Verified = false;
         this.Signed = false;
-        AdsPerformance = "";
-        usedBudget = 0;
+        this.AdsExecutionStatus = ""; 
+        this.AdsPerformance = "";
+        this.usedBudget = 0;
     }
 
     String feedback;//modified by three roles

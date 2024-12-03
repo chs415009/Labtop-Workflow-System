@@ -64,7 +64,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(564, 238));
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Create Marketing Work Request");
+        jLabel2.setText("Verify Marketing Work Request");
 
         cmbPlanStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPlanStatus.addActionListener(new java.awt.event.ActionListener() {
@@ -168,6 +168,8 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -182,25 +184,19 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(usedBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtUsedBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtUsedBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnBack, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel18)
-                                .addGap(18, 18, 18)
-                                .addComponent(cmbVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 14, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                            .addComponent(btnBack, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel18)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbVerify, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +223,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
                             .addComponent(txtUsedBudget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbVerify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -267,15 +263,6 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
 
         try {
-            String signedStatus = (String) cmbVerify.getSelectedItem();
-            if ("Accept".equals(signedStatus)) {
-                marketingWorkRequest.setSigned(true); 
-                JOptionPane.showMessageDialog(this, "Budget approved for the plan.");
-            } else if ("Reject".equals(signedStatus)) {
-                marketingWorkRequest.setSigned(false); 
-                JOptionPane.showMessageDialog(this, "Budget rejected. Set the budget again.");
-            }
-            
             String verifyStatus = (String) cmbVerify.getSelectedItem();
             if("Completed".equals(verifyStatus) && "Completed".equals(marketingWorkRequest.getAdsExecutionStatus())){
                 marketingWorkRequest.setVerified(true);
@@ -283,7 +270,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             }
             else{
                 marketingWorkRequest.setVerified(false);
-                JOptionPane.showMessageDialog(this, "Keep working on Marketing Work Request");
+                JOptionPane.showMessageDialog(this, "Keep working on Marketing Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } 
         catch (Exception e) {
@@ -295,15 +282,23 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
         txtPlanName.setText(marketingWorkRequest.getMarketingPlanName());
         txtBudget.setText(String.valueOf(marketingWorkRequest.getBudget())); 
         txtUsedBudget.setText(String.valueOf(marketingWorkRequest.getUsedBudget()));
-        txtPlanName.setEnabled(false);
-        txtBudget.setEnabled(false);
-        txtUsedBudget.setEnabled(false);
+        txtPlanName.setEditable(false);
+        txtBudget.setEditable(false);
+        txtUsedBudget.setEditable(false);
+        
+        System.out.println(marketingWorkRequest.getAdsExecutionStatus().toString());
         
         cmbPlanStatus.removeAllItems();
         cmbPlanStatus.addItem("Pending");
         cmbPlanStatus.addItem("Processing");
         cmbPlanStatus.addItem("Completed");
-        cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus());
+        cmbPlanStatus.addItem("N/A");
+        if (marketingWorkRequest.getAdsExecutionStatus().equals("")){
+            cmbPlanStatus.setSelectedItem("N/A");
+        }
+        else{
+            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus().toString());
+        }     
         cmbPlanStatus.setEnabled(false);
         
         
@@ -311,10 +306,14 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
         cmbAdsPerformance.addItem("Excellent");
         cmbAdsPerformance.addItem("Average");
         cmbAdsPerformance.addItem("Poor");
-        if (marketingWorkRequest.getAdsPerformance() != ""){
-            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsPerformance());
-        }     
-        cmbAdsPerformance.setEditable(false);
+        cmbAdsPerformance.addItem("N/A");
+        if (marketingWorkRequest.getAdsPerformance().equals("")){
+            cmbAdsPerformance.setSelectedItem("N/A");
+        }
+        else{
+            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance().toString());
+        }  
+        cmbAdsPerformance.setEnabled(false);
         
         cmbVerify.removeAllItems();
         cmbVerify.addItem("Completed");

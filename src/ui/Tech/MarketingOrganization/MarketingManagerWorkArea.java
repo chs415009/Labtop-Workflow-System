@@ -34,7 +34,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     MainJFrame mainFrame;
     Organization CurrentOrganization;
     Organization PlannerOrganization;
-    Organization DigitalStrategyOrganization;
+    //Organization DigitalStrategyOrganization;
     /**
      * Creates new form MarketingManagerWorkArea
      */
@@ -44,9 +44,9 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
         this.mainFrame=mainFrame;
-        this.CurrentOrganization = findMarketingOrganization(); // 確保找到正確的組織
+        this.CurrentOrganization = findMarketingOrganization(); 
         this.PlannerOrganization = findPlannerOrganization();
-        this.DigitalStrategyOrganization = findDigitalStrategyOrganization();
+//        this.DigitalStrategyOrganization = findDigitalStrategyOrganization();
         populateRequestTable();
     }
 
@@ -67,7 +67,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         tblWorkRequest = new javax.swing.JTable();
         btnCreateMarkettingWorkRequest = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(757, 481));
+        setPreferredSize(new java.awt.Dimension(850, 500));
 
         btnReport.setText("Report Ads Execution Progress");
         btnReport.addActionListener(new java.awt.event.ActionListener() {
@@ -178,8 +178,8 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         
         if (request.getMarketingWorkRequest() != null) {
             MarketingWorkRequest marketingWorkRequest = request.getMarketingWorkRequest();
-            ViewMarketingPlanDetail viewMarketingPlanDetail = new ViewMarketingPlanDetail(container, marketingWorkRequest,system,request);           
-            container.add("ViewMarketingPlanDetail", viewMarketingPlanDetail);
+            VerifyMarketingPlan verifyMarketingPlan = new VerifyMarketingPlan(container, marketingWorkRequest,system,request);           
+            container.add("VerifyMarketingPlan", verifyMarketingPlan);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);
         } 
@@ -189,26 +189,26 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        // TODO add your handling code here:
-        int selectedRowIndex = tblWorkRequest.getSelectedRow();
-        if (selectedRowIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
-
-        if(request.getMarketingWorkRequest().getSigned()==true){
-            if(isWorkRequestExist(DigitalStrategyOrganization,request)==true){
-                DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
-                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");}
-            else{JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Digital Strategy Organization!");
-                return;
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "The Budget is not signed!","Error",JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+//        // TODO add your handling code here:
+//        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+//        if (selectedRowIndex < 0) {
+//            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Error", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+//
+//        if(request.getMarketingWorkRequest().getSigned()==true){
+//            if(isWorkRequestExist(DigitalStrategyOrganization,request)==true){
+//                DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
+//                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");}
+//            else{JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Digital Strategy Organization!");
+//                return;
+//            }
+//        }
+//        else{
+//            JOptionPane.showMessageDialog(this, "The Budget is not signed!","Error",JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
 
     }//GEN-LAST:event_btnSendActionPerformed
 
@@ -263,20 +263,20 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         return null;
     }
     
-    private Organization findDigitalStrategyOrganization() {
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                if (enterprise.getType() == EnterpriseType.ADVERTISING) {
-                    for (Organization org : enterprise.getOrganizationDirectory()) {
-                        if (org.getName().equalsIgnoreCase("DigitalStrategy")) {
-                            return org;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
+//    private Organization findDigitalStrategyOrganization() {
+//        for (Network network : system.getNetworkList()) {
+//            for (Enterprise enterprise : network.getEnterpriseList()) {
+//                if (enterprise.getType() == EnterpriseType.ADVERTISING) {
+//                    for (Organization org : enterprise.getOrganizationDirectory()) {
+//                        if (org.getName().equalsIgnoreCase("DigitalStrategy")) {
+//                            return org;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return null;
+//    }
     
     
     public void populateRequestTable() {
@@ -286,12 +286,18 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         // 從 CurrentOrganization 獲取工作請求
         if (CurrentOrganization != null) {
             for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
-                Object[] row = new Object[2];
+                Object[] row = new Object[5];
                 row[0] = request;
                 row[1] = request.getProduct();
                 row[2] = request.getStatus();
-                row[4] = request.getMarketingWorkRequest().getSigned();
-                row[5] = request.getMarketingWorkRequest().getVerified();
+                if(request.getMarketingWorkRequest() == null){
+                    row[3] = false;
+                    row[4] = false;
+                }
+                else{
+                    row[3] = request.getMarketingWorkRequest().getSigned();
+                    row[4] = request.getMarketingWorkRequest().getVerified();                  
+                }  
                 model.addRow(row);
             }
         } else {

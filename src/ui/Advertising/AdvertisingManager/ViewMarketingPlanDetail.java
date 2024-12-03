@@ -4,6 +4,9 @@
  */
 package ui.Advertising.AdvertisingManager;
 
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.EnterpriseType;
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
@@ -23,6 +26,7 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
     private MarketingWorkRequest marketingWorkRequest;
     private WorkFlowSystem system;
     WorkRequest request;
+    Organization DigitalStrategyOrganization;
     /**
      * Creates new form ViewMarketingPlanDetail
      */
@@ -32,7 +36,7 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         this.marketingWorkRequest = marketingWorkRequest;
         this.system = system;
         this.request = request;
-
+        this.DigitalStrategyOrganization = findDigitalStrategyOrganization();
         populateDetail();
     }
 
@@ -53,8 +57,6 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         Quantity = new javax.swing.JLabel();
         txtBudget = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        cmbSignedStatus = new javax.swing.JComboBox<>();
         btnSaveChanges = new javax.swing.JButton();
         cmbPlanStatus = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
@@ -62,11 +64,13 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         usedBudget = new javax.swing.JLabel();
         txtUsedBudget = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        cmbSignedStatus = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(564, 238));
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Create Marketing Work Request");
+        jLabel2.setText("Review Marketing Plan");
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -123,16 +127,6 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
                 .addGap(0, 3, Short.MAX_VALUE))
         );
 
-        jLabel18.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
-        jLabel18.setText("Signed Status");
-
-        cmbSignedStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbSignedStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbSignedStatusActionPerformed(evt);
-            }
-        });
-
         btnSaveChanges.setText("Save Changes");
         btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +157,16 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         usedBudget.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         usedBudget.setText("Used Budget");
 
+        jLabel18.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
+        jLabel18.setText("Sign Budget");
+
+        cmbSignedStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbSignedStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSignedStatusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -190,18 +194,17 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 77, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnBack, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnSaveChanges, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel18)
                                 .addGap(18, 18, 18)
-                                .addComponent(cmbSignedStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 8, Short.MAX_VALUE)))
+                                .addComponent(cmbSignedStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -229,7 +232,7 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
                             .addComponent(txtUsedBudget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbSignedStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -254,23 +257,25 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void cmbSignedStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSignedStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbSignedStatusActionPerformed
-
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
 
         try {
             String signedStatus = (String) cmbSignedStatus.getSelectedItem();
             if ("Accept".equals(signedStatus)) {
-                marketingWorkRequest.setSigned(true); // 標記請求為已簽核
+                marketingWorkRequest.setSigned(true); 
                 JOptionPane.showMessageDialog(this, "Budget approved for the plan.");
-            } else if ("Reject".equals(signedStatus)) {
-                marketingWorkRequest.setSigned(false); // 標記請求為拒絕
+                DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
+                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");              
+            } 
+            else if ("Reject".equals(signedStatus)) {
+                marketingWorkRequest.setSigned(false); 
                 JOptionPane.showMessageDialog(this, "Budget rejected. Set the budget again.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+            }           
+            marketingWorkRequest.setBudget(Integer.parseInt(txtBudget.getText()));
+        } 
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid Input.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.err.println(e);
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
@@ -281,20 +286,30 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
     private void cmbAdsPerformanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAdsPerformanceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbAdsPerformanceActionPerformed
+
+    private void cmbSignedStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSignedStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSignedStatusActionPerformed
   
     private void populateDetail(){
         txtPlanName.setText(marketingWorkRequest.getMarketingPlanName());
         txtBudget.setText(String.valueOf(marketingWorkRequest.getBudget())); 
         txtUsedBudget.setText(String.valueOf(marketingWorkRequest.getUsedBudget()));
-        txtPlanName.setEnabled(false);
-        txtBudget.setEnabled(false);
-        txtUsedBudget.setEnabled(false);
+        txtPlanName.setEditable(false);
+        txtBudget.setEditable(false);
+        txtUsedBudget.setEditable(false);
         
         cmbPlanStatus.removeAllItems();
         cmbPlanStatus.addItem("Pending");
         cmbPlanStatus.addItem("Processing");
         cmbPlanStatus.addItem("Completed");
-        cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus());
+        cmbPlanStatus.addItem("N/A");
+        if (marketingWorkRequest.getAdsExecutionStatus().equals("")){
+            cmbPlanStatus.setSelectedItem("N/A");
+        }
+        else{
+            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus().toString());
+        }     
         cmbPlanStatus.setEnabled(false);
         
         
@@ -302,20 +317,34 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         cmbAdsPerformance.addItem("Excellent");
         cmbAdsPerformance.addItem("Average");
         cmbAdsPerformance.addItem("Poor");
-        if (marketingWorkRequest.getAdsPerformance() != ""){
-            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsPerformance());
-        }     
-        cmbAdsPerformance.setEditable(false);
+        cmbAdsPerformance.addItem("N/A");
+        if (marketingWorkRequest.getAdsPerformance().equals("")){
+            cmbAdsPerformance.setSelectedItem("N/A");
+        }
+        else{
+            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance().toString());
+        }  
+        cmbAdsPerformance.setEnabled(false);
         
         cmbSignedStatus.removeAllItems();
         cmbSignedStatus.addItem("Accept");
         cmbSignedStatus.addItem("Reject");
-        if(marketingWorkRequest.getSigned()){
-            cmbSignedStatus.setSelectedItem("Accept");
+        cmbPlanStatus.setSelectedItem(marketingWorkRequest.getSigned());
+    }
+    
+    private Organization findDigitalStrategyOrganization() {
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.ADVERTISING) {
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("Digital Strategy")) {
+                            return org;
+                        }
+                    }
+                }
+            }
         }
-        else{
-            cmbSignedStatus.setSelectedItem("Reject");
-        }
+        return null;
     }
     
  

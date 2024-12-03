@@ -171,12 +171,15 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
 
         if (CurrentOrganization != null) {
             for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
-                Object[] row = new Object[2];
+                if(request.getMarketingWorkRequest().getSigned() == false){
+                    return;
+                }              
+                Object[] row = new Object[5];
                 row[0] = request;
                 row[1] = request.getProduct();
                 row[2] = request.getStatus();
-                row[4] = request.getMarketingWorkRequest().getSigned();
-                row[5] = request.getMarketingWorkRequest().getVerified();
+                row[3] = request.getMarketingWorkRequest().getSigned();
+                row[4] = request.getMarketingWorkRequest().getVerified();
                 model.addRow(row);
             }
         } else {

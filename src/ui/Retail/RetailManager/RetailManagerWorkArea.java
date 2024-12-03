@@ -5,9 +5,12 @@
 package ui.Retail.RetailManager;
 
 import Business.Organization.Organization;
+import Business.Product.Product;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import Business.WorkRequest.DeliverWorkRequest;
+import Business.WorkRequest.DevelopmentWorkRequest;
+import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import static java.time.Clock.system;
@@ -35,6 +38,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.mainFrame = mainFrame;
         this.system = system;
+        populateDemoWorkRequest();
         populateTable();
     }
 
@@ -184,6 +188,18 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    //for demo
+    private void populateDemoWorkRequest() {
+        
+        Product demoProduct = new Product("demoProduct","demoDescription",10,15.3,16,256);
+        WorkRequest demoRequest = new WorkRequest("demo",demoProduct);
+        demoRequest.setDeliverWorkRequest(new DeliverWorkRequest(demoProduct, "demo", "A", "B",10));
+        
+        demoRequest.setDevelopmentWorkRequest(new DevelopmentWorkRequest(demoProduct));
+        demoRequest.getDevelopmentWorkRequest().setVerified(true);
+        demoRequest.setPurchaseWorkRequest(new PurchaseWorkRequest("Demo name"));
+        CurrentOrganization.getWorkQueue().addWorkRequest(demoRequest);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmDelivery;

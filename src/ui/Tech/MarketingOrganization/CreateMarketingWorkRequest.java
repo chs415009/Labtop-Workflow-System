@@ -191,6 +191,7 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
                 workRequest.setMarketingWorkRequest(new MarketingWorkRequest(workRequest.getProduct(),PlanName, budget));
                 JOptionPane.showMessageDialog(this,
                     "A Marketing Work Request is passed to Advertising enterprise.");
+                
             }else{
                 JOptionPane.showMessageDialog(this, "The previos step is not verified!","Error",JOptionPane.WARNING_MESSAGE);
                 return;

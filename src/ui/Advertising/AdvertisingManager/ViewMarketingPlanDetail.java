@@ -9,10 +9,10 @@ import Business.Enterprise.EnterpriseType;
 import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.WorkFlowSystem;
-import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -243,17 +243,14 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        //        container.remove(this);
-        //        Component[] componentArray = container.getComponents();
-        //        Component component = componentArray[componentArray.length -1];
-        //        ManufacturingManagerWorkArea  manufacturingManagerWorkArea = ( ManufacturingManagerWorkArea) component;
-        //        manufacturingManagerWorkArea.populateRequestTable();
-        //
-        //        CardLayout layout = (CardLayout)container.getLayout();
-        //        layout.previous(container);
+        
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        AdvertisingManagerWorkArea  advertisingManagerWorkArea = ( AdvertisingManagerWorkArea) component;
+        advertisingManagerWorkArea.populateRequestTable();
+
+        CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -308,7 +305,7 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
             cmbPlanStatus.setSelectedItem("N/A");
         }
         else{
-            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus().toString());
+            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus());
         }     
         cmbPlanStatus.setEnabled(false);
         
@@ -322,14 +319,14 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
             cmbAdsPerformance.setSelectedItem("N/A");
         }
         else{
-            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance().toString());
+            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance());
         }  
         cmbAdsPerformance.setEnabled(false);
         
         cmbSignedStatus.removeAllItems();
         cmbSignedStatus.addItem("Accept");
         cmbSignedStatus.addItem("Reject");
-        cmbPlanStatus.setSelectedItem(marketingWorkRequest.getSigned());
+        cmbSignedStatus.setSelectedItem(marketingWorkRequest.getSigned());
     }
     
     private Organization findDigitalStrategyOrganization() {

@@ -4,9 +4,6 @@
  */
 package ui.Advertising.AdvertisingManager;
 
-import Business.Enterprise.Enterprise;
-import Business.Enterprise.EnterpriseType;
-import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -29,8 +26,6 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-//    Organization AdvertisingManagerOrganization;
-//    UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
     
@@ -40,7 +35,6 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
         this.mainFrame = mainFrame;
-        //this.AdvertisingManagerOrganization = findDeliveryManagerOrganizationInsystem();
         populateRequestTable();
     }
 
@@ -166,23 +160,6 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "This WorkRequest does not contain a Marketing Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnReviewActionPerformed
-    
-//    private Organization findDeliveryManagerOrganizationInsystem() {
-//        //遍歷所有network中的enterPrise 直到找到type 符合
-//        //再搜尋當中Organiation 名稱符合的
-//       for(Network network : system.getNetworkList()){
-//           for(Enterprise enterprise : network.getEnterpriseList()){
-//               if(enterprise.getType()==EnterpriseType.DELIVERY){
-//                   for(Organization organization : enterprise.getOrganizationDirectory()){
-//                       if(organization.getName()=="Planner"){
-//                           return organization;
-//                       }
-//                   }
-//               }
-//           }
-//       }
-//       return null;// return null if doesn't found
-//    }
     
     public void populateRequestTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();

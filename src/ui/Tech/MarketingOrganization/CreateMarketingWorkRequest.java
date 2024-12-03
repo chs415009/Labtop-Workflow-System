@@ -29,7 +29,6 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
     public CreateMarketingWorkRequest(JPanel container, Organization PlannerOrganization,WorkRequest request) {
         initComponents();
         this.container = container;
-        //this.CurrentOrganization=CurrentOrganization;
         this.workRequest =request;        
         this.PlannerOrganization=PlannerOrganization;
     }
@@ -154,17 +153,14 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-//        container.remove(this);
-//        Component[] componentArray = container.getComponents();
-//        Component component = componentArray[componentArray.length -1];
-//        ManufacturingManagerWorkArea  manufacturingManagerWorkArea = ( ManufacturingManagerWorkArea) component;
-//        manufacturingManagerWorkArea.populateRequestTable();
-//
-//        CardLayout layout = (CardLayout)container.getLayout();
-//        layout.previous(container);
+        
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        MarketingManagerWorkArea  marketingManagerWorkArea = ( MarketingManagerWorkArea) component;
+        marketingManagerWorkArea.populateRequestTable();
+
+        CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -194,17 +190,11 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
                 
             }else{
                 JOptionPane.showMessageDialog(this, "The previos step is not verified!","Error",JOptionPane.WARNING_MESSAGE);
-                return;
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid input.",
                 "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
         }
-        
-        container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
-        layout.previous(container);
     }//GEN-LAST:event_btnCreateActionPerformed
 
 

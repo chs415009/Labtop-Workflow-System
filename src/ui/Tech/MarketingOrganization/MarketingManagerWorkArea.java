@@ -7,19 +7,15 @@ package ui.Tech.MarketingOrganization;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseType;
 import Business.Network.Network;
-import Business.Organization.Advertisement.DigitalStrategyOrganization;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
-import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import ui.Advertising.AdvertisingManager.ViewMarketingPlanDetail;
-import ui.Delivery.DeliveryWorkerRole.ShippingStatusUpdatePanel;
 import ui.MainJFrame;
 
 /**
@@ -29,12 +25,10 @@ import ui.MainJFrame;
 public class MarketingManagerWorkArea extends javax.swing.JPanel {
 
     JPanel container;
-    //UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
     Organization CurrentOrganization;
     Organization PlannerOrganization;
-    //Organization DigitalStrategyOrganization;
     /**
      * Creates new form MarketingManagerWorkArea
      */
@@ -46,7 +40,6 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         this.mainFrame=mainFrame;
         this.CurrentOrganization = findMarketingOrganization(); 
         this.PlannerOrganization = findPlannerOrganization();
-//        this.DigitalStrategyOrganization = findDigitalStrategyOrganization();
         populateRequestTable();
     }
 
@@ -60,7 +53,6 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     private void initComponents() {
 
         btnReport = new javax.swing.JButton();
-        btnSend = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -73,13 +65,6 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         btnReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReportActionPerformed(evt);
-            }
-        });
-
-        btnSend.setText("Send Reqeust to Digital Strategy Organization");
-        btnSend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSendActionPerformed(evt);
             }
         });
 
@@ -138,14 +123,12 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
                         .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCreateMarkettingWorkRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReport)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSend)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -161,14 +144,13 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreateMarkettingWorkRequest)
-                    .addComponent(btnReport)
-                    .addComponent(btnSend))
+                    .addComponent(btnReport))
                 .addContainerGap(278, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        // TODO add your handling code here:
+
         int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -187,30 +169,6 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "This WorkRequest does not contain a Marketing Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnReportActionPerformed
-
-    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-//        // TODO add your handling code here:
-//        int selectedRowIndex = tblWorkRequest.getSelectedRow();
-//        if (selectedRowIndex < 0) {
-//            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Error", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
-//
-//        if(request.getMarketingWorkRequest().getSigned()==true){
-//            if(isWorkRequestExist(DigitalStrategyOrganization,request)==true){
-//                DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
-//                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");}
-//            else{JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Digital Strategy Organization!");
-//                return;
-//            }
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(this, "The Budget is not signed!","Error",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-
-    }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
@@ -263,22 +221,6 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         return null;
     }
     
-//    private Organization findDigitalStrategyOrganization() {
-//        for (Network network : system.getNetworkList()) {
-//            for (Enterprise enterprise : network.getEnterpriseList()) {
-//                if (enterprise.getType() == EnterpriseType.ADVERTISING) {
-//                    for (Organization org : enterprise.getOrganizationDirectory()) {
-//                        if (org.getName().equalsIgnoreCase("DigitalStrategy")) {
-//                            return org;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return null;
-//    }
-    
-    
     public void populateRequestTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         model.setRowCount(0);
@@ -305,21 +247,12 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         }
     }
     
-    private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
-        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
-           if(CurrentRequest==request){           
-               return false;
-           }
-        }
-        return true;
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateMarkettingWorkRequest;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnReport;
-    private javax.swing.JButton btnSend;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblWorkRequest;

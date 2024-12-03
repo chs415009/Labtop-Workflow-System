@@ -4,13 +4,11 @@
  */
 package ui.Advertising.DigitalAdsStrategist;
 
-import Business.Enterprise.Enterprise;
-import Business.Enterprise.EnterpriseType;
-import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -21,22 +19,14 @@ import javax.swing.JPanel;
 public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
 
     JPanel container;
-    //Organization CurrentOrganization;
-    Organization DigitalStrategyOrganization;
-    WorkRequest workRequest;
     MarketingWorkRequest marketingWorkRequest;
-    Business.WorkFlowSystem system;
     /**
      * Creates new form UpdateMarketingPlanProcess
      */
     public UpdateMarketingPlanProcess(JPanel container, MarketingWorkRequest marketingWorkRequest, Business.WorkFlowSystem system, WorkRequest request) {
         initComponents();
-        this.container = container;
-        //this.CurrentOrganization=CurrentOrganization;
-        this.workRequest =request;        
-        this.DigitalStrategyOrganization = DigitalStrategyOrganization;
+        this.container = container;    
         this.marketingWorkRequest = marketingWorkRequest;
-        this.system = system;
         
         populate();
     }
@@ -215,18 +205,15 @@ public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        //        container.remove(this);
-        //        Component[] componentArray = container.getComponents();
-        //        Component component = componentArray[componentArray.length -1];
-        //        ManufacturingManagerWorkArea  manufacturingManagerWorkArea = ( ManufacturingManagerWorkArea) component;
-        //        manufacturingManagerWorkArea.populateRequestTable();
-        //
-        //        CardLayout layout = (CardLayout)container.getLayout();
-        //        layout.previous(container);
+
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
-        layout.previous(container);
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        DigitalAdsStrategistWorkArea  digitalAdsStrategistWorkArea = ( DigitalAdsStrategistWorkArea) component;
+        digitalAdsStrategistWorkArea.populateRequestTable();
+
+        CardLayout layout = (CardLayout)container.getLayout();
+        layout.previous(container);       
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
@@ -271,7 +258,7 @@ public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
             cmbPlanStatus.setSelectedItem("N/A");
         }
         else{
-            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus().toString());
+            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus());
         }     
         
         
@@ -284,7 +271,7 @@ public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
             cmbAdsPerformance.setSelectedItem("N/A");
         }
         else{
-            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance().toString());
+            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance());
         }  
     }
     

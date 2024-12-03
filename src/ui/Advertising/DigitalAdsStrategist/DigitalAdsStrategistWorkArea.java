@@ -23,8 +23,6 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
 
     JPanel container;
     Organization CurrentOrganization;
-//    Organization AdvertisingManagerOrganization;
-//    UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
     /**
@@ -37,7 +35,6 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
         this.mainFrame = mainFrame;
-        //this.AdvertisingManagerOrganization = findDeliveryManagerOrganizationInsystem();
         populateRequestTable();
     }
 

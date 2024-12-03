@@ -8,6 +8,7 @@ import Business.WorkFlowSystem;
 import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,8 +20,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
 
     private JPanel container;
     private MarketingWorkRequest marketingWorkRequest;
-    private WorkFlowSystem system;
-    WorkRequest request;
+    private WorkRequest workRequest;
     /**
      * Creates new form VerifyMarketingPlan
      */
@@ -28,8 +28,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
         initComponents();
         this.container = container;
         this.marketingWorkRequest = marketingWorkRequest;
-        this.system = system;
-        this.request = request;
+        this.workRequest = request;
 
         populateDetail();
     }
@@ -238,17 +237,14 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
     }//GEN-LAST:event_cmbPlanStatusActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
-        //        container.remove(this);
-        //        Component[] componentArray = container.getComponents();
-        //        Component component = componentArray[componentArray.length -1];
-        //        ManufacturingManagerWorkArea  manufacturingManagerWorkArea = ( ManufacturingManagerWorkArea) component;
-        //        manufacturingManagerWorkArea.populateRequestTable();
-        //
-        //        CardLayout layout = (CardLayout)container.getLayout();
-        //        layout.previous(container);
+        
         container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
+        Component[] componentArray = container.getComponents();
+        Component component = componentArray[componentArray.length -1];
+        MarketingManagerWorkArea  marketingManagerWorkArea = ( MarketingManagerWorkArea) component;
+        marketingManagerWorkArea.populateRequestTable();
+
+        CardLayout layout = (CardLayout)container.getLayout();
         layout.previous(container);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -267,6 +263,15 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             if("Completed".equals(verifyStatus) && "Completed".equals(marketingWorkRequest.getAdsExecutionStatus())){
                 marketingWorkRequest.setVerified(true);
                 JOptionPane.showMessageDialog(this, "Complete Marketing Work Request.");
+                
+                if(workRequest.getPurchaseWorkRequest().getVerified()&&
+                        workRequest.getDevelopmentWorkRequest().getVerified() &&
+                        workRequest.getDeliverWorkRequest().getShipConfirmed() &&
+                        workRequest.getMarketingWorkRequest().getVerified()){
+                    workRequest.setStatus("Completed");
+                    JOptionPane.showMessageDialog(this, workRequest.getName() + " Work flow is all set."
+                            , "Congratulations", JOptionPane.INFORMATION_MESSAGE);
+                }               
             }
             else{
                 marketingWorkRequest.setVerified(false);
@@ -297,7 +302,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             cmbPlanStatus.setSelectedItem("N/A");
         }
         else{
-            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus().toString());
+            cmbPlanStatus.setSelectedItem(marketingWorkRequest.getAdsExecutionStatus());
         }     
         cmbPlanStatus.setEnabled(false);
         
@@ -311,7 +316,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             cmbAdsPerformance.setSelectedItem("N/A");
         }
         else{
-            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance().toString());
+            cmbAdsPerformance.setSelectedItem(marketingWorkRequest.getAdsPerformance());
         }  
         cmbAdsPerformance.setEnabled(false);
         

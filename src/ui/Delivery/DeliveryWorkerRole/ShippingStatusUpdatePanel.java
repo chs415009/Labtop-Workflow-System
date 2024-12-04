@@ -255,15 +255,14 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         // 查找 RetailManagerOrganization
         Organization retailManagerOrg = findRetailManagerOrganization();
         if (retailManagerOrg != null) {
-
-            
-
-            // 添加到 RetailManager 的工作隊列
-            retailManagerOrg.getWorkQueue().addWorkRequest(request);
-
-            System.out.println("Forwarded DeliverWorkRequest to RetailManager: " + deliverRequest.getOrderName());
-            System.out.println("Current Queue Size (RetailManager): " + retailManagerOrg.getWorkQueue().getWorkRequests().size());
-            JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Retail Manager.");
+            if(isWorkRequestExist(retailManagerOrg,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Retail manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                 retailManagerOrg.getWorkQueue().addWorkRequest(request);
+                 JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Retail Manager.");
+            }
+           
         } else {
             JOptionPane.showMessageDialog(this, "Retail Manager Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -285,7 +284,15 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         }
         return null; // 找不到匹配的組織
     }
+private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+            for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+                if(CurrentRequest==request){
 
+                    return true;
+                }
+            }
+            return false;
+        }
     
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:

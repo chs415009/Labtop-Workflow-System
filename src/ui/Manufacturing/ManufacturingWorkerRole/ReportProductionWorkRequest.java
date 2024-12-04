@@ -300,7 +300,20 @@ public class ReportProductionWorkRequest extends javax.swing.JPanel {
         String textCurrentQuan=txtCurrentQuantity.getText();
         
         try{
-            workRequest.getPurchaseWorkRequest().setCurrentManufacturedQuantity(Integer.parseInt(textCurrentQuan));
+            int CurrentQuantity = Integer.parseInt(textCurrentQuan);
+            if(CurrentQuantity<0){ 
+                JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 
+                    "Input Error", JOptionPane.ERROR_MESSAGE);
+                txtCurrentQuantity.setText("");
+                return;
+            }else if(CurrentQuantity>workRequest.getPurchaseWorkRequest().getTargetQuantity()){
+                 JOptionPane.showMessageDialog(this, "Current Quantity is greater than Target Quantity!\n Please verify the number to your Manager.", 
+                    "Input Error.", JOptionPane.WARNING_MESSAGE);
+                txtCurrentQuantity.setText("");
+                return;
+            }
+            workRequest.getPurchaseWorkRequest().setCurrentManufacturedQuantity(CurrentQuantity);
+            
             JOptionPane.showMessageDialog(this, "Information Updated");
         }catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 

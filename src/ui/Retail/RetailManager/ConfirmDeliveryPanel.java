@@ -293,21 +293,18 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
             Organization marketingOrganization = findMarketingOrganization();
 
             if (marketingOrganization != null) {
-                // 將 WorkRequest 添加到 Marketing Organization 的工作隊列
-                marketingOrganization.getWorkQueue().addWorkRequest(request);
-
-                // 輸出日誌以確認成功
-                System.out.println("Forwarded DeliverWorkRequest to Marketing: " + deliverRequest.getOrderName());
-                System.out.println("Current Queue Size (Marketing Organization): " + marketingOrganization.getWorkQueue().getWorkRequests().size());
-
-                // 顯示成功消息給用戶
-                JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Marketing Manager.");
+                if(isWorkRequestExist(marketingOrganization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Marketing Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{ 
+                    marketingOrganization.getWorkQueue().addWorkRequest(request);
+                    JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Marketing Manager.");}
+               
             } else {
-                // 顯示錯誤消息，表示未找到 Marketing Organization
+              
                 JOptionPane.showMessageDialog(this, "Marketing Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            // 如果 shipping confirmed 不為 true，則顯示消息
             JOptionPane.showMessageDialog(this, "Shipping is not confirmed. Cannot forward to Marketing Manager.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -330,6 +327,15 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         return null;
     }
     
+     private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+            for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+                if(CurrentRequest==request){
+
+                    return true;
+                }
+            }
+            return false;
+        }
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbShippingStatusActionPerformed

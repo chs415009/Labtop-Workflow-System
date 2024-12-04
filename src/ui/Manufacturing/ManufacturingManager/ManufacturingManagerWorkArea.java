@@ -49,7 +49,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         this.mainFrame=mainFrame;
         this.ProductionLineOrganization = findProductionLineOrganizationInsystem();
         this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
-        populateDemoWorkRequest();
+        
        populateRequestTable();
     }
 
@@ -214,11 +214,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         // When signed is true, passing Workrequest to Manufacturing Organization
         if(request.getPurchaseWorkRequest().getSigned()==true){
             if(isWorkRequestExist(ProductionLineOrganization,request)==true){
-                ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
-                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to ProductionLine Organization!");}
-            else{
                 JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!");
-            return;}
+                return; 
+            }
+            else{ 
+                ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
+                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to ProductionLine Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                }
 
         }else{
             JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not Signed!","Error", JOptionPane.WARNING_MESSAGE);
@@ -354,10 +356,10 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
            if(CurrentRequest==request){
               
-               return false;
+               return true;
            }
         }
-        return true;
+        return false;
     }
     private void populateDemoWorkRequest() {
         

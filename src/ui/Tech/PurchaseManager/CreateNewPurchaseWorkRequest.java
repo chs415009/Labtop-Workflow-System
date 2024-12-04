@@ -313,11 +313,16 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
         // Parsing Integer and Double
         try {
             int TargetQuantity = Integer.parseInt(TargetQuantityText);  
-      
-            ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
-            workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
-             JOptionPane.showMessageDialog(this,
+            if(isWorkRequestExist(ManufacturingManagerOrganization,workRequest)==true){
+               JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Manufacturing Manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+               return;
+            }else{
+                 ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
+                JOptionPane.showMessageDialog(this,
                       "A PurchaseWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to ManufacturingManagerOrganization.");
+            }
+           
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error: Invalid number format.", 
@@ -363,5 +368,14 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
        txtRam.setText(String.valueOf(workRequest.getProduct().getRamSize()));
        txtStorage.setText(String.valueOf(workRequest.getProduct().getStorageSize()));
        txtDescription.setText(workRequest.getProduct().getDescription());
+    }
+    private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+           if(CurrentRequest==request){
+              
+               return true;
+           }
+        }
+        return false;
     }
 }

@@ -36,7 +36,7 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
         this.system = system;
         this.request = request;
 
-        // 初始化 UI 項目
+       
         populateDeliveryDetails();
         initSignedStatusOptions();
     }
@@ -281,16 +281,14 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
 
             if (deliveryOrganization != null) {
          
-                // 將 WorkRequest 添加到 Delivery Organization 的工作隊列
-                deliveryOrganization.getWorkQueue().addWorkRequest(request);
-
-                // 輸出日誌以確認成功
-                System.out.println("Forwarded DeliverWorkRequest: " + deliverRequest.getOrderName());
-                System.out.println("Current Queue Size: " + deliveryOrganization.getWorkQueue().getWorkRequests().size());
-
-                // 顯示成功消息給用戶
-                JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
-            } else {
+            if(isWorkRequestExist( deliveryOrganization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Delivery Organization!","Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+           }else{
+                    deliveryOrganization.getWorkQueue().addWorkRequest(request);
+                    JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
+             }
+        }else {
                 // 顯示錯誤消息，表示未找到 Delivery Organization
                 JOptionPane.showMessageDialog(this, "Delivery Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -316,7 +314,14 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
         return null; // 未找到 Delivery Organization
     }
    
-
+ private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+            if(CurrentRequest==request){
+                return true;
+                }
+            }
+            return false;
+        }
     
     private void txtShippingPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtShippingPriceActionPerformed
         // TODO add your handling code here:

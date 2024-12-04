@@ -59,7 +59,8 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         tblWorkRequest = new javax.swing.JTable();
         btnCreateMarkettingWorkRequest = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(850, 500));
+        setBackground(new java.awt.Color(255, 204, 255));
+        setPreferredSize(new java.awt.Dimension(800, 500));
 
         btnReport.setText("Report Ads Execution Progress");
         btnReport.addActionListener(new java.awt.event.ActionListener() {
@@ -76,6 +77,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         });
 
         lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(153, 0, 153));
         lblTitle.setText("Marketing Manager Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
@@ -104,6 +106,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblWorkRequest.setPreferredSize(new java.awt.Dimension(380, 80));
         jScrollPane1.setViewportView(tblWorkRequest);
 
         btnCreateMarkettingWorkRequest.setText("Create Marketing WorkReqeust");
@@ -120,16 +123,16 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
                         .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCreateMarkettingWorkRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReport)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -140,12 +143,12 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreateMarkettingWorkRequest)
                     .addComponent(btnReport))
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

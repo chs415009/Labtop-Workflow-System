@@ -53,6 +53,8 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
         btnLogout = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(204, 255, 255));
+        setForeground(new java.awt.Color(0, 153, 204));
         setPreferredSize(new java.awt.Dimension(757, 481));
 
         btnUpdate.setText("Update Plan Details");
@@ -98,6 +100,7 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
         });
 
         lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 153, 153));
         lblTitle.setText("Digital Ads Strategist Role WorkArea");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -108,16 +111,14 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnUpdate)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
-                                .addComponent(btnLogout))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                        .addComponent(btnLogout))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,10 +128,10 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
                     .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUpdate)
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

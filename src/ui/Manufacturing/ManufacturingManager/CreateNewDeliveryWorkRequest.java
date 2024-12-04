@@ -215,10 +215,16 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                 return;
             }
             if(workRequest.getPurchaseWorkRequest().getVerified()==true){
-            DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
-            workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
-             JOptionPane.showMessageDialog(this,
-                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");
+                if(isWorkRequestExist(DeliveryManagerOrganization,workRequest)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DeliverManager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                return; 
+                }
+                else{ 
+                    DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                    workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
+                    JOptionPane.showMessageDialog(this,
+                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");}
+           
             }else{
                 JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
             return;}
@@ -229,7 +235,14 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
             return;
         }
     }//GEN-LAST:event_CreateActionPerformed
-
+private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+            if(CurrentRequest==request){
+                return true;
+                }
+            }
+            return false;
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Create;

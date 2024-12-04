@@ -262,6 +262,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
             String verifyStatus = (String) cmbVerify.getSelectedItem();
             if("Completed".equals(verifyStatus) && "Completed".equals(marketingWorkRequest.getAdsExecutionStatus())){
                 marketingWorkRequest.setVerified(true);
+                marketingWorkRequest.setMarketingPlanStatus("Completed");
                 JOptionPane.showMessageDialog(this, "Complete Marketing Work Request.");
                 
                 if(workRequest.getPurchaseWorkRequest().getVerified()&&

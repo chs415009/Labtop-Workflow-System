@@ -38,7 +38,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.mainFrame = mainFrame;
         this.system = system;
-        populateDemoWorkRequest();
+        
         populateTable();
     }
 

@@ -168,14 +168,14 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBack)
-                .addGap(48, 48, 48))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(btnBack)
-                .addGap(1, 1, 1)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(109, Short.MAX_VALUE))
         );
@@ -215,10 +215,16 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                 return;
             }
             if(workRequest.getPurchaseWorkRequest().getVerified()==true){
-            DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
-            workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
-             JOptionPane.showMessageDialog(this,
-                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");
+                if(isWorkRequestExist(DeliveryManagerOrganization,workRequest)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DeliverManager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                return; 
+                }
+                else{ 
+                    DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                    workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
+                    JOptionPane.showMessageDialog(this,
+                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");}
+           
             }else{
                 JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
             return;}
@@ -229,7 +235,14 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
             return;
         }
     }//GEN-LAST:event_CreateActionPerformed
-
+private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+            if(CurrentRequest==request){
+                return true;
+                }
+            }
+            return false;
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Create;

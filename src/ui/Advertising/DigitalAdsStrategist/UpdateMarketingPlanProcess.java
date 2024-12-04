@@ -220,18 +220,23 @@ public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
 
         try {
             String status = (String) cmbPlanStatus.getSelectedItem();
-            marketingWorkRequest.setAdsExecutionStatus(status);
             String performance = (String) cmbAdsPerformance.getSelectedItem();
-            marketingWorkRequest.setAdsPerformance(performance);
-            marketingWorkRequest.setUsedBudget(Integer.parseInt(txtUsedBudget.getText()));
+            int UsedBudget=Integer.parseInt(txtUsedBudget.getText());
+            if(UsedBudget>Integer.parseInt(txtBudget.getText())){
+                 JOptionPane.showMessageDialog(this, "The Budget used is greater than Maximum Budget!", "Error", JOptionPane.ERROR_MESSAGE);
+                 return;
+            }else{
+             marketingWorkRequest.setUsedBudget(UsedBudget);
+             marketingWorkRequest.setAdsExecutionStatus(status);
+             marketingWorkRequest.setAdsPerformance(performance);
+              JOptionPane.showMessageDialog(this, "Marketing plan infomation updated successfully.");
+            }
         } 
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Invalid input.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        container.remove(this);
-        CardLayout layout = (CardLayout) container.getLayout();
-        layout.previous(container);
+     
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void cmbPlanStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPlanStatusActionPerformed

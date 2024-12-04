@@ -261,8 +261,14 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
             if ("Accept".equals(signedStatus)) {
                 marketingWorkRequest.setSigned(true); 
                 JOptionPane.showMessageDialog(this, "Budget approved for the plan.");
-                DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
-                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");              
+                  if( isWorkRequestExist(DigitalStrategyOrganization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DigitalStrategy Organization!","Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                    DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
+                    JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");  
+                  }
+                             
             } 
             else if ("Reject".equals(signedStatus)) {
                 marketingWorkRequest.setSigned(false); 
@@ -343,7 +349,14 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         }
         return null;
     }
-    
+    private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+            if(CurrentRequest==request){
+                return true;
+                }
+            }
+            return false;
+        }
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

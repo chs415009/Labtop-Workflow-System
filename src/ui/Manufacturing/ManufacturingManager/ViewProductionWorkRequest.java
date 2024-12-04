@@ -167,23 +167,29 @@ public class ViewProductionWorkRequest extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 189, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel10)
-                        .addGap(168, 168, 168)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBack)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(btnBack))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack)))
+                .addGap(29, 29, 29)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(146, Short.MAX_VALUE))
         );
@@ -203,16 +209,23 @@ public class ViewProductionWorkRequest extends javax.swing.JPanel {
 
     private void btnReplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplyActionPerformed
         // TODO add your handling code here:
-       
+        int Current = Integer.parseInt(txtCurrentQuantity.getText());
+        int Target = Integer.parseInt(txtQuantity.getText());
+
         PurchaseWorkRequest purchaseWorkRequest = workRequest.getPurchaseWorkRequest();
-        purchaseWorkRequest.setProductionStatus((String)cmbProductionStatus.getSelectedItem());
-        JOptionPane.showMessageDialog(this, "Production Status updated!");
-                    
+        String status = ((String) cmbProductionStatus.getSelectedItem());
+        if (Current < Target && status=="Completed") {
+            JOptionPane.showMessageDialog(this, "The Current Quantity doesn't meet the Target Yet!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+            purchaseWorkRequest.setProductionStatus(status);
+            JOptionPane.showMessageDialog(this, "Production Status updated!");
+        }
 
     }//GEN-LAST:event_btnReplyActionPerformed
 
     private void populateData() {
-        String[] ProducStatus = new String[]{"Pending","Production","Completed"};
+        String[] ProducStatus = new String[]{"Pending","Producting","Completed"};
        cmbProductionStatus.removeAllItems();
         for(String status : ProducStatus){
             cmbProductionStatus.addItem(status);

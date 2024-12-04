@@ -203,10 +203,12 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         // Part2 starting....
         if(request.getDevelopmentWorkRequest().getVerified()==true){
             if(isWorkRequestExist(PurchaseOrganization,request)==true){
-                PurchaseOrganization.getWorkQueue().addWorkRequest(request);
+               
+                JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Purchase Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            else{ PurchaseOrganization.getWorkQueue().addWorkRequest(request);
                 JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purchase Organization!");}
-            else{JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Purchase Organization!");
-                return;}
 
         }else{
             JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
@@ -306,9 +308,9 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
            if(CurrentRequest==request){
               
-               return false;
+               return true;
            }
         }
-        return true;
+        return false;
     }
 }

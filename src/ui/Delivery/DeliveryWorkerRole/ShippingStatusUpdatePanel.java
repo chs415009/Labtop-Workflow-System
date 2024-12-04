@@ -47,7 +47,6 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel10 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -62,9 +61,7 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         txtTargetQuantity = new javax.swing.JTextField();
         cmbShippingStatus = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-
-        jLabel10.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel10.setText("Shipping Delivery Detail");
+        jLabel10 = new javax.swing.JLabel();
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +110,9 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 12)); // NOI18N
         jLabel18.setText("Shipping Status");
 
+        jLabel10.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        jLabel10.setText("Shipping Delivery Detail");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,13 +143,16 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbShippingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbShippingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -171,9 +174,9 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbShippingStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSaveChanges, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -181,25 +184,20 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(168, 168, 168)
-                        .addComponent(btnBack)))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98)
+                .addComponent(btnBack)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(btnBack))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBack)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -255,15 +253,14 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         // 查找 RetailManagerOrganization
         Organization retailManagerOrg = findRetailManagerOrganization();
         if (retailManagerOrg != null) {
-
-            
-
-            // 添加到 RetailManager 的工作隊列
-            retailManagerOrg.getWorkQueue().addWorkRequest(request);
-
-            System.out.println("Forwarded DeliverWorkRequest to RetailManager: " + deliverRequest.getOrderName());
-            System.out.println("Current Queue Size (RetailManager): " + retailManagerOrg.getWorkQueue().getWorkRequests().size());
-            JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Retail Manager.");
+            if(isWorkRequestExist(retailManagerOrg,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Retail manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                 retailManagerOrg.getWorkQueue().addWorkRequest(request);
+                 JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Retail Manager.");
+            }
+           
         } else {
             JOptionPane.showMessageDialog(this, "Retail Manager Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -285,7 +282,15 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         }
         return null; // 找不到匹配的組織
     }
+private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+            for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+                if(CurrentRequest==request){
 
+                    return true;
+                }
+            }
+            return false;
+        }
     
     private void cmbShippingStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbShippingStatusActionPerformed
         // TODO add your handling code here:

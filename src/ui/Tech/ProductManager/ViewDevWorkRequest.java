@@ -283,10 +283,13 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBack))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack)))
                 .addContainerGap(274, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -306,10 +309,14 @@ public class ViewDevWorkRequest extends javax.swing.JPanel {
     private void ReplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReplyActionPerformed
         // TODO add your handling code here:
        String isVerified =  (String)cmbDevVerified.getSelectedItem();
-       if(isVerified=="Verified"){
-            JOptionPane.showMessageDialog(this, "The DevelopeWorkRequest has been Verified Successfully!");
+       if(txtDevStatus.getText().equals("Completed")==false){
+             JOptionPane.showMessageDialog(this, "Devlopment Status is not completed yet.!", "Warning", JOptionPane.WARNING_MESSAGE);
+       }else if(isVerified=="Verified"){
+       
+           JOptionPane.showMessageDialog(this, "The DevelopeWorkRequest has been Verified Successfully!");
            workRequest.getDevelopmentWorkRequest().setVerified(true);
        }else{
+           JOptionPane.showMessageDialog(this, "Devlopment WorkReqeust Rejected.!", "Warning", JOptionPane.WARNING_MESSAGE);
            workRequest.getDevelopmentWorkRequest().setVerified(false);
        }
         

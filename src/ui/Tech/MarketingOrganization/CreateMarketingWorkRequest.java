@@ -182,11 +182,17 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
                     "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
             if(workRequest.getDeliverWorkRequest().getShipConfirmed() == true){
-                PlannerOrganization.getWorkQueue().addWorkRequest(workRequest);
-                workRequest.setMarketingWorkRequest(new MarketingWorkRequest(workRequest.getProduct(),PlanName, budget));
-                JOptionPane.showMessageDialog(this,
+                if( isWorkRequestExist(PlannerOrganization,workRequest)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Planner Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                        PlannerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                        workRequest.setMarketingWorkRequest(new MarketingWorkRequest(workRequest.getProduct(),PlanName, budget));
+                        JOptionPane.showMessageDialog(this,
                     "A Marketing Work Request is passed to Advertising enterprise.");
+        }
                 
             }else{
                 JOptionPane.showMessageDialog(this, "The previos step is not verified!","Error",JOptionPane.WARNING_MESSAGE);
@@ -195,8 +201,17 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error: Invalid input.",
                 "Input Error", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_btnCreateActionPerformed
+ private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
+            for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
+                if(CurrentRequest==request){
 
+                    return true;
+                }
+            }
+            return false;
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Quantity;

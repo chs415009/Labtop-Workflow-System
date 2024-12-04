@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import ui.Advertising.AdvertisingManager.AdvertisingManagerWorkArea;
+import ui.Advertising.DigitalAdsStrategist.DigitalAdsStrategistWorkArea;
 import ui.Delivery.DeliveryManager.DeliveryManagerWorkArea;
 import ui.Delivery.DeliveryWorkerRole.DeliveryWorkerWorkArea;
 import ui.Manufacturing.ManufacturingManager.ManufacturingManagerWorkArea;
@@ -186,9 +188,8 @@ public class MainJFrame extends javax.swing.JFrame {
                             case "Delivery" -> showDeliveryWorkerWorkArea(account);
                             case "Retail Sales" -> showRetailManagerWorkArea(account);
                             case "Marketing" -> showMarketingManagerWorkArea(account);
-
-//                            case "Planner" ;
-//                            case"Digital Strategy";
+                            case "Planner" -> showAdvertisingManagerWorkArea(account);
+                            case "Digital Strategy" -> showDigitalAdsStrategistWorkArea(account);
                         }
                         
                         // Switch on enterprise type for specific welcome messages
@@ -305,6 +306,22 @@ public class MainJFrame extends javax.swing.JFrame {
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "MarketingManagerWorkArea");
+    }
+    
+    private void showAdvertisingManagerWorkArea(UserAccount loginAccount){
+        AdvertisingManagerWorkArea advertisingManagerWorkArea = new AdvertisingManagerWorkArea(container, loginAccount, system,this);
+        container.add("AdvertisingManagerWorkArea", advertisingManagerWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "AdvertisingManagerWorkArea");
+    }
+    
+    private void showDigitalAdsStrategistWorkArea(UserAccount loginAccount){
+        DigitalAdsStrategistWorkArea digitalAdsStrategistWorkArea = new DigitalAdsStrategistWorkArea(container, loginAccount, system, this);
+        container.add("DigitalAdsStrategistWorkArea", digitalAdsStrategistWorkArea);
+
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.show(container, "DigitalAdsStrategistWorkArea");
     }
 
 

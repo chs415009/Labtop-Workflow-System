@@ -10,7 +10,10 @@ import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
+import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
+import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import ui.MainJFrame;
@@ -22,10 +25,10 @@ import ui.MainJFrame;
 public class MarketingManagerWorkArea extends javax.swing.JPanel {
 
     JPanel container;
-    UserAccount  UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
     Organization CurrentOrganization;
+    Organization PlannerOrganization;
     /**
      * Creates new form MarketingManagerWorkArea
      */
@@ -35,7 +38,8 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.system = system;
         this.mainFrame=mainFrame;
-        this.CurrentOrganization = findMarketingOrganization(); // 確保找到正確的組織
+        this.CurrentOrganization = findMarketingOrganization(); 
+        this.PlannerOrganization = findPlannerOrganization();
         populateRequestTable();
     }
 
@@ -48,13 +52,21 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        btnReport = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
+        btnCreateMarkettingWorkRequest = new javax.swing.JButton();
 
-        jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel2.setText("Marketing Manager Role WorkArea");
+        setPreferredSize(new java.awt.Dimension(850, 500));
+
+        btnReport.setText("Report Ads Execution Progress");
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -63,22 +75,25 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        lblTitle.setText("Marketiing Manager Role WorkArea");
+
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "ProductName"
+                "WorkRequest", "Product", "Status", "Budget Signed", "Advertsiement Verified"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -91,32 +106,90 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblWorkRequest);
 
+        btnCreateMarkettingWorkRequest.setText("Create Marketing WorkReqeust");
+        btnCreateMarkettingWorkRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateMarkettingWorkRequestActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(115, 115, 115)
-                        .addComponent(btnLogout)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                        .addComponent(btnLogout))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCreateMarkettingWorkRequest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnReport)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreateMarkettingWorkRequest)
+                    .addComponent(btnReport))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+        
+        if (request.getMarketingWorkRequest() != null) {
+            MarketingWorkRequest marketingWorkRequest = request.getMarketingWorkRequest();
+            VerifyMarketingPlan verifyMarketingPlan = new VerifyMarketingPlan(container, marketingWorkRequest,system,request);           
+            container.add("VerifyMarketingPlan", verifyMarketingPlan);
+            CardLayout layout = (CardLayout) container.getLayout();
+            layout.next(container);
+        } 
+        else {
+            JOptionPane.showMessageDialog(this, "This WorkRequest does not contain a Marketing Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnReportActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        mainFrame.showLoginPanel();
+        javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnCreateMarkettingWorkRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateMarkettingWorkRequestActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Pls select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        CreateMarketingWorkRequest createMarketingWorkRequest = new CreateMarketingWorkRequest(container, PlannerOrganization,request);
+        container.add("CreateMarketingWorkRequest", createMarketingWorkRequest );
+        CardLayout layout=(CardLayout)container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnCreateMarkettingWorkRequestActionPerformed
 
     private Organization findMarketingOrganization() {
         for (Network network : system.getNetworkList()) {
@@ -133,12 +206,20 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         return null;
     }
     
-    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        // TODO add your handling code here:
-        mainFrame.showLoginPanel();
-        javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
-    }//GEN-LAST:event_btnLogoutActionPerformed
-
+    private Organization findPlannerOrganization() {
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.ADVERTISING) {
+                    for (Organization org : enterprise.getOrganizationDirectory()) {
+                        if (org.getName().equalsIgnoreCase("Planner")) {
+                            return org;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
     
     public void populateRequestTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
@@ -147,21 +228,33 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         // 從 CurrentOrganization 獲取工作請求
         if (CurrentOrganization != null) {
             for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
-                Object[] row = new Object[2];
+                Object[] row = new Object[5];
                 row[0] = request;
                 row[1] = request.getProduct();
+                row[2] = request.getStatus();
+                if(request.getMarketingWorkRequest() == null){
+                    row[3] = false;
+                    row[4] = false;
+                }
+                else{
+                    row[3] = request.getMarketingWorkRequest().getSigned();
+                    row[4] = request.getMarketingWorkRequest().getVerified();                  
+                }  
                 model.addRow(row);
             }
         } else {
             System.err.println("CurrentOrganization is null. Cannot populate table.");
         }
     }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreateMarkettingWorkRequest;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnReport;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
 }

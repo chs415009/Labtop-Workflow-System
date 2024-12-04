@@ -13,6 +13,7 @@ import Business.WorkFlowSystem;
 import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -56,7 +57,7 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         system = WorkFlowSystem.getInstance(); // 初始化系統實例
         customizeComponents(); // 自定義元件初始化
-        this.setSize(700, 500); // 設置窗口大小
+        this.setSize(800, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
         System.out.printf("test");
          setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,6 +106,7 @@ public class MainJFrame extends javax.swing.JFrame {
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        loginPanel.setBackground(new Color(230, 200, 255));
 
         // ====== 標題 ======
         JLabel titleLabel = new JLabel("WorkFlow System", SwingConstants.CENTER);

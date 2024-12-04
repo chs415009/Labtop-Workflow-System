@@ -53,7 +53,8 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
 
-        setPreferredSize(new java.awt.Dimension(757, 481));
+        setBackground(new java.awt.Color(204, 255, 255));
+        setPreferredSize(new java.awt.Dimension(800, 500));
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -63,6 +64,7 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
         });
 
         lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 153, 204));
         lblTitle.setText("Advertising Manager Role WorkArea");
 
         btnReview.setText("Review Marketting Plan ");
@@ -114,7 +116,7 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
                                 .addComponent(btnLogout))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addContainerGap())))

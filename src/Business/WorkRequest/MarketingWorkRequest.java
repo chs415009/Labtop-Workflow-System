@@ -32,7 +32,7 @@ public class MarketingWorkRequest {
         this.product = product;
         this.MarketingPlanName = MarketingPlanName;
         this.budget = budget;
-        this.MarketingPlanStatus ="";
+        this.MarketingPlanStatus ="Processing";
         this.Verified = false;
         this.Signed = false;
         this.AdsExecutionStatus = ""; 

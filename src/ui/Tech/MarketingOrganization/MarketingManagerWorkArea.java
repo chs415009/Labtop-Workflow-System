@@ -76,7 +76,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         });
 
         lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        lblTitle.setText("Marketiing Manager Role WorkArea");
+        lblTitle.setText("Marketing Manager Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -3,28 +3,51 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/PurchaseWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/MarketingWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Employee/Employee.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/ProductManager/CreateNewWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/WorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Product/Product.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/PurchaseManager/CreateNewPurchaseWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Advertising/DigitalAdsStrategist/UpdateMarketingPlanProcess.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Delivery/DeliveryWorkerRole/DeliveryWorkerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Role/Role.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ManufacturingManagerWorkArea.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/MainJFrame.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Retail/RetailManager/ConfirmDeliveryPanel.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Enterprise/EnterpriseType.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/PurchaseManager/ViewPurchaseWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/ProductManager/ProductManagerWorkArea.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/PurchaseManager/PurchaseManagerWorkArea.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkQueue/WorkQueue.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Organization/Manufacturing/ProductionLineOrganization.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/RD/ReportDevWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/UserAccount/UserAccount.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ReportPurchaseWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ViewProductionWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingWorkerRole/ManufacturingWorkerWorkArea.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/ProductManager/ViewDevWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Retail/RetailManager/RetailManagerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/DevelopmentWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/ManufacturingManagerSignPanel.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingWorkerRole/ReportProductionWorkRequest.java</file>
-            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/CreateNewDeliveryWorkRequest.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Delivery/DeliveryManager/DeliveryManagerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Role/Advertisement/AdvertisingManagerRole.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Organization/Tech/PurchasingOrganization.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Advertising/AdvertisingManager/AdvertisingManagerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Enterprise/DeliveryEnterprise.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Organization/OrganizationDirectory.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Role/Advertisement/DigitalAdsStrategistRole.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Admin.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Advertising/AdvertisingManager/ViewMarketingPlanDetail.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/MarketingWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/PurchaseWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/MarketingOrganization/VerifyMarketingPlan.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/MainJFrame.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Delivery/DeliveryManager/DeliveryDetailPanel.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkQueue/WorkQueue.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Tech/MarketingOrganization/MarketingManagerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/AdministrativeRole/ManageUserAccountJPanel.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Enterprise/Enterprise.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Delivery/DeliveryWorkerRole/ShippingStatusUpdatePanel.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkFlowSystem.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingWorkerRole/ManufacturingWorkerWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Manufacturing/ManufacturingManager/CreateNewDeliveryWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/ui/Advertising/DigitalAdsStrategist/DigitalAdsStrategistWorkArea.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Employee/EmployeeDirectory.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Organization/Organization.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Network/Network.java</file>
             <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/WorkRequest/DeliverWorkRequest.java</file>
+            <file>file:/C:/Users/User/Git/Info5100-Final/src/Business/Enterprise/RetailEnterprise.java</file>
         </group>
     </open-files>
 </project-private>

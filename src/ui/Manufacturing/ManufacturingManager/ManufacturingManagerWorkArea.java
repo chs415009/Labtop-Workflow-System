@@ -39,13 +39,14 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     Organization ProductionLineOrganization;
     Organization DeliveryManagerOrganization;
     UserAccount  UserAccount;
-    WorkFlowSystem system;
+    
     MainJFrame mainFrame;
-    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    Network network;
+    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,Network network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = network;
         this.mainFrame=mainFrame;
         this.ProductionLineOrganization = findProductionLineOrganizationInsystem();
         this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
@@ -295,7 +296,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
 
         // 跳轉到簽署界面
-        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, system, selectedRequest);
+        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, network, selectedRequest);
         container.add("ManufacturingManagerSignPanel", signPanel);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
@@ -327,7 +328,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
      private Organization findProductionLineOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+       
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.MANUFACTURING){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
@@ -337,13 +338,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                    }
                }
            }
-       }
+       
         return null;// return null if doesn't found
     }
     private Organization findDeliveryManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+     
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.DELIVERY){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
@@ -353,7 +354,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                    }
                }
            }
-       }
+       
         return null;// return null if doesn't found
     } 
      private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {

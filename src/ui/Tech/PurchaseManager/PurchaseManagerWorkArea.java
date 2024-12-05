@@ -16,6 +16,7 @@ import Business.WorkFlowSystem;
 import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -33,17 +34,17 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization ManufacturingManagerOrganization;
+    ArrayList<Organization> ManufacturingManagerOrganizations;
     UserAccount  UserAccount;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
-    public PurchaseManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public PurchaseManagerWorkArea(JPanel container,UserAccount UserAccount,Network network,MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = network;
         this.mainFrame=mainFrame;
-        this.ManufacturingManagerOrganization = findManufacturingManagerOrganizationInsystem();
+        this. ManufacturingManagerOrganizations = findManufacturingManagerOrganizationInsystem();
         //populateDemoWorkRequest();
         populateRequestTable();
     }
@@ -174,7 +175,7 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         
-        CreateNewPurchaseWorkRequest cnpwr = new CreateNewPurchaseWorkRequest(container, CurrentOrganization,ManufacturingManagerOrganization,request);
+        CreateNewPurchaseWorkRequest cnpwr = new CreateNewPurchaseWorkRequest(container, CurrentOrganization,ManufacturingManagerOrganizations,request);
         container.add("CreateNewPurchaseWorkRequest", cnpwr);
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
@@ -235,20 +236,20 @@ public class PurchaseManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
 
-    private Organization findManufacturingManagerOrganizationInsystem() {
+    private ArrayList<Organization> findManufacturingManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+         ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.MANUFACTURING){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Manufacturing Management"){
-                           return organization;
+                           Organizations.add(organization);
                        }
                    }
                }
            }
-       }
-        return null;// return null if doesn't found
+       
+        return  Organizations;// return null if doesn't found
     }
 }

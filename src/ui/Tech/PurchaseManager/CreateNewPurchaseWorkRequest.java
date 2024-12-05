@@ -13,6 +13,7 @@ import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -27,15 +28,15 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization ManufacturingManagerOrganization;
+    ArrayList<Organization>  ManufacturingManagerOrganizations;
     WorkRequest workRequest;
-    public CreateNewPurchaseWorkRequest(JPanel container, Organization CurrentOrganization,Organization ManufacturingManagerOrganization,WorkRequest request) {
+    public CreateNewPurchaseWorkRequest(JPanel container, Organization CurrentOrganization, ArrayList<Organization> ManufacturingManagerOrganizations,WorkRequest request) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=CurrentOrganization;
         this.workRequest =request;
         
-        this.ManufacturingManagerOrganization=ManufacturingManagerOrganization;
+        this.ManufacturingManagerOrganizations=ManufacturingManagerOrganizations;
          populateData();
     }
 
@@ -310,15 +311,19 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
         // Parsing Integer and Double
         try {
             int TargetQuantity = Integer.parseInt(TargetQuantityText);  
-            if(isWorkRequestExist(ManufacturingManagerOrganization,workRequest)==true){
-               JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Manufacturing Manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-               return;
+            workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
+            for(Organization organization:ManufacturingManagerOrganizations){
+                if(isWorkRequestExist( organization,workRequest)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Manufacturing Manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                     return;
             }else{
-                 ManufacturingManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
-                workRequest.setPurchaseWorkRequest(new PurchaseWorkRequest(workRequest.getProduct(),RequestName,TargetQuantity));
-                JOptionPane.showMessageDialog(this,
+                    organization.getWorkQueue().addWorkRequest(workRequest);
+                    
+                    JOptionPane.showMessageDialog(this,
                       "A PurchaseWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to ManufacturingManagerOrganization.");
             }
+            }
+            
            
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {

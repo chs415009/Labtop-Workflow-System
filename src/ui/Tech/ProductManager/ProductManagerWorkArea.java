@@ -32,14 +32,13 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
     ArrayList<Organization> RDOrganizations;
     ArrayList<Organization> PurchaseOrganizations;
     UserAccount UserAccount;
-    WorkFlowSystem system;
     MainJFrame mainFrame;
-
-    public ProductManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
+    Network network;
+    public ProductManagerWorkArea(JPanel container, UserAccount UserAccount,Network Network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization = UserAccount.getOrganization();
-        this.system = system;
+        this.network = Network;
         this.mainFrame = mainFrame;
         RDOrganizations = findRDOrganizationInsystem();
         PurchaseOrganizations = findPurchaseOrganizationInsystem();
@@ -304,7 +303,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         //遍歷所有network中的enterPrise 直到找到type 是TECH
         //再搜尋當中Organiation 名稱符合的
         ArrayList<Organization> Organizations = new ArrayList<>();
-        for (Network network : system.getNetworkList()) {
+     
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.TECH) {
                     for (Organization organization : enterprise.getOrganizationDirectory()) {
@@ -314,7 +313,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                     }
                 }
             }
-        }
+        
         return Organizations;// return null if doesn't found
     }
 
@@ -322,7 +321,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         //遍歷所有network中的enterPrise 直到找到type 是TECH
         //再搜尋當中Organiation 名稱符合的
         ArrayList<Organization> Organizations = new ArrayList<>();
-        for (Network network : system.getNetworkList()) {
+       
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.TECH) {
                     for (Organization organization : enterprise.getOrganizationDirectory()) {
@@ -332,7 +331,7 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
                     }
                 }
             }
-        }
+        
         return Organizations;// return null if doesn't found
     }
 

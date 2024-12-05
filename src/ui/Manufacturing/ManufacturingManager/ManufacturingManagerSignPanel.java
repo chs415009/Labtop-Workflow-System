@@ -24,17 +24,17 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
 
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
-    private WorkFlowSystem system;
+    private Network network;
     WorkRequest request;
     
     /**
      * Creates new form ManufacturingManagerSignPanel
      */
-    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system, WorkRequest request) {
+    public ManufacturingManagerSignPanel(JPanel container, DeliverWorkRequest deliverRequest, Network network, WorkRequest request) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
-        this.system = system;
+        this.network =network;
         this.request = request;
 
        
@@ -300,7 +300,7 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
 
 
     private Organization findDeliveryOrganization() {
-        for (Network network : system.getNetworkList()) {
+        
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.DELIVERY) {
                     for (Organization org : enterprise.getOrganizationDirectory()) {
@@ -310,7 +310,7 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
                     }
                 }
             }
-        }
+        
         return null; // 未找到 Delivery Organization
     }
    

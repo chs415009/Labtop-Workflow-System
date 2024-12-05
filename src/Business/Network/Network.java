@@ -24,6 +24,10 @@ public class Network {
         enterpriseList.add(enterprise);
     }
     
+    public void removeEnterpriseByName(String enterpriseName) {
+        enterpriseList.removeIf(enterprise -> enterprise.getName().equals(enterpriseName));
+    }
+    
     public List<Enterprise> getEnterpriseList() {
         return enterpriseList;
     }

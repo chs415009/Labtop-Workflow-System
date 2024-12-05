@@ -14,8 +14,8 @@ import Business.Organization.Tech.ResearchAndDevelopmentOrganization;
  * @author yuta
  */
 public class TechnologyProductEnterprise extends Enterprise {
-    public TechnologyProductEnterprise(String name) {
-        super(name, EnterpriseType.TECH);
+    public TechnologyProductEnterprise(String name, String adminName, String adminPassword) {
+        super(name, EnterpriseType.TECH, adminName, adminPassword);
     }
     
     @Override

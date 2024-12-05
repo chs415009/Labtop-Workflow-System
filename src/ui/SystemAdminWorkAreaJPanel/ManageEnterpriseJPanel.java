@@ -12,7 +12,9 @@ import static Business.Enterprise.EnterpriseType.RETAIL;
 import Business.Network.Network;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,7 +22,9 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -34,10 +38,8 @@ import javax.swing.table.DefaultTableModel;
 public class ManageEnterpriseJPanel extends javax.swing.JPanel {
 
     private JTable enterpriseTable;
-    private JComboBox<Network> networkComboBox;
-    private JComboBox<EnterpriseType> enterpriseTypeComboBox;
-    private JTextField nameField;
-    private JButton submitButton;
+    private JButton createEnterpriseButton;
+    private JButton deleteEnterpriseButton;
     private JPanel userProcessContainer;
     private WorkFlowSystem system;
 
@@ -47,12 +49,10 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
     public ManageEnterpriseJPanel(JPanel userProcessContainer, WorkFlowSystem system) {
         this.userProcessContainer = userProcessContainer;
         this.system = system;
-
+        initComponents();
         customizeComponents();
         populateTable();
-        populateComboBox();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,23 +62,13 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.CardLayout());
     }// </editor-fold>//GEN-END:initComponents
 
-   private void customizeComponents() {
-        setLayout(new BorderLayout());
-        setBackground(Color.decode("#E8EEF1")); // 柔和藍灰色背景
+    private void customizeComponents() {
+        setBackground(Color.decode("#E8EEF1"));
 
-        // ======= 上部表格區域 =======
+        // ======= Table Panel Section =======
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBackground(Color.decode("#E8EEF1"));
 
@@ -86,7 +76,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         tableLabel.setFont(new Font("Arial", Font.BOLD, 24));
         tablePanel.add(tableLabel, BorderLayout.NORTH);
 
-       // Initialize table with non-editable model
+        // Initialize table
         enterpriseTable = new JTable(new DefaultTableModel(
             new Object[][]{},
             new String[]{"Enterprise Name", "Network", "Type"}
@@ -105,103 +95,74 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         enterpriseTable.getTableHeader().setForeground(Color.WHITE);
         enterpriseTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
 
-        // Set column widths
         if (enterpriseTable.getColumnModel().getColumnCount() > 0) {
             enterpriseTable.getColumnModel().getColumn(0).setPreferredWidth(200);
             enterpriseTable.getColumnModel().getColumn(1).setPreferredWidth(150);
             enterpriseTable.getColumnModel().getColumn(2).setPreferredWidth(150);
         }
+
         JScrollPane scrollPane = new JScrollPane(enterpriseTable);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
-        add(tablePanel, BorderLayout.NORTH);
+        // ======= Button Panel Section =======
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setBackground(Color.decode("#E8EEF1"));
 
-        // ======= 下部表單區域 =======
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        formPanel.setBackground(Color.decode("#E8EEF1"));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        createEnterpriseButton = new JButton("Create Enterprise");
+        createEnterpriseButton.setBackground(Color.decode("#2980B9"));
+        createEnterpriseButton.setForeground(Color.WHITE);
+        
+        deleteEnterpriseButton = new JButton("Delete Enterprise");
+        deleteEnterpriseButton.setBackground(Color.decode("#E74C3C"));
+        deleteEnterpriseButton.setForeground(Color.WHITE);
 
-        // Network
-        JLabel networkLabel = new JLabel("Network:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(networkLabel, gbc);
+        buttonPanel.add(createEnterpriseButton);
+        buttonPanel.add(deleteEnterpriseButton);
 
-        networkComboBox = new JComboBox<>();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(networkComboBox, gbc);
+        tablePanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(tablePanel, BorderLayout.CENTER);
 
-        // Enterprise Type
-        JLabel enterpriseTypeLabel = new JLabel("Enterprise Type:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(enterpriseTypeLabel, gbc);
+        // Action Listeners
+        createEnterpriseButton.addActionListener(e -> {
+    // Create and show CreateEnterpriseJPanel
+            CreateEnterpriseJPanel createEnterprisePanel = new CreateEnterpriseJPanel(userProcessContainer, system, this);
+            userProcessContainer.add(createEnterprisePanel, "CreateEnterpriseJPanel");
+            CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+            layout.show(userProcessContainer, "CreateEnterpriseJPanel");
+        });
 
-        enterpriseTypeComboBox = new JComboBox<>();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(enterpriseTypeComboBox, gbc);
-
-        // Name
-        JLabel nameLabel = new JLabel("Name:");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        formPanel.add(nameLabel, gbc);
-
-        nameField = new JTextField(15);
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        formPanel.add(nameField, gbc);
-
-        // Submit Button
-        submitButton = new JButton("Submit");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(submitButton, gbc);
-
-        add(formPanel, BorderLayout.CENTER);
-
-        // Action Listener for Submit Button
-        submitButton.addActionListener(e -> {
-            String name = nameField.getText();
-            Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-            EnterpriseType selectedType = (EnterpriseType) enterpriseTypeComboBox.getSelectedItem();
-
-            if (name.isEmpty() || selectedNetwork == null || selectedType == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "All fields are required.");
+        deleteEnterpriseButton.addActionListener(e -> {
+            int selectedRow = enterpriseTable.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Please select an enterprise to delete.");
                 return;
             }
 
-            // 創建新的 Enterprise
-            Enterprise enterprise = null;
-            switch (selectedType) {
-                case TECH -> enterprise = new TechnologyProductEnterprise(name);
-                case MANUFACTURING -> enterprise = new ManufacturingEnterprise(name);
-                case DELIVERY -> enterprise = new DeliveryEnterprise(name);
-                case RETAIL -> enterprise = new RetailEnterprise(name);
-                case ADVERTISING -> enterprise = new AdvertisingEnterprise(name);
-            }
-            selectedNetwork.addEnterprise(enterprise);
-            populateTable();
-            nameField.setText("");
-        });
+            int dialogResult = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete this enterprise?",
+                "Delete Enterprise",
+                JOptionPane.YES_NO_OPTION);
 
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                String enterpriseName = (String) enterpriseTable.getValueAt(selectedRow, 0);
+                String networkName = (String) enterpriseTable.getValueAt(selectedRow, 1);
+
+                // Find and remove the enterprise
+                for (Network network : system.getNetworkList()) {
+                    if (network.getName().equals(networkName)) {
+                        network.removeEnterpriseByName(enterpriseName);
+                        break;
+                    }
+                }
+                populateTable();
+            }
+        });
     }
 
     private void populateTable() {
         DefaultTableModel model = (DefaultTableModel) enterpriseTable.getModel();
         model.setRowCount(0);
+        
         for (Network network : system.getNetworkList()) {
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 Object[] row = new Object[3];
@@ -213,43 +174,22 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         }
     }
 
-    private void populateComboBox() {
-        networkComboBox.removeAllItems();
-        enterpriseTypeComboBox.removeAllItems();
-
-        // 填充 Network ComboBox
-        for (Network network : system.getNetworkList()) {
-            networkComboBox.addItem(network); // 添加 Network 物件
-        }
-
-        // 填充 Enterprise Type ComboBox
-        for (EnterpriseType type : EnterpriseType.values()) {
-            enterpriseTypeComboBox.addItem(type); // 添加 EnterpriseType 物件
-        }
-    }
-
-
-
+    // Getters for testing
     public JTable getEnterpriseTable() {
         return enterpriseTable;
     }
 
-    public JComboBox<Network> getNetworkComboBox() {
-        return networkComboBox;
+    public JButton getCreateEnterpriseButton() {
+        return createEnterpriseButton;
     }
 
-    public JComboBox<EnterpriseType> getEnterpriseTypeComboBox() {
-        return enterpriseTypeComboBox;
+    public JButton getDeleteEnterpriseButton() {
+        return deleteEnterpriseButton;
     }
-
-    public JTextField getNameField() {
-        return nameField;
+    
+    public void refreshTable() {
+        populateTable();
     }
-
-    public JButton getSubmitButton() {
-        return submitButton;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

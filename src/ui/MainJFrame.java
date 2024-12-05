@@ -4,6 +4,7 @@
  */
 package ui;
 
+import Business.Admin;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.Organization;
@@ -54,13 +55,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private JPasswordField passwordField;
     private WorkFlowSystem system; // 系統的實例
     private UserAccount loginAccount;
+    
     public MainJFrame() {
         system = WorkFlowSystem.getInstance(); // 初始化系統實例
         customizeComponents(); // 自定義元件初始化
         this.setSize(800, 500); // 設置窗口大小
         this.setLocationRelativeTo(null); // 將窗口居中
-        System.out.printf("test");
-         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
 
     /**
@@ -157,65 +158,85 @@ public class MainJFrame extends javax.swing.JFrame {
         loginPanel.add(loginButton, gbc);
 
         // ====== 事件處理 ======
+        // Update the login button action listener
         loginButton.addActionListener(evt -> {
-        String username = userNameField.getText();
-        String password = new String(passwordField.getPassword());
-        WorkFlowSystem wfs = WorkFlowSystem.getInstance();
+            String username = userNameField.getText();
+            String password = new String(passwordField.getPassword());
+            WorkFlowSystem wfs = WorkFlowSystem.getInstance();
 
-        // Check admin credentials
-        if (username.equals("admin") && password.equals("admin")) {
-            JOptionPane.showMessageDialog(this, "Welcome System Administrator!");
-            showSystemAdminPanel();
-            return;
-        }
+            // Check system admin credentials
+            if (username.equals("admin") && password.equals("admin")) {
+                JOptionPane.showMessageDialog(this, "Welcome System Administrator!");
+                showSystemAdminPanel(null, true);
+                return;
+            }
 
-        // Check enterprise user credentials
-        boolean found = false;
-        for (Network network : wfs.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                for (UserAccount account : enterprise.getEmployerList()) {
-                    if (account.getUsername().equals(username) && 
-                        account.getPassword().equals(password)) {
+            // First check if it's an enterprise admin
+            boolean found = false;
+            for (Network network : wfs.getNetworkList()) {
+                for (Enterprise enterprise : network.getEnterpriseList()) {
+                    Admin enterpriseAdmin = enterprise.getAdmin();
+                    // Check enterprise admin credentials
+                    if (enterpriseAdmin != null && 
+                        username.equals(enterpriseAdmin.getName()) && 
+                        password.equals(enterpriseAdmin.getPassword())) {
                         found = true;
-                        loginAccount = account;
-                        //
-                       
-                        switch(account.getOrganization().getName()){
-                            case "Product Management" ->showProductManagerWorkAreaPanel(account);
-                            case "Research and Development" ->showRDWorkAreaPanel(account);
-                            case "Purchasing" -> showPurchaseManagerWorkArea(account);
-                            case "Manufacturing Management"->showManufacturingManagerWorkArea(account);
-                            case  "Production Line" ->showManufacturingManagerWorkerWorkArea(account);
-                            case "Delivery Management" ->showDeliveryManagerWorkerWorkArea(account);
-                            case "Delivery" -> showDeliveryWorkerWorkArea(account);
-                            case "Retail Sales" -> showRetailManagerWorkArea(account);
-                            case "Marketing" -> showMarketingManagerWorkArea(account);
-                            case "Planner" -> showAdvertisingManagerWorkArea(account);
-                            case "Digital Strategy" -> showDigitalAdsStrategistWorkArea(account);
-                        }
-                        
-                        // Switch on enterprise type for specific welcome messages
-                        String enterpriseInfo = "";
-                        switch (enterprise.getType()) {
-                            case TECH -> enterpriseInfo = "Technology Enterprise";
-                            case MANUFACTURING -> enterpriseInfo = "Manufacturing Enterprise";
-                            case DELIVERY -> enterpriseInfo = "Delivery Enterprise";
-                            case RETAIL -> enterpriseInfo = "Retail Enterprise";
-                            case ADVERTISING -> enterpriseInfo = "Advertising Enterprise";
-                        }
-
                         JOptionPane.showMessageDialog(this, 
-                            "Welcome to " + enterprise.getName() + 
-                            "\nType: " + enterpriseInfo +
-                            "\nNetwork: " + network.getName() +
-                            "\nRole: " + account.getRole());
-                        break;
+                            "Welcome Enterprise Administrator!\n" +
+                            "Enterprise: " + enterprise.getName() + 
+                            "\nNetwork: " + network.getName());
+                        showSystemAdminPanel(enterprise.getAdmin(), false);
+                        return;
                     }
+                }
+            }
+
+            // If not an admin, check regular employee credentials
+            for (Network network : wfs.getNetworkList()) {
+                for (Enterprise enterprise : network.getEnterpriseList()) {
+                    for (UserAccount account : enterprise.getEmployerList()) {
+                        if (account.getUsername().equals(username) && 
+                            account.getPassword().equals(password)) {
+                            found = true;
+                            loginAccount = account;
+
+                            // Route to appropriate work area based on organization
+                            switch(account.getOrganization().getName()) {
+                                case "Product Management" -> showProductManagerWorkAreaPanel(account);
+                                case "Research and Development" -> showRDWorkAreaPanel(account);
+                                case "Purchasing" -> showPurchaseManagerWorkArea(account);
+                                case "Manufacturing Management" -> showManufacturingManagerWorkArea(account);
+                                case "Production Line" -> showManufacturingManagerWorkerWorkArea(account);
+                                case "Delivery Management" -> showDeliveryManagerWorkerWorkArea(account);
+                                case "Delivery" -> showDeliveryWorkerWorkArea(account);
+                                case "Retail Sales" -> showRetailManagerWorkArea(account);
+                                case "Marketing" -> showMarketingManagerWorkArea(account);
+                                case "Planner" -> showAdvertisingManagerWorkArea(account);
+                                case "Digital Strategy" -> showDigitalAdsStrategistWorkArea(account);
+                            }
+
+                            // Show welcome message
+                            String enterpriseInfo = "";
+                            switch (enterprise.getType()) {
+                                case TECH -> enterpriseInfo = "Technology Enterprise";
+                                case MANUFACTURING -> enterpriseInfo = "Manufacturing Enterprise";
+                                case DELIVERY -> enterpriseInfo = "Delivery Enterprise";
+                                case RETAIL -> enterpriseInfo = "Retail Enterprise";
+                                case ADVERTISING -> enterpriseInfo = "Advertising Enterprise";
+                            }
+
+                            JOptionPane.showMessageDialog(this, 
+                                "Welcome to " + enterprise.getName() + 
+                                "\nType: " + enterpriseInfo +
+                                "\nNetwork: " + network.getName() +
+                                "\nRole: " + account.getRole());
+                            break;
+                        }
+                    }
+                    if (found) break;
                 }
                 if (found) break;
             }
-            if (found) break;
-        }
 
             if (!found) {
                 JOptionPane.showMessageDialog(this, 
@@ -228,15 +249,14 @@ public class MainJFrame extends javax.swing.JFrame {
         return loginPanel;
     }
 
-    private void showSystemAdminPanel() {
-        // 傳遞 MainJFrame 引用
-        SystemAdminWorkAreaJPanel systemAdminPanel = new SystemAdminWorkAreaJPanel(container, system, this);
+    private void showSystemAdminPanel(Admin adminAccount, boolean isSystemAdmin) {
+        SystemAdminWorkAreaJPanel systemAdminPanel = new SystemAdminWorkAreaJPanel(container, system, this, adminAccount, isSystemAdmin);
         container.add("SystemAdminWorkAreaJPanel", systemAdminPanel);
-
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "SystemAdminWorkAreaJPanel");
     }
-     private void showProductManagerWorkAreaPanel(UserAccount loginAccount) {
+    
+    private void showProductManagerWorkAreaPanel(UserAccount loginAccount) {
        
         ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, system,this);
         container.add("ProductManagerWorkArea", productManagerWorkArea);

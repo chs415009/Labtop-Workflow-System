@@ -12,8 +12,8 @@ import Business.Organization.Delivery.DeliveryOrganization;
  * @author yuta
  */
 public class DeliveryEnterprise extends Enterprise {
-    public DeliveryEnterprise(String name) {
-        super(name, EnterpriseType.DELIVERY);
+    public DeliveryEnterprise(String name, String adminName, String adminPassword) {
+        super(name, EnterpriseType.DELIVERY, adminName, adminPassword);
     }
     
     @Override

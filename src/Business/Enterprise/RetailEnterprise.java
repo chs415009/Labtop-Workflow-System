@@ -11,8 +11,8 @@ import Business.Organization.Retail.RetailSalesOrganization;
  * @author yuta
  */
  public class RetailEnterprise extends Enterprise {
-    public RetailEnterprise(String name) {
-        super(name, EnterpriseType.RETAIL);
+    public RetailEnterprise(String name, String adminName, String adminPassword) {
+        super(name, EnterpriseType.RETAIL, adminName, adminPassword);
     }
     
     @Override

@@ -4,6 +4,10 @@
  */
 package ui.SystemAdminWorkAreaJPanel;
 
+import Business.Admin;
+import Business.Enterprise.Enterprise;
+import Business.Network.Network;
+import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,22 +29,26 @@ import ui.MainJFrame;
  */
 public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
 
-
     private JButton logoutButton;
-    private JPanel rightPanel; // 右側顯示區域
+    private JPanel rightPanel;
     private WorkFlowSystem system;
     private JPanel userProcessContainer;
-    private MainJFrame mainFrame; // 新增 MainJFrame 的引用
+    private MainJFrame mainFrame;
+    private Admin adminAccount;
+    private boolean isSystemAdmin;
+    
     /**
      * Creates new form SystemAdminWorkAreaJPanel
      */
-    public SystemAdminWorkAreaJPanel(JPanel userProcessContainer, WorkFlowSystem system, MainJFrame mainFrame) {
-        this.system = system;
-        this.userProcessContainer = userProcessContainer;
-        this.mainFrame = mainFrame;
-        customizeComponents();
-    }
-
+    public SystemAdminWorkAreaJPanel(JPanel userProcessContainer, WorkFlowSystem system, 
+                                    MainJFrame mainFrame, Admin adminAccount, boolean isSystemAdmin) {
+         this.system = system;
+         this.userProcessContainer = userProcessContainer;
+         this.mainFrame = mainFrame;
+         this.adminAccount = adminAccount;
+         this.isSystemAdmin = isSystemAdmin;
+         customizeComponents();
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,12 +89,23 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
 
         Dimension buttonSize = new Dimension(220, 40);
 
-        // 創建按鈕
+        // Create buttons
         JButton manageNetworkButton = createButton("Manage Network", e -> showManageNetwork(), buttonSize);
         JButton manageEnterpriseButton = createButton("Manage Enterprise", e -> showManageEnterprise(), buttonSize);
         JButton manageAdminButton = createButton("Manage Enterprise Employee", e -> showManageEnterpriseAdmin(), buttonSize);
-        logoutButton = createButton("Logout", e -> logout(), buttonSize); // 添加 Logout 按鈕
+        logoutButton = createButton("Logout", e -> logout(), buttonSize);
 
+        // For enterprise admin, disable network and enterprise management
+        if (!isSystemAdmin) {
+            manageNetworkButton.setEnabled(false);
+            manageEnterpriseButton.setEnabled(false);
+            manageNetworkButton.setToolTipText("This function is only available for system administrators");
+            manageEnterpriseButton.setToolTipText("This function is only available for system administrators");
+        }
+
+        // Both types of admins can manage enterprise employees
+        manageAdminButton.setEnabled(true);
+        
         leftPanel.add(Box.createVerticalStrut(20));
         leftPanel.add(manageNetworkButton);
         leftPanel.add(Box.createVerticalStrut(10));
@@ -132,10 +151,15 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
     }
 
     private void showManageEnterpriseAdmin() {
-        ManageEnterpriseEmployeeJPanel manageEnterpriseAdminPanel = new ManageEnterpriseEmployeeJPanel(system);
-        rightPanel.add("ManageEnterpriseEmployeeJPanel", manageEnterpriseAdminPanel);
+        Enterprise currentEnterprise = isSystemAdmin ? null : findEnterpriseForAdmin(adminAccount);
 
-        // 切換到 ManageEnterpriseEmployeeJPanel
+        ManageEnterpriseEmployeeJPanel panel = new ManageEnterpriseEmployeeJPanel(
+                userProcessContainer,
+                system,
+                isSystemAdmin,
+                currentEnterprise
+        );
+        rightPanel.add("ManageEnterpriseEmployeeJPanel", panel);
         CardLayout layout = (CardLayout) rightPanel.getLayout();
         layout.show(rightPanel, "ManageEnterpriseEmployeeJPanel");
     }
@@ -144,6 +168,20 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         // 調用 MainJFrame 的 showLoginPanel 方法切換回登入界面
         mainFrame.showLoginPanel();
         javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
+    }
+    
+    private Enterprise findEnterpriseForAdmin(Admin admin) {
+        if (admin == null) return null;
+
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getAdmin() != null && 
+                    enterprise.getAdmin().getName().equals(admin.getName())) {
+                    return enterprise;
+                }
+            }
+        }
+        return null;
     }
 
 

@@ -4,6 +4,7 @@
  */
 package ui.Advertising.AdvertisingManager;
 
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -26,14 +27,14 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
     
-    public AdvertisingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public AdvertisingManagerWorkArea(JPanel container,UserAccount UserAccount,Network network,MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network =network;
         this.mainFrame = mainFrame;
         populateRequestTable();
     }
@@ -152,7 +153,7 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
         if (request.getMarketingWorkRequest() != null) {
             MarketingWorkRequest marketingWorkRequest = request.getMarketingWorkRequest();
 
-            ViewMarketingPlanDetail viewMarketingPlanDetail = new ViewMarketingPlanDetail(container, marketingWorkRequest, system, request);
+            ViewMarketingPlanDetail viewMarketingPlanDetail = new ViewMarketingPlanDetail(container, marketingWorkRequest, network ,request);
             container.add("ViewMarketingPlanDetail", viewMarketingPlanDetail);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);

@@ -24,7 +24,7 @@ public class VerifyMarketingPlan extends javax.swing.JPanel {
     /**
      * Creates new form VerifyMarketingPlan
      */
-    public VerifyMarketingPlan(JPanel container, MarketingWorkRequest marketingWorkRequest, WorkFlowSystem system, WorkRequest request) {
+    public VerifyMarketingPlan(JPanel container, MarketingWorkRequest marketingWorkRequest,  WorkRequest request) {
         initComponents();
         this.container = container;
         this.marketingWorkRequest = marketingWorkRequest;

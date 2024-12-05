@@ -9,6 +9,7 @@ import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -23,14 +24,14 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
      */
     JPanel container;
     //Organization CurrentOrganization;
-    Organization PlannerOrganization;
+    ArrayList<Organization> PlannerOrganizations;
     WorkRequest workRequest;
     
-    public CreateMarketingWorkRequest(JPanel container, Organization PlannerOrganization,WorkRequest request) {
+    public CreateMarketingWorkRequest(JPanel container,  ArrayList<Organization> PlannerOrganizations,WorkRequest request) {
         initComponents();
         this.container = container;
         this.workRequest =request;        
-        this.PlannerOrganization=PlannerOrganization;
+        this.PlannerOrganizations=PlannerOrganizations;
     }
 
     /**
@@ -200,15 +201,18 @@ public class CreateMarketingWorkRequest extends javax.swing.JPanel {
             }
             
             if(workRequest.getDeliverWorkRequest().getShipConfirmed() == true){
-                if( isWorkRequestExist(PlannerOrganization,workRequest)==true){
+                for(Organization organization :PlannerOrganizations){
+                    if( isWorkRequestExist(organization,workRequest)==true){
                     JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Planner Organization!","Warning",JOptionPane.WARNING_MESSAGE);
                     return;
                 }else{
-                        PlannerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                        organization.getWorkQueue().addWorkRequest(workRequest);
                         workRequest.setMarketingWorkRequest(new MarketingWorkRequest(workRequest.getProduct(),PlanName, budget));
                         JOptionPane.showMessageDialog(this,
                     "A Marketing Work Request is passed to Advertising enterprise.");
         }
+                }
+                
                 
             }else{
                 JOptionPane.showMessageDialog(this, "The previos step is not verified!","Error",JOptionPane.WARNING_MESSAGE);

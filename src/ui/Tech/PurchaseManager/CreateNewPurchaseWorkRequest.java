@@ -315,7 +315,7 @@ public class CreateNewPurchaseWorkRequest extends javax.swing.JPanel {
             for(Organization organization:ManufacturingManagerOrganizations){
                 if(isWorkRequestExist( organization,workRequest)==true){
                     JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Manufacturing Manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-                     return;
+                    return;
             }else{
                     organization.getWorkQueue().addWorkRequest(workRequest);
                     

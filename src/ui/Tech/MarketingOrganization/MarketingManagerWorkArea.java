@@ -13,6 +13,7 @@ import Business.WorkFlowSystem;
 import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -25,21 +26,20 @@ import ui.MainJFrame;
 public class MarketingManagerWorkArea extends javax.swing.JPanel {
 
     JPanel container;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
     Organization CurrentOrganization;
-    Organization PlannerOrganization;
+    ArrayList<Organization> PlannerOrganizations;
     /**
      * Creates new form MarketingManagerWorkArea
      */
-    public MarketingManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
+    public MarketingManagerWorkArea(JPanel container, UserAccount UserAccount, Network network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
-        this.mainFrame=mainFrame;
-        this.CurrentOrganization = findMarketingOrganization(); 
-        this.PlannerOrganization = findPlannerOrganization();
+        this.network=network;
+        this.mainFrame=mainFrame; 
+        this.PlannerOrganizations = findPlannerOrganization();
         populateRequestTable();
     }
 
@@ -163,7 +163,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         
         if (request.getMarketingWorkRequest() != null) {
             MarketingWorkRequest marketingWorkRequest = request.getMarketingWorkRequest();
-            VerifyMarketingPlan verifyMarketingPlan = new VerifyMarketingPlan(container, marketingWorkRequest,system,request);           
+            VerifyMarketingPlan verifyMarketingPlan = new VerifyMarketingPlan(container, marketingWorkRequest,request);           
             container.add("VerifyMarketingPlan", verifyMarketingPlan);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);
@@ -188,40 +188,28 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        CreateMarketingWorkRequest createMarketingWorkRequest = new CreateMarketingWorkRequest(container, PlannerOrganization,request);
+        CreateMarketingWorkRequest createMarketingWorkRequest = new CreateMarketingWorkRequest(container, PlannerOrganizations,request);
         container.add("CreateMarketingWorkRequest", createMarketingWorkRequest );
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnCreateMarkettingWorkRequestActionPerformed
 
-    private Organization findMarketingOrganization() {
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                if (enterprise.getType() == EnterpriseType.TECH) {
-                    for (Organization org : enterprise.getOrganizationDirectory()) {
-                        if (org.getName().equalsIgnoreCase("Marketing")) {
-                            return org;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
+  
     
-    private Organization findPlannerOrganization() {
-        for (Network network : system.getNetworkList()) {
+    private ArrayList<Organization> findPlannerOrganization() {
+          ArrayList<Organization> Organizations = new ArrayList<>();
+      
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.ADVERTISING) {
                     for (Organization org : enterprise.getOrganizationDirectory()) {
                         if (org.getName().equalsIgnoreCase("Planner")) {
-                            return org;
+                            Organizations.add(org);
                         }
                     }
                 }
             }
-        }
-        return null;
+        
+        return  Organizations;
     }
     
     public void populateRequestTable() {

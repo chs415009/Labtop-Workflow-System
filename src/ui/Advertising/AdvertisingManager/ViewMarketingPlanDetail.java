@@ -13,6 +13,7 @@ import Business.WorkRequest.MarketingWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,19 +25,19 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
 
     private JPanel container;
     private MarketingWorkRequest marketingWorkRequest;
-    private WorkFlowSystem system;
+    Network network;
     WorkRequest request;
-    Organization DigitalStrategyOrganization;
+    ArrayList<Organization> DigitalStrategyOrganizations;
     /**
      * Creates new form ViewMarketingPlanDetail
      */
-    public ViewMarketingPlanDetail(JPanel container, MarketingWorkRequest marketingWorkRequest, WorkFlowSystem system, WorkRequest request) {
+    public ViewMarketingPlanDetail(JPanel container, MarketingWorkRequest marketingWorkRequest,Network network, WorkRequest request) {
         initComponents();
         this.container = container;
         this.marketingWorkRequest = marketingWorkRequest;
-        this.system = system;
+        this.network = network;
         this.request = request;
-        this.DigitalStrategyOrganization = findDigitalStrategyOrganization();
+        this.DigitalStrategyOrganizations = findDigitalStrategyOrganization();
         populateDetail();
     }
 
@@ -257,13 +258,16 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
             if ("Accept".equals(signedStatus)) {
                 marketingWorkRequest.setSigned(true); 
                 JOptionPane.showMessageDialog(this, "Budget approved for the plan.");
-                  if( isWorkRequestExist(DigitalStrategyOrganization,request)==true){
-                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DigitalStrategy Organization!","Warning", JOptionPane.WARNING_MESSAGE);
-                    return;
+                for(Organization organization:DigitalStrategyOrganizations){
+                     if( isWorkRequestExist( organization,request)==true){
+                        JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DigitalStrategy Organization!","Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
                 }else{
-                    DigitalStrategyOrganization.getWorkQueue().addWorkRequest(request);
-                    JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");  
+                         organization.getWorkQueue().addWorkRequest(request);
+                        JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Digital Strategy Organization!");  
                   }
+                }
+                 
                              
             } 
             else if ("Reject".equals(signedStatus)) {
@@ -331,19 +335,19 @@ public class ViewMarketingPlanDetail extends javax.swing.JPanel {
         cmbSignedStatus.setSelectedItem(marketingWorkRequest.getSigned());
     }
     
-    private Organization findDigitalStrategyOrganization() {
-        for (Network network : system.getNetworkList()) {
+    private ArrayList<Organization> findDigitalStrategyOrganization() {
+         ArrayList<Organization> Organizations = new ArrayList<>();
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.ADVERTISING) {
                     for (Organization org : enterprise.getOrganizationDirectory()) {
                         if (org.getName().equalsIgnoreCase("Digital Strategy")) {
-                            return org;
+                             Organizations.add(org);
                         }
                     }
                 }
             }
-        }
-        return null;
+        
+         return  Organizations;
     }
     private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){

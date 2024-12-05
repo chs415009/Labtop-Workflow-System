@@ -19,6 +19,7 @@ import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -36,8 +37,8 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization ProductionLineOrganization;
-    Organization DeliveryManagerOrganization;
+    ArrayList<Organization> ProductionLineOrganizations;
+    ArrayList<Organization> DeliveryManagerOrganizations;
     UserAccount  UserAccount;
     
     MainJFrame mainFrame;
@@ -48,8 +49,8 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         this.CurrentOrganization=UserAccount.getOrganization();
         this.network = network;
         this.mainFrame=mainFrame;
-        this.ProductionLineOrganization = findProductionLineOrganizationInsystem();
-        this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
+        this.ProductionLineOrganizations = findProductionLineOrganizationInsystem();
+        this.DeliveryManagerOrganizations= findDeliveryManagerOrganizationInsystem();
         
        populateRequestTable();
     }
@@ -215,14 +216,17 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         // When signed is true, passing Workrequest to Manufacturing Organization
         if(request.getPurchaseWorkRequest().getSigned()==true){
-            if(isWorkRequestExist(ProductionLineOrganization,request)==true){
-                JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-                return; 
+            for(Organization organization:ProductionLineOrganizations){
+                if(isWorkRequestExist(organization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return; 
             }
             else{ 
-                ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
+                 organization.getWorkQueue().addWorkRequest(request);
                 JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to ProductionLine Organization!");
                 }
+            }
+            
 
         }else{
             JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not Signed!","Error", JOptionPane.WARNING_MESSAGE);
@@ -269,7 +273,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        CreateNewDeliveryWorkRequest cndwr = new CreateNewDeliveryWorkRequest(container, CurrentOrganization,DeliveryManagerOrganization,request);
+        CreateNewDeliveryWorkRequest cndwr = new CreateNewDeliveryWorkRequest(container, CurrentOrganization,DeliveryManagerOrganizations,request);
         container.add(" CreateNewDeliveryWorkRequest", cndwr );
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
@@ -325,37 +329,37 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-     private Organization findProductionLineOrganizationInsystem() {
+     private ArrayList<Organization> findProductionLineOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       
+         ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.MANUFACTURING){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Production Line"){
-                           return organization;
+                              Organizations.add(organization);
                        }
                    }
                }
            }
        
-        return null;// return null if doesn't found
+         return Organizations;// return null if doesn't found
     }
-    private Organization findDeliveryManagerOrganizationInsystem() {
+    private ArrayList<Organization> findDeliveryManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-     
+       ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.DELIVERY){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Delivery Management"){
-                           return organization;
+                             Organizations.add(organization);
                        }
                    }
                }
            }
        
-        return null;// return null if doesn't found
+         return Organizations;// return null if doesn't found
     } 
      private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){

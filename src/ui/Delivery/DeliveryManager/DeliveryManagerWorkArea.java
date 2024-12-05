@@ -20,6 +20,7 @@ import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -37,17 +38,17 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization DeliveryManagerOrganization;
+    ArrayList<Organization> DeliveryManagerOrganizations;
     UserAccount  UserAccount;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
-    public DeliveryManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public DeliveryManagerWorkArea(JPanel container, UserAccount UserAccount,Network Network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = Network;
         this.mainFrame=mainFrame;
-        this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
+        this.DeliveryManagerOrganizations= findDeliveryManagerOrganizationInsystem();
        
        populateRequestTable();
     }
@@ -203,37 +204,22 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-     private Organization findProductionLineOrganizationInsystem() {
+    
+    private ArrayList<Organization>  findDeliveryManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
-           for(Enterprise enterprise : network.getEnterpriseList()){
-               if(enterprise.getType()==EnterpriseType.MANUFACTURING){
-                   for(Organization organization : enterprise.getOrganizationDirectory()){
-                       if(organization.getName()=="Production Line"){
-                           return organization;
-                       }
-                   }
-               }
-           }
-       }
-        return null;// return null if doesn't found
-    }
-    private Organization findDeliveryManagerOrganizationInsystem() {
-        //遍歷所有network中的enterPrise 直到找到type 符合
-        //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+         ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.DELIVERY){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Delivery Management"){
-                           return organization;
+                            Organizations.add(organization);
                        }
                    }
                }
            }
-       }
-        return null;// return null if doesn't found
+       
+          return Organizations;// return null if doesn't found
     } 
      private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){

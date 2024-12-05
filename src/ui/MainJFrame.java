@@ -293,7 +293,7 @@ public class MainJFrame extends javax.swing.JFrame {
     } 
       private void showManufacturingManagerWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-       ManufacturingWorkerWorkArea manufacturingWorkerWorkArea = new ManufacturingWorkerWorkArea(container,loginAccount, system,this);
+       ManufacturingWorkerWorkArea manufacturingWorkerWorkArea = new ManufacturingWorkerWorkArea(container,loginAccount,loginNetwork ,this);
         container.add("ManufacturingWorkerWorkArea",  manufacturingWorkerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -301,7 +301,7 @@ public class MainJFrame extends javax.swing.JFrame {
     } 
       private void showDeliveryManagerWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-       DeliveryManagerWorkArea deliveryManagerWorkArea = new DeliveryManagerWorkArea(container,loginAccount, system,this);
+       DeliveryManagerWorkArea deliveryManagerWorkArea = new DeliveryManagerWorkArea(container,loginAccount, loginNetwork,this);
         container.add("DeliveryManagerWorkArea",  deliveryManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -309,7 +309,7 @@ public class MainJFrame extends javax.swing.JFrame {
     } 
       
     private void showDeliveryWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
-        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount, system, this);
+        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount,loginNetwork, this);
         container.add("DeliveryWorkerWorkArea", deliveryWorkerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -317,7 +317,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     private void showRetailManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
-        RetailManagerWorkArea retailManagerWorkArea = new RetailManagerWorkArea(container, loginAccount, system,this);
+        RetailManagerWorkArea retailManagerWorkArea = new RetailManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("RetailManagerWorkArea", retailManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -325,7 +325,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     private void showMarketingManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
-        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, system,this);
+        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("MarketingManagerWorkArea", marketingManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -333,7 +333,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     private void showAdvertisingManagerWorkArea(UserAccount loginAccount,Network loginNetwork){
-        AdvertisingManagerWorkArea advertisingManagerWorkArea = new AdvertisingManagerWorkArea(container, loginAccount, system,this);
+        AdvertisingManagerWorkArea advertisingManagerWorkArea = new AdvertisingManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("AdvertisingManagerWorkArea", advertisingManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
@@ -341,7 +341,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     private void showDigitalAdsStrategistWorkArea(UserAccount loginAccount,Network loginNetwork){
-        DigitalAdsStrategistWorkArea digitalAdsStrategistWorkArea = new DigitalAdsStrategistWorkArea(container, loginAccount, system, this);
+        DigitalAdsStrategistWorkArea digitalAdsStrategistWorkArea = new DigitalAdsStrategistWorkArea(container, loginAccount, loginNetwork, this);
         container.add("DigitalAdsStrategistWorkArea", digitalAdsStrategistWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();

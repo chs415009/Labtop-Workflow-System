@@ -13,6 +13,7 @@ import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import ui.Delivery.DeliveryWorkerRole.DeliveryWorkerWorkArea;
@@ -26,18 +27,18 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
     
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
-    private WorkFlowSystem system;
+    private Network network;
     WorkRequest request;    
     /**
      * Creates new form ConfirmDeliveryPanel
      */
-    public ConfirmDeliveryPanel(JPanel container, DeliverWorkRequest deliverRequest, WorkFlowSystem system, WorkRequest request) {
+    public ConfirmDeliveryPanel(JPanel container, DeliverWorkRequest deliverRequest, Network Network, WorkRequest request) {
         initComponents();
         
         this.container = container;
         this.deliverRequest = deliverRequest;
-        this.system = system;
         this.request = request;
+         this.network = Network;
         initializeShippingStatusComboBox(); // 初始化選項為 true 和 false
         populateDeliveryDetails();
     }
@@ -296,20 +297,22 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
         // 確認 shipping confirmed 是否為 true
         if (deliverRequest.getShipConfirmed()) {
             // 查找 Marketing Organization
-            Organization marketingOrganization = findMarketingOrganization();
-
-            if (marketingOrganization != null) {
-                if(isWorkRequestExist(marketingOrganization,request)==true){
+            ArrayList<Organization> marketingOrganizations = findMarketingOrganization();
+            for(Organization marketingOrganization : marketingOrganizations){ 
+                 if (marketingOrganization != null) {
+                    if(isWorkRequestExist(marketingOrganization,request)==true){
                     JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Marketing Organization!","Warning",JOptionPane.WARNING_MESSAGE);
                     return;
-                }else{ 
+                }   else{ 
                     marketingOrganization.getWorkQueue().addWorkRequest(request);
-                    JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Marketing Manager.");}
+                    JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Marketing Manager.");
+                    }
                
-            } else {
-              
+              } else {
                 JOptionPane.showMessageDialog(this, "Marketing Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
             }
+           
         } else {
             JOptionPane.showMessageDialog(this, "Shipping is not confirmed. Cannot forward to Marketing Manager.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -318,19 +321,19 @@ public class ConfirmDeliveryPanel extends javax.swing.JPanel {
 
     
     
-    private Organization findMarketingOrganization() {
-        for (Network network : system.getNetworkList()) {
+    private ArrayList<Organization> findMarketingOrganization() {
+               ArrayList<Organization> Organizations = new ArrayList<>();
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.TECH) { // 確保企業類型是 TECH
                     for (Organization org : enterprise.getOrganizationDirectory()) {
                         if (org.getName().equalsIgnoreCase("Marketing")) { // 確保名稱匹配
-                            return org;
+                            Organizations.add(org);
                         }
                     }
                 }
             }
-        }
-        return null;
+        
+        return Organizations;
     }
     
      private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {

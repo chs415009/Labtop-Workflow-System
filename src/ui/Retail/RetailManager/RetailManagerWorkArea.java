@@ -4,6 +4,7 @@
  */
 package ui.Retail.RetailManager;
 
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.Product.Product;
 import Business.UserAccount.UserAccount;
@@ -28,16 +29,16 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     private JPanel container;
     private Organization CurrentOrganization;
     MainJFrame mainFrame;
-    WorkFlowSystem system; 
+    Network network;
     /**
      * Creates new form RetailManagerWorkArea
      */
-    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
+    public RetailManagerWorkArea(JPanel container, UserAccount UserAccount, Network Network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
         this.mainFrame = mainFrame;
-        this.system = system;
+       this.network = Network;
         
         populateTable();
     }
@@ -179,7 +180,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         }
 
         // 打開 ConfirmDeliveryPanel
-        ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest,system,request);
+        ConfirmDeliveryPanel confirmPanel = new ConfirmDeliveryPanel(container, deliverRequest,network,request);
         container.add("ConfirmDeliveryPanel", confirmPanel);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);

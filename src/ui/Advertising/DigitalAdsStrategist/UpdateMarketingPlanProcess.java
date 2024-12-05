@@ -23,7 +23,7 @@ public class UpdateMarketingPlanProcess extends javax.swing.JPanel {
     /**
      * Creates new form UpdateMarketingPlanProcess
      */
-    public UpdateMarketingPlanProcess(JPanel container, MarketingWorkRequest marketingWorkRequest, Business.WorkFlowSystem system, WorkRequest request) {
+    public UpdateMarketingPlanProcess(JPanel container, MarketingWorkRequest marketingWorkRequest, WorkRequest request) {
         initComponents();
         this.container = container;    
         this.marketingWorkRequest = marketingWorkRequest;

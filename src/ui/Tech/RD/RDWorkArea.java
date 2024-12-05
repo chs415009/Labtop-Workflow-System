@@ -5,6 +5,7 @@
 package ui.Tech.RD;
 
 
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -27,13 +28,13 @@ public class RDWorkArea extends javax.swing.JPanel {
     JPanel container;
     Organization CurrentOrganization;
     UserAccount  UserAccount;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
-    public RDWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public RDWorkArea(JPanel container,UserAccount UserAccount,Network loginNetwork,MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = loginNetwork;
         this.mainFrame=mainFrame;;
         populateRequestTable();
     }

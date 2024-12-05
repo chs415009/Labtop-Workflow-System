@@ -11,6 +11,7 @@ import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -25,12 +26,12 @@ public class CreateNewWorkRequest extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization RDOrganization;
-    public CreateNewWorkRequest(JPanel container, Organization ProductManagerOrganization,Organization RDOrganization) {
+    ArrayList<Organization> RDOrganizations;
+    public CreateNewWorkRequest(JPanel container, Organization ProductManagerOrganization,ArrayList<Organization> RDOrganizations) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=ProductManagerOrganization;
-        this.RDOrganization=RDOrganization;
+        this.RDOrganizations=RDOrganizations;
         demo();
     }
 
@@ -316,7 +317,9 @@ public class CreateNewWorkRequest extends javax.swing.JPanel {
             // 條件(Developement)觸發成功 加入workRequest到 RD Organization
             //詳見document Part1 中的Step1
             CurrentOrganization.getWorkQueue().addWorkRequest(newWorkRequest);
-            RDOrganization.getWorkQueue().addWorkRequest(newWorkRequest);
+            for(Organization rdorganization:RDOrganizations){
+                rdorganization.getWorkQueue().addWorkRequest(newWorkRequest);
+            }
             JOptionPane.showMessageDialog(this,"A new WorkRequest is created!");
             /////////////////////////////////////////////////////////
         } catch (NumberFormatException e) {

@@ -35,18 +35,17 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnViewProductionProgress" min="-2" pref="256" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnPurDetail" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
-                                  <Component id="btnSendWorkRequestToProductionLine" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="btnSignDeliveryWorkRequest" max="32767" attributes="0"/>
-                                  <Component id="btnCreateDeliveryWorkRequest" pref="255" max="32767" attributes="0"/>
-                              </Group>
+                          <Component id="btnPurDetail" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
+                          <Component id="btnSendWorkRequestToProductionLine" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnViewProductionProgress" alignment="0" min="-2" pref="256" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnSignDeliveryWorkRequest" max="32767" attributes="0"/>
+                              <Component id="btnCreateDeliveryWorkRequest" pref="255" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="btnWorkSummary" min="-2" pref="258" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -63,9 +62,9 @@
                   <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="225" max="32767" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="199" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnPurDetail" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCreateDeliveryWorkRequest" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -76,7 +75,10 @@
                   <Component id="btnSignDeliveryWorkRequest" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnViewProductionProgress" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnViewProductionProgress" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnWorkSummary" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -206,6 +208,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignDeliveryWorkRequestActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnWorkSummary">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="View WorkReqeust Summary"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnWorkSummaryActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

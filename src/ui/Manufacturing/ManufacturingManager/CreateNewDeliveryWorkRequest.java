@@ -15,6 +15,7 @@ import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -29,15 +30,15 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization DeliveryManagerOrganization;
+    ArrayList<Organization> DeliveryManagerOrganizations;
     WorkRequest workRequest;
-    public CreateNewDeliveryWorkRequest(JPanel container, Organization CurrentOrganization,Organization DeliveryManagerOrganization,WorkRequest request) {
+    public CreateNewDeliveryWorkRequest(JPanel container, Organization CurrentOrganization,ArrayList<Organization> DeliveryManagerOrganizations,WorkRequest request) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=CurrentOrganization;
         this.workRequest =request;
         
-        this.DeliveryManagerOrganization=DeliveryManagerOrganization;
+        this.DeliveryManagerOrganizations=DeliveryManagerOrganizations;
         
     }
 
@@ -219,16 +220,19 @@ public class CreateNewDeliveryWorkRequest extends javax.swing.JPanel {
                 return;
             }
             if(workRequest.getPurchaseWorkRequest().getVerified()==true){
-                if(isWorkRequestExist(DeliveryManagerOrganization,workRequest)==true){
-                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DeliverManager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-                return; 
+                  for(Organization organization:DeliveryManagerOrganizations){
+                      if(isWorkRequestExist(organization,workRequest)==true){
+                        JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in DeliverManager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                        return; 
                 }
                 else{ 
-                    DeliveryManagerOrganization.getWorkQueue().addWorkRequest(workRequest);
+                   organization.getWorkQueue().addWorkRequest(workRequest);
                     workRequest.setDeliverWorkRequest(new DeliverWorkRequest(workRequest.getProduct(),OrderName,ShipFrom,ShipTo,Quantity));
                     JOptionPane.showMessageDialog(this,
-                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");}
-           
+                      "A DeliverWorkRequest is added to WorkReqeust!\nWorkReqeust is passed to DeliverManagerOrganization.");
+                }
+                  }
+
             }else{
                 JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
             return;}

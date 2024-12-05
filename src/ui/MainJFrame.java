@@ -55,6 +55,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private JPasswordField passwordField;
     private WorkFlowSystem system; // 系統的實例
     private UserAccount loginAccount;
+    private Network loginNetwork;
     
     public MainJFrame() {
         system = WorkFlowSystem.getInstance(); // 初始化系統實例
@@ -198,21 +199,22 @@ public class MainJFrame extends javax.swing.JFrame {
                         if (account.getUsername().equals(username) && 
                             account.getPassword().equals(password)) {
                             found = true;
+                            loginNetwork = network;
                             loginAccount = account;
-
+                            
                             // Route to appropriate work area based on organization
                             switch(account.getOrganization().getName()) {
-                                case "Product Management" -> showProductManagerWorkAreaPanel(account);
-                                case "Research and Development" -> showRDWorkAreaPanel(account);
-                                case "Purchasing" -> showPurchaseManagerWorkArea(account);
-                                case "Manufacturing Management" -> showManufacturingManagerWorkArea(account);
-                                case "Production Line" -> showManufacturingManagerWorkerWorkArea(account);
-                                case "Delivery Management" -> showDeliveryManagerWorkerWorkArea(account);
-                                case "Delivery" -> showDeliveryWorkerWorkArea(account);
-                                case "Retail Sales" -> showRetailManagerWorkArea(account);
-                                case "Marketing" -> showMarketingManagerWorkArea(account);
-                                case "Planner" -> showAdvertisingManagerWorkArea(account);
-                                case "Digital Strategy" -> showDigitalAdsStrategistWorkArea(account);
+                                case "Product Management" -> showProductManagerWorkAreaPanel(account,loginNetwork);
+                                case "Research and Development" -> showRDWorkAreaPanel(account,loginNetwork);
+                                case "Purchasing" -> showPurchaseManagerWorkArea(account,loginNetwork);
+                                case "Manufacturing Management" -> showManufacturingManagerWorkArea(account,loginNetwork);
+                                case "Production Line" -> showManufacturingManagerWorkerWorkArea(account,loginNetwork);
+                                case "Delivery Management" -> showDeliveryManagerWorkerWorkArea(account,loginNetwork);
+                                case "Delivery" -> showDeliveryWorkerWorkArea(account,loginNetwork);
+                                case "Retail Sales" -> showRetailManagerWorkArea(account,loginNetwork);
+                                case "Marketing" -> showMarketingManagerWorkArea(account,loginNetwork);
+                                case "Planner" -> showAdvertisingManagerWorkArea(account,loginNetwork);
+                                case "Digital Strategy" -> showDigitalAdsStrategistWorkArea(account,loginNetwork);
                             }
 
                             // Show welcome message
@@ -256,90 +258,90 @@ public class MainJFrame extends javax.swing.JFrame {
         layout.show(container, "SystemAdminWorkAreaJPanel");
     }
     
-    private void showProductManagerWorkAreaPanel(UserAccount loginAccount) {
+    private void showProductManagerWorkAreaPanel(UserAccount loginAccount,Network loginNetwork) {
        
-        ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, system,this);
+        ProductManagerWorkArea productManagerWorkArea = new ProductManagerWorkArea(container,loginAccount, loginNetwork,this);
         container.add("ProductManagerWorkArea", productManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "ProductManagerWorkArea");
     }
-    private void showRDWorkAreaPanel(UserAccount loginAccount) {
+    private void showRDWorkAreaPanel(UserAccount loginAccount,Network loginNetwork) {
        
-        RDWorkArea rDWorkArea = new RDWorkArea(container,loginAccount, system,this);
+        RDWorkArea rDWorkArea = new RDWorkArea(container,loginAccount, loginNetwork,this);
         container.add("RDWorkArea", rDWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "RDWorkArea");
     } 
-     private void showPurchaseManagerWorkArea(UserAccount loginAccount) {
+     private void showPurchaseManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-        PurchaseManagerWorkArea purchaseManagerWorkArea = new PurchaseManagerWorkArea(container,loginAccount, system,this);
+        PurchaseManagerWorkArea purchaseManagerWorkArea = new PurchaseManagerWorkArea(container,loginAccount,  loginNetwork,this);
         container.add("PurchaseManagerWorkArea", purchaseManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "PurchaseManagerWorkArea");
     } 
      
-      private void showManufacturingManagerWorkArea(UserAccount loginAccount) {
+      private void showManufacturingManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-       ManufacturingManagerWorkArea manufacturingManagerWorkArea = new ManufacturingManagerWorkArea(container,loginAccount, system,this);
+       ManufacturingManagerWorkArea manufacturingManagerWorkArea = new ManufacturingManagerWorkArea(container,loginAccount,loginNetwork, this);
         container.add("ManufacturingManagerWorkArea",  manufacturingManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "ManufacturingManagerWorkArea");
     } 
-      private void showManufacturingManagerWorkerWorkArea(UserAccount loginAccount) {
+      private void showManufacturingManagerWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-       ManufacturingWorkerWorkArea manufacturingWorkerWorkArea = new ManufacturingWorkerWorkArea(container,loginAccount, system,this);
+       ManufacturingWorkerWorkArea manufacturingWorkerWorkArea = new ManufacturingWorkerWorkArea(container,loginAccount,loginNetwork ,this);
         container.add("ManufacturingWorkerWorkArea",  manufacturingWorkerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "ManufacturingWorkerWorkArea");
     } 
-      private void showDeliveryManagerWorkerWorkArea(UserAccount loginAccount) {
+      private void showDeliveryManagerWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
        
-       DeliveryManagerWorkArea deliveryManagerWorkArea = new DeliveryManagerWorkArea(container,loginAccount, system,this);
+       DeliveryManagerWorkArea deliveryManagerWorkArea = new DeliveryManagerWorkArea(container,loginAccount, loginNetwork,this);
         container.add("DeliveryManagerWorkArea",  deliveryManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "DeliveryManagerWorkArea");
     } 
       
-    private void showDeliveryWorkerWorkArea(UserAccount loginAccount) {
-        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount, system, this);
+    private void showDeliveryWorkerWorkArea(UserAccount loginAccount,Network loginNetwork) {
+        DeliveryWorkerWorkArea deliveryWorkerWorkArea = new DeliveryWorkerWorkArea(container, loginAccount,loginNetwork, this);
         container.add("DeliveryWorkerWorkArea", deliveryWorkerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "DeliveryWorkerWorkArea");
     }
     
-    private void showRetailManagerWorkArea(UserAccount loginAccount) {
-        RetailManagerWorkArea retailManagerWorkArea = new RetailManagerWorkArea(container, loginAccount, system,this);
+    private void showRetailManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
+        RetailManagerWorkArea retailManagerWorkArea = new RetailManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("RetailManagerWorkArea", retailManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "RetailManagerWorkArea");
     }
     
-    private void showMarketingManagerWorkArea(UserAccount loginAccount) {
-        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, system,this);
+    private void showMarketingManagerWorkArea(UserAccount loginAccount,Network loginNetwork) {
+        MarketingManagerWorkArea marketingManagerWorkArea = new MarketingManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("MarketingManagerWorkArea", marketingManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "MarketingManagerWorkArea");
     }
     
-    private void showAdvertisingManagerWorkArea(UserAccount loginAccount){
-        AdvertisingManagerWorkArea advertisingManagerWorkArea = new AdvertisingManagerWorkArea(container, loginAccount, system,this);
+    private void showAdvertisingManagerWorkArea(UserAccount loginAccount,Network loginNetwork){
+        AdvertisingManagerWorkArea advertisingManagerWorkArea = new AdvertisingManagerWorkArea(container, loginAccount, loginNetwork,this);
         container.add("AdvertisingManagerWorkArea", advertisingManagerWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, "AdvertisingManagerWorkArea");
     }
     
-    private void showDigitalAdsStrategistWorkArea(UserAccount loginAccount){
-        DigitalAdsStrategistWorkArea digitalAdsStrategistWorkArea = new DigitalAdsStrategistWorkArea(container, loginAccount, system, this);
+    private void showDigitalAdsStrategistWorkArea(UserAccount loginAccount,Network loginNetwork){
+        DigitalAdsStrategistWorkArea digitalAdsStrategistWorkArea = new DigitalAdsStrategistWorkArea(container, loginAccount, loginNetwork, this);
         container.add("DigitalAdsStrategistWorkArea", digitalAdsStrategistWorkArea);
 
         CardLayout layout = (CardLayout) container.getLayout();

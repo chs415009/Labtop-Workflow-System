@@ -19,6 +19,7 @@ import Business.WorkRequest.DevelopmentWorkRequest;
 import Business.WorkRequest.PurchaseWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -36,19 +37,20 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization ProductionLineOrganization;
-    Organization DeliveryManagerOrganization;
+    ArrayList<Organization> ProductionLineOrganizations;
+    ArrayList<Organization> DeliveryManagerOrganizations;
     UserAccount  UserAccount;
-    WorkFlowSystem system;
+    
     MainJFrame mainFrame;
-    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    Network network;
+    public ManufacturingManagerWorkArea(JPanel container,UserAccount UserAccount,Network network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = network;
         this.mainFrame=mainFrame;
-        this.ProductionLineOrganization = findProductionLineOrganizationInsystem();
-        this.DeliveryManagerOrganization= findDeliveryManagerOrganizationInsystem();
+        this.ProductionLineOrganizations = findProductionLineOrganizationInsystem();
+        this.DeliveryManagerOrganizations= findDeliveryManagerOrganizationInsystem();
         
        populateRequestTable();
     }
@@ -71,6 +73,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         btnViewProductionProgress = new javax.swing.JButton();
         btnCreateDeliveryWorkRequest = new javax.swing.JButton();
         btnSignDeliveryWorkRequest = new javax.swing.JButton();
+        btnWorkSummary = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -149,6 +152,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnWorkSummary.setText("View WorkReqeust Summary");
+        btnWorkSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkSummaryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,15 +173,15 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                         .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnViewProductionProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnPurDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSendWorkRequestToProductionLine))
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnSignDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnCreateDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))))
+                            .addComponent(btnPurDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSendWorkRequestToProductionLine)
+                            .addComponent(btnViewProductionProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnSignDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCreateDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                            .addComponent(btnWorkSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -182,9 +192,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogout)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPurDetail)
                     .addComponent(btnCreateDeliveryWorkRequest))
@@ -193,7 +203,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(btnSendWorkRequestToProductionLine)
                     .addComponent(btnSignDeliveryWorkRequest))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnViewProductionProgress)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnViewProductionProgress)
+                    .addComponent(btnWorkSummary))
                 .addGap(110, 110, 110))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -214,14 +226,17 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0); 
         // When signed is true, passing Workrequest to Manufacturing Organization
         if(request.getPurchaseWorkRequest().getSigned()==true){
-            if(isWorkRequestExist(ProductionLineOrganization,request)==true){
-                JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-                return; 
+            for(Organization organization:ProductionLineOrganizations){
+                if(isWorkRequestExist(organization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in ProductionLine Organization!","Warning",JOptionPane.WARNING_MESSAGE);
+                    return; 
             }
             else{ 
-                ProductionLineOrganization.getWorkQueue().addWorkRequest(request);
+                 organization.getWorkQueue().addWorkRequest(request);
                 JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to ProductionLine Organization!");
                 }
+            }
+            
 
         }else{
             JOptionPane.showMessageDialog(this, "The PurchaseWorkRequest is not Signed!","Error", JOptionPane.WARNING_MESSAGE);
@@ -268,7 +283,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        CreateNewDeliveryWorkRequest cndwr = new CreateNewDeliveryWorkRequest(container, CurrentOrganization,DeliveryManagerOrganization,request);
+        CreateNewDeliveryWorkRequest cndwr = new CreateNewDeliveryWorkRequest(container, CurrentOrganization,DeliveryManagerOrganizations,request);
         container.add(" CreateNewDeliveryWorkRequest", cndwr );
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
@@ -295,11 +310,26 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         }
 
         // 跳轉到簽署界面
-        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, system, selectedRequest);
+        ManufacturingManagerSignPanel signPanel = new ManufacturingManagerSignPanel(container, deliverRequest, network, selectedRequest);
         container.add("ManufacturingManagerSignPanel", signPanel);
         CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnSignDeliveryWorkRequestActionPerformed
+
+    private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewWorkReqeustSummary viewWorkReqeustSummary = new ViewWorkReqeustSummary(container, request);
+        container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnWorkSummaryActionPerformed
 
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
@@ -324,37 +354,37 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             model.addRow(row);
         }
     }
-     private Organization findProductionLineOrganizationInsystem() {
+     private ArrayList<Organization> findProductionLineOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+         ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.MANUFACTURING){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Production Line"){
-                           return organization;
+                              Organizations.add(organization);
                        }
                    }
                }
            }
-       }
-        return null;// return null if doesn't found
+       
+         return Organizations;// return null if doesn't found
     }
-    private Organization findDeliveryManagerOrganizationInsystem() {
+    private ArrayList<Organization> findDeliveryManagerOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 符合
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
+       ArrayList<Organization> Organizations = new ArrayList<>();
            for(Enterprise enterprise : network.getEnterpriseList()){
                if(enterprise.getType()==EnterpriseType.DELIVERY){
                    for(Organization organization : enterprise.getOrganizationDirectory()){
                        if(organization.getName()=="Delivery Management"){
-                           return organization;
+                             Organizations.add(organization);
                        }
                    }
                }
            }
-       }
-        return null;// return null if doesn't found
+       
+         return Organizations;// return null if doesn't found
     } 
      private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
         for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
@@ -381,6 +411,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JButton btnSendWorkRequestToProductionLine;
     private javax.swing.JButton btnSignDeliveryWorkRequest;
     private javax.swing.JButton btnViewProductionProgress;
+    private javax.swing.JButton btnWorkSummary;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

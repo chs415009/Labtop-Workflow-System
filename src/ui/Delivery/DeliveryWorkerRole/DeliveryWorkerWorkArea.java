@@ -4,6 +4,7 @@
  */
 package ui.Delivery.DeliveryWorkerRole;
 
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -25,17 +26,17 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
     private javax.swing.table.DefaultTableModel model;
     private Organization CurrentOrganization;
     private MainJFrame mainFrame;
-    private WorkFlowSystem system;
+    Network network;
 
     
     /**
      * Creates new form DeliveryWorkerWorkArea
      */
-    public DeliveryWorkerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
+    public DeliveryWorkerWorkArea(JPanel container, UserAccount UserAccount, Network Network, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
         this.CurrentOrganization = UserAccount.getOrganization(); // 从 UserAccount 获取组织
-        this.system = system;
+        this.network = Network;
         this.mainFrame = mainFrame;
 
         populateTable();
@@ -188,7 +189,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
 
         if (request.getDeliverWorkRequest() != null) {
             DeliverWorkRequest deliverRequest = request.getDeliverWorkRequest();
-            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,system,request);
+            ShippingStatusUpdatePanel updatePanel = new ShippingStatusUpdatePanel(container, deliverRequest,network,request);
             container.add("DeliveryStatusUpdatePanel", updatePanel);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);

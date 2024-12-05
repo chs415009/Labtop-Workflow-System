@@ -4,6 +4,7 @@
  */
 package ui.Advertising.DigitalAdsStrategist;
 
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
@@ -23,17 +24,17 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
 
     JPanel container;
     Organization CurrentOrganization;
-    WorkFlowSystem system;
+    Network network;
     MainJFrame mainFrame;
     /**
      * Creates new form DigitalAdsStrategistWorkArea
      */
-    public DigitalAdsStrategistWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system,MainJFrame mainFrame) {
+    public DigitalAdsStrategistWorkArea(JPanel container,UserAccount UserAccount,Network network,MainJFrame mainFrame) {
         initComponents();
         initComponents();
         this.container = container;
         this.CurrentOrganization=UserAccount.getOrganization();
-        this.system = system;
+        this.network = network;
         this.mainFrame = mainFrame;
         populateRequestTable();
     }
@@ -147,7 +148,7 @@ public class DigitalAdsStrategistWorkArea extends javax.swing.JPanel {
         if (request.getMarketingWorkRequest() != null) {
             MarketingWorkRequest marketingWorkRequest = request.getMarketingWorkRequest();
 
-            UpdateMarketingPlanProcess updateMarketingPlanProcess = new UpdateMarketingPlanProcess(container, marketingWorkRequest, system, request);
+            UpdateMarketingPlanProcess updateMarketingPlanProcess = new UpdateMarketingPlanProcess(container, marketingWorkRequest,  request);
             container.add("UpdateMarketingPlanProcess", updateMarketingPlanProcess);
             CardLayout layout = (CardLayout) container.getLayout();
             layout.next(container);

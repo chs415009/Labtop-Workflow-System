@@ -12,6 +12,7 @@ import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import ui.Manufacturing.ManufacturingWorkerRole.ManufacturingWorkerWorkArea;
@@ -24,16 +25,16 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
 
     private JPanel container;
     private DeliverWorkRequest deliverRequest;
-    private Business.WorkFlowSystem system;
-    WorkRequest request;
+    private Network network;
+    private WorkRequest request;
     /**
      * Creates new form ShippingStatusUpdatePanel
      */
-    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest, Business.WorkFlowSystem system, WorkRequest request) {
+    public ShippingStatusUpdatePanel(JPanel container, DeliverWorkRequest deliverRequest, Network Network, WorkRequest request) {
         initComponents();
         this.container = container;
         this.deliverRequest = deliverRequest;
-        this.system = system;
+         this.network = Network;
         this.request = request;
         populateShippingDetails();
     }
@@ -247,9 +248,10 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
         }
 
         // 查找 RetailManagerOrganization
-        Organization retailManagerOrg = findRetailManagerOrganization();
-        if (retailManagerOrg != null) {
-            if(isWorkRequestExist(retailManagerOrg,request)==true){
+       ArrayList<Organization> retailManagerOrgs = findRetailManagerOrganization();
+       for(Organization retailManagerOrg : retailManagerOrgs){
+           if (retailManagerOrg != null) {
+                if(isWorkRequestExist(retailManagerOrg,request)==true){
                     JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Retail manager Organization!","Warning",JOptionPane.WARNING_MESSAGE);
                     return;
                 }else{
@@ -259,24 +261,26 @@ public class ShippingStatusUpdatePanel extends javax.swing.JPanel {
            
         } else {
             JOptionPane.showMessageDialog(this, "Retail Manager Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+     }
+ }
+        
     }
 
 
 
-    private Organization findRetailManagerOrganization() {
-        for (Network network : system.getNetworkList()) {
+    private ArrayList<Organization> findRetailManagerOrganization() {
+             ArrayList<Organization> Organizations = new ArrayList<>();
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.RETAIL) { // 確保企業類型是 RETAIL
-                    for (Organization org : enterprise.getOrganizationDirectory()) {
-                        if (org.getName().equalsIgnoreCase("Retail Sales")) { // 確保名稱匹配
-                            return org;
+                    for (Organization organization : enterprise.getOrganizationDirectory()) {
+                        if (organization.getName().equalsIgnoreCase("Retail Sales")) { // 確保名稱匹配
+                            Organizations.add(organization);
                         }
                     }
                 }
             }
-        }
-        return null; // 找不到匹配的組織
+        
+        return Organizations; // 找不到匹配的組織
     }
 private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
             for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){

@@ -64,7 +64,7 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
         });
 
         lblTitle.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(0, 153, 204));
+        lblTitle.setForeground(new java.awt.Color(0, 153, 153));
         lblTitle.setText("Advertising Manager Role WorkArea");
 
         btnReview.setText("Review Marketting Plan ");
@@ -110,16 +110,14 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnReview)
+                        .addComponent(btnReview, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
-                                .addComponent(btnLogout))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())))
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
+                        .addComponent(btnLogout))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,10 +127,10 @@ public class AdvertisingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnReview)
-                .addContainerGap(288, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

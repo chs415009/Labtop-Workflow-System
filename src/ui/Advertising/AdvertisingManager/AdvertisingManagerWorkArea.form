@@ -24,25 +24,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnReview" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnReview" min="-2" pref="201" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblTitle" min="-2" pref="409" max="-2" attributes="0"/>
-                              <EmptySpace pref="307" max="32767" attributes="0"/>
-                              <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblTitle" min="-2" pref="409" max="-2" attributes="0"/>
+                      <EmptySpace pref="307" max="32767" attributes="0"/>
+                      <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,10 +51,10 @@
                   <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="97" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="217" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnReview" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="288" max="32767" attributes="0"/>
+              <EmptySpace pref="193" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -78,7 +74,7 @@
           <Font name="Microsoft JhengHei UI" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="99" red="0" type="rgb"/>
+          <Color blue="99" green="99" red="0" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Advertising Manager Role WorkArea"/>
       </Properties>

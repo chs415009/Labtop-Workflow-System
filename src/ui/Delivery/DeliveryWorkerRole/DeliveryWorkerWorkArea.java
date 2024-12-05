@@ -56,6 +56,10 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
         tblWorkRequest = new javax.swing.JTable();
         btnViewDetails = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(255, 255, 204));
+        setForeground(new java.awt.Color(153, 153, 0));
+        setPreferredSize(new java.awt.Dimension(800, 500));
+
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +68,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 153, 0));
         jLabel2.setText("Delivery Worker Role WorkArea");
 
         tblWorkRequest.setModel(new javax.swing.table.DefaultTableModel(
@@ -74,7 +79,7 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "WorkRequest", "Product", "OrderName", "Shipping Status", "ShipFrom", "ShipTo", "Quantity"
+                "Work Request", "Product", "OrderName", "Ship Status", "ShipFrom", "ShipTo", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
@@ -109,16 +114,14 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnViewDetails)
+                        .addComponent(btnViewDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                                .addComponent(btnLogout)))
-                        .addContainerGap())))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
+                        .addComponent(btnLogout)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,10 +131,10 @@ public class DeliveryWorkerWorkArea extends javax.swing.JPanel {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout))
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnViewDetails)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(159, 159, 159))
         );
     }// </editor-fold>//GEN-END:initComponents
 

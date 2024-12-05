@@ -108,11 +108,14 @@ public class MainJFrame extends javax.swing.JFrame {
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        loginPanel.setBackground(new Color(230, 200, 255));
+        loginPanel.setBackground(new Color(204, 255, 255));
 
         // ====== 標題 ======
         JLabel titleLabel = new JLabel("WorkFlow System", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Georgia", Font.BOLD, 50));
+        titleLabel.setForeground(new Color(0, 100, 0));
+        
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -120,7 +123,7 @@ public class MainJFrame extends javax.swing.JFrame {
         loginPanel.add(titleLabel, gbc);
 
         // ====== 用戶名 ======
-        JLabel userNameLabel = new JLabel("User Name:");
+        JLabel userNameLabel = new JLabel("                     User Name:", SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -136,7 +139,7 @@ public class MainJFrame extends javax.swing.JFrame {
         loginPanel.add(userNameField, gbc);
 
         // ====== 密碼 ======
-        JLabel passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = new JLabel("                     Password:", SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -157,6 +160,8 @@ public class MainJFrame extends javax.swing.JFrame {
         gbc.anchor = GridBagConstraints.CENTER; // 居中
         gbc.insets = new Insets(20, 0, 5, 0);
         loginPanel.add(loginButton, gbc);
+        loginButton.setFont(new Font("Georgia", Font.BOLD, 16));
+        loginButton.setForeground(new Color(0, 100, 0));
 
         // ====== 事件處理 ======
         // Update the login button action listener

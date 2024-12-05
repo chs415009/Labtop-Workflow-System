@@ -84,6 +84,8 @@ public class ManageNetworkJPanel extends javax.swing.JPanel {
         ));
         networkTable.setRowHeight(18); // 調整行高
         networkTable.setPreferredScrollableViewportSize(new Dimension(500, 100)); // 限制表格顯示大小
+        networkTable.getTableHeader().setForeground(Color.GRAY);
+        networkTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         JScrollPane scrollPane = new JScrollPane(networkTable);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 

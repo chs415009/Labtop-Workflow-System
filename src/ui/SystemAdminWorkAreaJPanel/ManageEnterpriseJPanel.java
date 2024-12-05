@@ -92,7 +92,7 @@ public class ManageEnterpriseJPanel extends javax.swing.JPanel {
         enterpriseTable.setFillsViewportHeight(true);
         enterpriseTable.setSelectionBackground(Color.decode("#D4E6F1"));
         enterpriseTable.getTableHeader().setBackground(Color.decode("#2980B9"));
-        enterpriseTable.getTableHeader().setForeground(Color.WHITE);
+        enterpriseTable.getTableHeader().setForeground(Color.GRAY);
         enterpriseTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
 
         if (enterpriseTable.getColumnModel().getColumnCount() > 0) {

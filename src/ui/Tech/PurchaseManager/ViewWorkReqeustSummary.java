@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package ui.Tech.ProductManager;
+package ui.Tech.PurchaseManager;
 
 
+import ui.Tech.MarketingOrganization.*;
+import ui.Retail.RetailManager.*;
+import ui.Manufacturing.ManufacturingManager.*;
+import ui.Tech.ProductManager.*;
 import Business.Organization.Organization;
 import Business.Product.Product;
 import Business.WorkRequest.DeliverWorkRequest;

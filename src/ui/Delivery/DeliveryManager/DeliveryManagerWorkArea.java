@@ -67,6 +67,7 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
         btnViewDetails = new javax.swing.JButton();
+        btnWorkSummary = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 204));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -117,6 +118,13 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnWorkSummary.setText("View WorkReqeust Summary");
+        btnWorkSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkSummaryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,6 +134,8 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnViewDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnWorkSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
@@ -144,7 +154,9 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnViewDetails)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnViewDetails)
+                    .addComponent(btnWorkSummary))
                 .addContainerGap(171, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -181,6 +193,21 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "This WorkRequest does not contain a Delivery Work Request.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnViewDetailsActionPerformed
+
+    private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewWorkReqeustSummary viewWorkReqeustSummary = new ViewWorkReqeustSummary(container, request);
+        container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnWorkSummaryActionPerformed
 
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
@@ -234,6 +261,7 @@ public class DeliveryManagerWorkArea extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnViewDetails;
+    private javax.swing.JButton btnWorkSummary;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

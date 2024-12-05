@@ -57,6 +57,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         btnLogout = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
+        btnWorkSummary = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 204, 204));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -107,6 +108,13 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblWorkRequest);
 
+        btnWorkSummary.setText("View WorkReqeust Summary");
+        btnWorkSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkSummaryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,6 +124,8 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnConfirmDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnWorkSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
@@ -135,7 +145,9 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnConfirmDelivery)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConfirmDelivery)
+                    .addComponent(btnWorkSummary))
                 .addContainerGap(164, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -192,6 +204,21 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
         javax.swing.JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ui.Manufacturing.ManufacturingManager.ViewWorkReqeustSummary viewWorkReqeustSummary = new ui.Manufacturing.ManufacturingManager.ViewWorkReqeustSummary(container, request);
+        container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnWorkSummaryActionPerformed
+
     //for demo
     private void populateDemoWorkRequest() {
         
@@ -208,6 +235,7 @@ public class RetailManagerWorkArea extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmDelivery;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnWorkSummary;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

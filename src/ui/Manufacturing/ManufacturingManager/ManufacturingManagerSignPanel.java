@@ -13,6 +13,7 @@ import Business.WorkRequest.DeliverWorkRequest;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -277,21 +278,23 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
         // 確認 deliverRequest 已簽名
         if (deliverRequest.getSigned()) {
             // 查找 Delivery Organization
-            Organization deliveryOrganization = findDeliveryOrganization();
-
-            if (deliveryOrganization != null) {
+            ArrayList<Organization> deliveryOrganizations = findDeliveryOrganization();
+             for(Organization deliveryOrganization :deliveryOrganizations){
+                 if (deliveryOrganization != null) {
          
-            if(isWorkRequestExist( deliveryOrganization,request)==true){
+                 if(isWorkRequestExist( deliveryOrganization,request)==true){
                     JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Delivery Organization!","Warning", JOptionPane.WARNING_MESSAGE);
                     return;
-           }else{
+                }else{
                     deliveryOrganization.getWorkQueue().addWorkRequest(request);
                     JOptionPane.showMessageDialog(this, "Delivery WorkRequest has been forwarded to Delivery Worker Role.");
-             }
-        }else {
+                        }
+                 }else {
                 // 顯示錯誤消息，表示未找到 Delivery Organization
                 JOptionPane.showMessageDialog(this, "Delivery Organization not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+             }
+            
         } else {
             // 如果未簽名，不進行傳遞並提示用戶
             JOptionPane.showMessageDialog(this, "WorkRequest was not approved. No forwarding occurred.");
@@ -299,19 +302,19 @@ public class ManufacturingManagerSignPanel extends javax.swing.JPanel {
     }
 
 
-    private Organization findDeliveryOrganization() {
-        
+    private ArrayList<Organization> findDeliveryOrganization() {
+        ArrayList<Organization> Organizations = new ArrayList<>();
             for (Enterprise enterprise : network.getEnterpriseList()) {
                 if (enterprise.getType() == EnterpriseType.DELIVERY) {
                     for (Organization org : enterprise.getOrganizationDirectory()) {
                         if (org.getName().equalsIgnoreCase("Delivery")) { // 確保名稱匹配
-                            return org;
+                            Organizations.add(org);
                         }
                     }
                 }
             }
         
-        return null; // 未找到 Delivery Organization
+       return  Organizations;// 未找到 Delivery Organization
     }
    
  private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {

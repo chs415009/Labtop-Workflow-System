@@ -29,6 +29,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="btnViewDetails" min="-2" pref="156" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnWorkSummary" min="-2" pref="258" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -53,7 +55,10 @@
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="228" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnViewDetails" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnViewDetails" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnWorkSummary" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="171" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -169,6 +174,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewDetailsActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnWorkSummary">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="View WorkReqeust Summary"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnWorkSummaryActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

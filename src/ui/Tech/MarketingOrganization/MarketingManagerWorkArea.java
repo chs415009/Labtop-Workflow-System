@@ -58,6 +58,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblWorkRequest = new javax.swing.JTable();
         btnCreateMarkettingWorkRequest = new javax.swing.JButton();
+        btnWorkSummary = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 204, 255));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -116,6 +117,13 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnWorkSummary.setText("View WorkReqeust Summary");
+        btnWorkSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkSummaryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,12 +133,14 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
                         .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCreateMarkettingWorkRequest)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnWorkSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -147,7 +157,8 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreateMarkettingWorkRequest)
-                    .addComponent(btnReport))
+                    .addComponent(btnReport)
+                    .addComponent(btnWorkSummary))
                 .addContainerGap(176, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -193,6 +204,21 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
         CardLayout layout=(CardLayout)container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnCreateMarkettingWorkRequestActionPerformed
+
+    private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ui.Manufacturing.ManufacturingManager.ViewWorkReqeustSummary viewWorkReqeustSummary = new ui.Manufacturing.ManufacturingManager.ViewWorkReqeustSummary(container, request);
+        container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnWorkSummaryActionPerformed
 
   
     
@@ -244,6 +270,7 @@ public class MarketingManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JButton btnCreateMarkettingWorkRequest;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnReport;
+    private javax.swing.JButton btnWorkSummary;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JTable tblWorkRequest;

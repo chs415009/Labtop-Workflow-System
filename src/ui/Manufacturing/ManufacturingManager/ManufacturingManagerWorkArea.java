@@ -73,6 +73,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         btnViewProductionProgress = new javax.swing.JButton();
         btnCreateDeliveryWorkRequest = new javax.swing.JButton();
         btnSignDeliveryWorkRequest = new javax.swing.JButton();
+        btnWorkSummary = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -151,6 +152,13 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
             }
         });
 
+        btnWorkSummary.setText("View WorkReqeust Summary");
+        btnWorkSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWorkSummaryActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,15 +173,15 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                         .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnViewProductionProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnPurDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSendWorkRequestToProductionLine))
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnSignDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnCreateDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))))
+                            .addComponent(btnPurDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSendWorkRequestToProductionLine)
+                            .addComponent(btnViewProductionProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnSignDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCreateDeliveryWorkRequest, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                            .addComponent(btnWorkSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -184,9 +192,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogout)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPurDetail)
                     .addComponent(btnCreateDeliveryWorkRequest))
@@ -195,7 +203,9 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
                     .addComponent(btnSendWorkRequestToProductionLine)
                     .addComponent(btnSignDeliveryWorkRequest))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnViewProductionProgress)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnViewProductionProgress)
+                    .addComponent(btnWorkSummary))
                 .addGap(110, 110, 110))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -306,6 +316,21 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
         layout.next(container);
     }//GEN-LAST:event_btnSignDeliveryWorkRequestActionPerformed
 
+    private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        if (selectedRowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
+
+        ViewWorkReqeustSummary viewWorkReqeustSummary = new ViewWorkReqeustSummary(container, request);
+        container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
+        CardLayout layout = (CardLayout) container.getLayout();
+        layout.next(container);
+    }//GEN-LAST:event_btnWorkSummaryActionPerformed
+
     public void populateRequestTable(){
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
         
@@ -386,6 +411,7 @@ public class ManufacturingManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JButton btnSendWorkRequestToProductionLine;
     private javax.swing.JButton btnSignDeliveryWorkRequest;
     private javax.swing.JButton btnViewProductionProgress;
+    private javax.swing.JButton btnWorkSummary;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblWorkRequest;

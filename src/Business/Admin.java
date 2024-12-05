@@ -12,9 +12,9 @@ public class Admin {
     private String name;
     private String password;
     
-    public Admin() {
-        this.name = "admin";
-        this.password = "admin";
+    public Admin(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
     
     public String getName() { return name; }

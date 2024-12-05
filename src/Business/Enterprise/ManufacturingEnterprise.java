@@ -12,8 +12,8 @@ import Business.Organization.Manufacturing.ProductionLineOrganization;
  * @author yuta
  */
  public class ManufacturingEnterprise extends Enterprise {
-    public ManufacturingEnterprise(String name) {
-        super(name, EnterpriseType.MANUFACTURING);
+    public ManufacturingEnterprise(String name, String adminName, String adminPassword) {
+        super(name, EnterpriseType.MANUFACTURING, adminName, adminPassword);
     }
     
     @Override

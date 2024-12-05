@@ -4,6 +4,8 @@
  */
 package Business.Enterprise;
 
+import Business.Admin;
+import Business.Network.Network;
 import Business.Organization.Advertisement.DigitalStrategyOrganization;
 import Business.Organization.Advertisement.PlannerOrganization;
 import Business.Organization.Delivery.DeliveryManagerOrganization;
@@ -19,6 +21,7 @@ import Business.Organization.Tech.PurchasingOrganization;
 import Business.Organization.Tech.ResearchAndDevelopmentOrganization;
 import Business.Role.Role;
 import Business.UserAccount.UserAccount;
+import static java.time.Clock.system;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +35,14 @@ public abstract class Enterprise {
     private String name;
     private List<Organization> organizationList;
     private List<UserAccount> employeeList;
+    private Admin admin;
     
-    public Enterprise(String name, EnterpriseType type) {
+    public Enterprise(String name, EnterpriseType type, String adminName, String adminPassword) {
         this.name = name;
         this.type = type;
         this.organizationList = new ArrayList<>();
         this.employeeList = new ArrayList<>();
+        this.admin = new Admin(adminName, adminPassword);
         initializeOrganizations();
     }
     
@@ -50,6 +55,11 @@ public abstract class Enterprise {
     public void addUserAccount(UserAccount userAccount) {
         employeeList.add(userAccount);
         userAccount.setEnterprise(this);
+    }
+    
+    // Add this method to Enterprise class
+    public boolean isEnterpriseAdmin(UserAccount account) {
+        return admin != null && admin.equals(account);
     }
     
     public List<Organization> getOrganizationDirectory() {
@@ -123,5 +133,9 @@ public abstract class Enterprise {
             }
         }
         return null;
+    }
+    
+    public Admin getAdmin() {
+        return admin;
     }
 }

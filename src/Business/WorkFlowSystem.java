@@ -29,7 +29,7 @@ public class WorkFlowSystem extends Organization {
         if (business == null) {
             business = new WorkFlowSystem();
             business.createTestSystem();    
-            admin = new Admin();
+            admin = new Admin("admin", "admin");
         }
         return business;
     }
@@ -104,48 +104,70 @@ public class WorkFlowSystem extends Organization {
     }
     
     private void createTechEnterprise(Network network) {
-        Enterprise techEnterprise = new TechnologyProductEnterprise("TechCorp");
+        String name = "TechCorp";
+        String adminUsername = name.toLowerCase() + "_admin";
+        String adminPassword = name.toLowerCase() + "_admin";
+        Enterprise techEnterprise = new TechnologyProductEnterprise(name, adminUsername, adminPassword);
+        System.out.println("test");
+        System.out.println(adminUsername);
         network.addEnterprise(techEnterprise);
         System.out.println("\nCreated Tech Enterprise: " + techEnterprise.getName());
-        
+        System.out.println("  Created enterprise admin: " + adminUsername);
+
         // Each role matches to its specific organization
         createAccount(techEnterprise, "techpm", "123", new ProductManagerRole());    // Product Management Org
         createAccount(techEnterprise, "techrd", "123", new RDRole());                // R&D Org
-        createAccount(techEnterprise, "pu", "123", new PurchasingManagerRole()); // Purchasing Org
-        createAccount(techEnterprise, "techmkt", "123", new MarketingManagerRole());  // Marketing Org
+        createAccount(techEnterprise, "pu", "123", new PurchasingManagerRole());     // Purchasing Org
+        createAccount(techEnterprise, "techmkt", "123", new MarketingManagerRole()); // Marketing Org
     }
-    
+
     private void createManufacturingEnterprise(Network network) {
-        Enterprise mfgEnterprise = new ManufacturingEnterprise("MfgCorp");
+        String name = "MfgCorp";
+        String adminUsername = name.toLowerCase() + "_admin";
+        String adminPassword = name.toLowerCase() + "_admin";
+        Enterprise mfgEnterprise = new ManufacturingEnterprise(name, adminUsername, adminPassword);
         network.addEnterprise(mfgEnterprise);
         System.out.println("\nCreated Manufacturing Enterprise: " + mfgEnterprise.getName());
-        
+        System.out.println("  Created enterprise admin: " + adminUsername);
+
         createAccount(mfgEnterprise, "mm", "123", new ManufacturingManagerRole()); // Manufacturing Management Org
         createAccount(mfgEnterprise, "mw", "123", new ManufacturingWorkerRole());  // Manufacturing Operations Org
     }
-    
+
     private void createDeliveryEnterprise(Network network) {
-        Enterprise delEnterprise = new DeliveryEnterprise("DelCorp");
+        String name = "DelCorp";
+        String adminUsername = name.toLowerCase() + "_admin";
+        String adminPassword = name.toLowerCase() + "_admin";
+        Enterprise delEnterprise = new DeliveryEnterprise(name, adminUsername, adminPassword);
         network.addEnterprise(delEnterprise);
         System.out.println("\nCreated Delivery Enterprise: " + delEnterprise.getName());
-        
+        System.out.println("  Created enterprise admin: " + adminUsername);
+
         createAccount(delEnterprise, "delm", "123", new DeliveryManagerRole()); // Delivery Management Org
         createAccount(delEnterprise, "delw", "123", new DeliveryRole());        // Delivery Operations Org
     }
-    
+
     private void createRetailEnterprise(Network network) {
-        Enterprise retEnterprise = new RetailEnterprise("RetailCorp");
+        String name = "RetailCorp";
+        String adminUsername = name.toLowerCase() + "_admin";
+        String adminPassword = name.toLowerCase() + "_admin";
+        Enterprise retEnterprise = new RetailEnterprise(name, adminUsername, adminPassword);
         network.addEnterprise(retEnterprise);
         System.out.println("\nCreated Retail Enterprise: " + retEnterprise.getName());
-        
+        System.out.println("  Created enterprise admin: " + adminUsername);
+
         createAccount(retEnterprise, "retmgr", "123", new RetailManagerRole());   // Retail Sales Org
     }
-    
+
     private void createAdvertisingEnterprise(Network network) {
-        Enterprise adEnterprise = new AdvertisingEnterprise("AdCorp");
+        String name = "AdCorp";
+        String adminUsername = name.toLowerCase() + "_admin";
+        String adminPassword = name.toLowerCase() + "_admin";
+        Enterprise adEnterprise = new AdvertisingEnterprise(name, adminUsername, adminPassword);
         network.addEnterprise(adEnterprise);
         System.out.println("\nCreated Advertising Enterprise: " + adEnterprise.getName());
-        
+        System.out.println("  Created enterprise admin: " + adminUsername);
+
         createAccount(adEnterprise, "admgr", "123", new AdvertisingManagerRole());     // Planner Org
         createAccount(adEnterprise, "adstr", "123", new DigitalAdsStrategistRole());   // Digital Strategy Org
     }

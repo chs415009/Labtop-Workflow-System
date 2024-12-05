@@ -12,8 +12,8 @@ import Business.Organization.Advertisement.PlannerOrganization;
  * @author yuta
  */
 public class AdvertisingEnterprise extends Enterprise {
-    public AdvertisingEnterprise(String name) {
-        super(name, EnterpriseType.ADVERTISING);
+    public AdvertisingEnterprise(String name, String adminName, String adminPassword) {
+        super(name, EnterpriseType.ADVERTISING, adminName, adminPassword);
     }
     
     @Override

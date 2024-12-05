@@ -16,8 +16,10 @@ import Business.Role.Tech.*;
 import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,24 +43,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageEnterpriseEmployeeJPanel extends javax.swing.JPanel {
 
-    private JTable enterpriseAdminTable;
-    private JComboBox<Network> networkComboBox;
-    private JComboBox<Enterprise> enterpriseComboBox;
-    private JComboBox<Role> roleComboBox;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JButton submitButton;
-
+    private JTable employeeTable;
+    private JButton createEmployeeButton;
+    private JButton deleteEmployeeButton;
+    private JPanel userProcessContainer;
     private WorkFlowSystem system;
-    
-    public ManageEnterpriseEmployeeJPanel(WorkFlowSystem system) {
+    private JButton editEmployeeButton;
+
+    private boolean isSystemAdmin;
+    private Enterprise currentEnterprise; // For enterprise admin
+
+    public ManageEnterpriseEmployeeJPanel(JPanel userProcessContainer, WorkFlowSystem system, 
+                                         boolean isSystemAdmin, Enterprise currentEnterprise) {
+        this.userProcessContainer = userProcessContainer;
         this.system = system;
-        initComponents(); // Call this first
+        this.isSystemAdmin = isSystemAdmin;
+        this.currentEnterprise = currentEnterprise;
+        initComponents();
         customizeComponents();
-        populateNetworkComboBox();
         populateTable();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,334 +72,219 @@ public class ManageEnterpriseEmployeeJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-    private void populateTable() {
-        DefaultTableModel model = (DefaultTableModel) enterpriseAdminTable.getModel();
-
-        // Update column headers
-        model.setColumnIdentifiers(new Object[]{
-            "No.", "Name", "Role", "Enterprise", "Network"
-        });
-
-        model.setRowCount(0);
-        int sequenceNumber = 1;
-
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                for (UserAccount userAccount : enterprise.getEmployerList()) {
-                    Object[] row = new Object[5];
-                    row[0] = sequenceNumber++;                    // Sequence number
-                    row[1] = userAccount.getUsername();           // Username
-                    row[2] = userAccount.getRole().toString();    // Role
-                    row[3] = enterprise.getName();                // Enterprise name
-                    row[4] = network.getName();                   // Network name
-                    model.addRow(row);
-                }
-            }
-        }
-    }
-
-
-    private void populateNetworkComboBox() {
-       networkComboBox.removeAllItems();
-            for (Network network : system.getNetworkList()) {
-                networkComboBox.addItem(network); // 添加 Network 物件
-        }
-    }
-
-    private void populateEnterpriseComboBox(Network network) {
-        enterpriseComboBox.removeAllItems();
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                enterpriseComboBox.addItem(enterprise); // 添加 Enterprise 物件
-        }
-    }
-
-
+    
     private void customizeComponents() {
-        
-        DefaultTableModel model = new DefaultTableModel(
+        setBackground(Color.decode("#E8EEF1"));
+
+        // Table Panel Section
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBackground(Color.decode("#E8EEF1"));
+
+        JLabel tableLabel = new JLabel("Enterprise Employees", SwingConstants.CENTER);
+        tableLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        tablePanel.add(tableLabel, BorderLayout.NORTH);
+
+        // Initialize table
+        employeeTable = new JTable(new DefaultTableModel(
             new Object[][]{},
             new String[]{"No.", "Name", "Role", "Enterprise", "Network"}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;  // Make table non-editable
+                return false;
             }
-        };
+        });
 
-        enterpriseAdminTable = new JTable(model);
+        // Configure table appearance
+        employeeTable.setRowHeight(25);
+        employeeTable.setFillsViewportHeight(true);
+        employeeTable.setSelectionBackground(Color.decode("#D4E6F1"));
+        employeeTable.getTableHeader().setBackground(Color.decode("#2980B9"));
+        employeeTable.getTableHeader().setForeground(Color.WHITE);
+        employeeTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
 
-        // Initialize other components
-        networkComboBox = new JComboBox<>();
-        enterpriseComboBox = new JComboBox<>();
-        roleComboBox = new JComboBox<>();
-        usernameField = new JTextField();
-        passwordField = new JPasswordField();
-        submitButton = new JButton();
-        
-        setLayout(new BorderLayout(10, 10));
-        setBackground(Color.decode("#F5F7FA"));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        // Title Panel
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(Color.decode("#F5F7FA"));
-        JLabel titleLabel = new JLabel("Enterprise Employee Management", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.decode("#2C3E50"));
-        titlePanel.add(titleLabel);
-        add(titlePanel, BorderLayout.NORTH);
-
-        // Table Panel
-        JPanel tablePanel = new JPanel(new BorderLayout(0, 10));
-        tablePanel.setBackground(Color.decode("#F5F7FA"));
-        tablePanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-            javax.swing.BorderFactory.createTitledBorder("Enterprise Employees"),
-            javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-        // Configure table
-        enterpriseAdminTable.setRowHeight(25);
-        enterpriseAdminTable.setFillsViewportHeight(true);
-        enterpriseAdminTable.setSelectionBackground(Color.decode("#D4E6F1"));
-        enterpriseAdminTable.getTableHeader().setBackground(Color.decode("#2980B9"));
-        enterpriseAdminTable.getTableHeader().setForeground(Color.WHITE);
-        enterpriseAdminTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-
-        // Set column widths
-        if (enterpriseAdminTable.getColumnModel().getColumnCount() > 0) {
-            enterpriseAdminTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-            enterpriseAdminTable.getColumnModel().getColumn(0).setMaxWidth(50);
-            enterpriseAdminTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-            enterpriseAdminTable.getColumnModel().getColumn(2).setPreferredWidth(150);
-            enterpriseAdminTable.getColumnModel().getColumn(3).setPreferredWidth(150);
-            enterpriseAdminTable.getColumnModel().getColumn(4).setPreferredWidth(150);
+        if (employeeTable.getColumnModel().getColumnCount() > 0) {
+            employeeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+            employeeTable.getColumnModel().getColumn(0).setMaxWidth(50);
+            employeeTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            employeeTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+            employeeTable.getColumnModel().getColumn(3).setPreferredWidth(150);
+            employeeTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         }
 
-        JScrollPane scrollPane = new JScrollPane(enterpriseAdminTable);
-        scrollPane.setPreferredSize(new Dimension(600, 200));
+        JScrollPane scrollPane = new JScrollPane(employeeTable);
         tablePanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Button Panel Section
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setBackground(Color.decode("#E8EEF1"));
+
+        createEmployeeButton = new JButton("Create Employee");
+        createEmployeeButton.setBackground(Color.decode("#2980B9"));
+        createEmployeeButton.setForeground(Color.WHITE);
+
+        deleteEmployeeButton = new JButton("Delete Employee");
+        deleteEmployeeButton.setBackground(Color.decode("#E74C3C"));
+        deleteEmployeeButton.setForeground(Color.WHITE);
+        
+                // In Button Panel Section
+        editEmployeeButton = new JButton("Edit Employee");
+        editEmployeeButton.setBackground(Color.decode("#F39C12")); // Orange color
+        editEmployeeButton.setForeground(Color.WHITE);
+
+        buttonPanel.add(createEmployeeButton);
+        buttonPanel.add(editEmployeeButton);      // Add this
+        buttonPanel.add(deleteEmployeeButton);
+
+        tablePanel.add(buttonPanel, BorderLayout.SOUTH);
         add(tablePanel, BorderLayout.CENTER);
 
-        // Form Panel
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.decode("#F5F7FA"));
-        formPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-            javax.swing.BorderFactory.createTitledBorder("Add New Employee"),
-            javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        // Add form fields
-        addFormField(formPanel, "Network:", networkComboBox, gbc, 0);
-        networkComboBox.addActionListener(e -> {
-            Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-            if (selectedNetwork != null) {
-                populateEnterpriseComboBox(selectedNetwork);
-            }
+        // Action Listeners
+        createEmployeeButton.addActionListener(e -> {
+            CreateEmployeeJPanel createEmployeePanel = new CreateEmployeeJPanel(userProcessContainer, system, this);
+            userProcessContainer.add(createEmployeePanel, "CreateEmployeeJPanel");
+            CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+            layout.next(userProcessContainer);
         });
 
-        addFormField(formPanel, "Enterprise:", enterpriseComboBox, gbc, 1);
-        enterpriseComboBox.addActionListener(e -> {
-            Enterprise selectedEnterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
-            if (selectedEnterprise != null) {
-                populateRoleComboBox(selectedEnterprise);
+        deleteEmployeeButton.addActionListener(e -> {
+            int selectedRow = employeeTable.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Please select an employee to delete.");
+                return;
+            } 
+
+            int dialogResult = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete this employee?",
+                "Delete Employee",
+                JOptionPane.YES_NO_OPTION);
+
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                String username = (String) employeeTable.getValueAt(selectedRow, 1);
+                String enterpriseName = (String) employeeTable.getValueAt(selectedRow, 3);
+                String networkName = (String) employeeTable.getValueAt(selectedRow, 4);
+
+                // Find and remove the employee
+                for (Network network : system.getNetworkList()) {
+                    if (network.getName().equals(networkName)) {
+                        for (Enterprise enterprise : network.getEnterpriseList()) {
+                            if (enterprise.getName().equals(enterpriseName)) {
+                                enterprise.getEmployerList().removeIf(emp -> emp.getUsername().equals(username));
+                                break;
+                            }
+                        }
+                    }
+                }
+                populateTable();
             }
         });
+        
+        editEmployeeButton.addActionListener(e -> {
+                int selectedRow = employeeTable.getSelectedRow();
+                if (selectedRow < 0) {
+                    JOptionPane.showMessageDialog(this, "Please select an employee to edit.");
+                    return;
+                }
 
-        addFormField(formPanel, "Role:", roleComboBox, gbc, 2);
-        addFormField(formPanel, "Username:", usernameField, gbc, 3);
-        addFormField(formPanel, "Password:", passwordField, gbc, 4);
+                String username = (String) employeeTable.getValueAt(selectedRow, 1);
+                String enterpriseName = (String) employeeTable.getValueAt(selectedRow, 3);
+                String networkName = (String) employeeTable.getValueAt(selectedRow, 4);
 
-        // Submit Button
-        submitButton.setText("Create Employee Account");
-        submitButton.setBackground(Color.decode("#2980B9"));
-        submitButton.setForeground(Color.WHITE);
-        submitButton.setFont(new Font("Arial", Font.BOLD, 14));
-        submitButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        submitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        submitButton.addActionListener(e -> submitEnterpriseAdmin());
+                // Find the selected employee
+                UserAccount selectedEmployee = null;
+                Enterprise selectedEnterprise = null;
 
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(submitButton, gbc);
+                for (Network network : system.getNetworkList()) {
+                    if (network.getName().equals(networkName)) {
+                        for (Enterprise enterprise : network.getEnterpriseList()) {
+                            if (enterprise.getName().equals(enterpriseName)) {
+                                for (UserAccount ua : enterprise.getEmployerList()) {
+                                    if (ua.getUsername().equals(username)) {
+                                        selectedEmployee = ua;
+                                        selectedEnterprise = enterprise;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
-        add(formPanel, BorderLayout.SOUTH);
+                if (selectedEmployee != null) {
+                    EditEmployeeJPanel editPanel = new EditEmployeeJPanel(
+                        userProcessContainer, 
+                        system, 
+                        this, 
+                        selectedEmployee,
+                        selectedEnterprise
+                    );
+                    userProcessContainer.add(editPanel, "EditEmployeeJPanel");
+                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                    layout.next(userProcessContainer);
+                }
+            });
     }
 
-    private void addFormField(JPanel panel, String labelText, JComponent component, 
-                             GridBagConstraints gbc, int gridy) {
-        JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
+    private void populateTable() {
+        DefaultTableModel model = (DefaultTableModel) employeeTable.getModel();
+        model.setRowCount(0);
+        int sequenceNumber = 1;
 
-        gbc.gridx = 0;
-        gbc.gridy = gridy;
-        gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        panel.add(label, gbc);
-
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        panel.add(component, gbc);
-    }
-    
-    private void submitEnterpriseAdmin() {
-        // Get selected items from combo boxes
-        Network selectedNetwork = (Network) networkComboBox.getSelectedItem();
-        Enterprise selectedEnterprise = (Enterprise) enterpriseComboBox.getSelectedItem();
-        Role selectedRole = (Role) roleComboBox.getSelectedItem();
-
-        // Get input values
-        String username = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-
-        // Validate inputs
-        if (selectedNetwork == null || selectedEnterprise == null || selectedRole == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Please select network, enterprise, and role",
-                "Input Error",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Please fill in all fields",
-                "Input Error",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Check if username already exists in the system
-        for (Network network : system.getNetworkList()) {
-            for (Enterprise enterprise : network.getEnterpriseList()) {
-                for (UserAccount account : enterprise.getEmployerList()) {
-                    if (account.getUsername().equals(username)) {
-                        JOptionPane.showMessageDialog(this,
-                            "Username already exists. Please choose a different username.",
-                            "Username Error",
-                            JOptionPane.ERROR_MESSAGE);
-                        return;
+        if (isSystemAdmin) {
+            // System admin sees all employees
+            for (Network network : system.getNetworkList()) {
+                for (Enterprise enterprise : network.getEnterpriseList()) {
+                    for (UserAccount userAccount : enterprise.getEmployerList()) {
+                        addRowToTable(model, sequenceNumber++, userAccount, enterprise, network);
+                    }
+                }
+            }
+        } else {
+            // Enterprise admin only sees their enterprise's employees
+            if (currentEnterprise != null) {
+                for (Network network : system.getNetworkList()) {
+                    for (Enterprise enterprise : network.getEnterpriseList()) {
+                        if (enterprise.equals(currentEnterprise)) {
+                            for (UserAccount userAccount : enterprise.getEmployerList()) {
+                                addRowToTable(model, sequenceNumber++, userAccount, enterprise, network);
+                            }
+                            break;
+                        }
                     }
                 }
             }
         }
-
-        try {
-            // Create new UserAccount
-            UserAccount userAccount = new UserAccount(username, password, selectedRole);            
-             Organization organization = selectedEnterprise.findOrganizationForRole(selectedRole);
-             
-            if (organization == null) {
-                JOptionPane.showMessageDialog(this,
-                    "No matching organization found for this role.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            // Add the user account to the selected enterprise's employee list
-            selectedEnterprise.addUserAccount(userAccount);
-            organization.addUserAccount(userAccount);
-
-            // Clear the form
-            clearFields();
-
-            // Refresh the table
-            populateTable();
-
-            JOptionPane.showMessageDialog(this,
-                "Enterprise employee account created successfully!",
-                "Success",
-                JOptionPane.INFORMATION_MESSAGE);
-            
-            WorkFlowSystem.getInstance().printAllEmployees();
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,
-                "Error creating account: " + ex.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-        }
+    }
+    
+    private void addRowToTable(DefaultTableModel model, int sequenceNumber, 
+                          UserAccount userAccount, Enterprise enterprise, Network network) {
+        Object[] row = new Object[5];
+        row[0] = sequenceNumber;
+        row[1] = userAccount.getUsername();
+        row[2] = userAccount.getRole().toString();
+        row[3] = enterprise.getName();
+        row[4] = network.getName();
+        model.addRow(row);
     }
 
-    private void clearFields() {
-        usernameField.setText("");
-        passwordField.setText("");
-        roleComboBox.setSelectedIndex(-1);
-    }
-
-    private void populateRoleComboBox(Enterprise enterprise) {
-        roleComboBox.removeAllItems();
-
-        if (enterprise != null) {
-            switch (enterprise.getType()) {
-                case TECH:
-                    roleComboBox.addItem(new ProductManagerRole());
-                    roleComboBox.addItem(new RDRole());
-                    roleComboBox.addItem(new PurchasingManagerRole());
-                    roleComboBox.addItem(new MarketingManagerRole());
-                    break;
-
-                case MANUFACTURING:
-                    roleComboBox.addItem(new ManufacturingManagerRole());
-                    roleComboBox.addItem(new ManufacturingWorkerRole());
-                    break;
-
-                case DELIVERY:
-                    roleComboBox.addItem(new DeliveryManagerRole());
-                    roleComboBox.addItem(new DeliveryRole());
-                    break;
-
-                case RETAIL:
-                    roleComboBox.addItem(new RetailManagerRole());
-                    break;
-
-                case ADVERTISING:
-                    roleComboBox.addItem(new AdvertisingManagerRole());
-                    roleComboBox.addItem(new DigitalAdsStrategistRole());
-                    break;
-            }
-        }
+    public void refreshTable() {
+        populateTable();
     }
 
     // Getters
-    public JTable getEnterpriseAdminTable() {
-        return enterpriseAdminTable;
+    public JTable getEmployeeTable() {
+        return employeeTable;
     }
 
-    public JComboBox<Network> getNetworkComboBox() {
-        return networkComboBox;
+    public JButton getCreateEmployeeButton() {
+        return createEmployeeButton;
     }
 
-    public JComboBox<Enterprise> getEnterpriseComboBox() {
-        return enterpriseComboBox;
+    public JButton getDeleteEmployeeButton() {
+        return deleteEmployeeButton;
     }
-
-    public JTextField getUsernameField() {
-        return usernameField;
-    }
-
-    public JPasswordField getPasswordField() {
-        return passwordField;
-    }
-
-    public JButton getSubmitButton() {
-        return submitButton;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

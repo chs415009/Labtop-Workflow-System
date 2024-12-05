@@ -4,7 +4,6 @@
  */
 package ui.Tech.ProductManager;
 
-
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.EnterpriseType;
 import Business.Network.Network;
@@ -13,11 +12,11 @@ import Business.UserAccount.UserAccount;
 import Business.WorkFlowSystem;
 import Business.WorkRequest.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import ui.MainJFrame;
-
 
 /**
  *
@@ -30,19 +29,20 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
      */
     JPanel container;
     Organization CurrentOrganization;
-    Organization RDOrganization;
-    Organization PurchaseOrganization;
-    UserAccount  UserAccount;
+    ArrayList<Organization> RDOrganizations;
+    ArrayList<Organization> PurchaseOrganizations;
+    UserAccount UserAccount;
     WorkFlowSystem system;
     MainJFrame mainFrame;
-    public ProductManagerWorkArea(JPanel container,UserAccount UserAccount,WorkFlowSystem system, MainJFrame mainFrame) {
+
+    public ProductManagerWorkArea(JPanel container, UserAccount UserAccount, WorkFlowSystem system, MainJFrame mainFrame) {
         initComponents();
         this.container = container;
-        this.CurrentOrganization=UserAccount.getOrganization();
+        this.CurrentOrganization = UserAccount.getOrganization();
         this.system = system;
-        this.mainFrame=mainFrame;
-        RDOrganization = findRDOrganizationInsystem();
-        PurchaseOrganization= findPurchaseOrganizationInsystem();
+        this.mainFrame = mainFrame;
+        RDOrganizations = findRDOrganizationInsystem();
+        PurchaseOrganizations = findPurchaseOrganizationInsystem();
         populateRequestTable();
     }
 
@@ -199,9 +199,9 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        CreateNewWorkRequest cnwr = new CreateNewWorkRequest(container, CurrentOrganization,RDOrganization);
+        CreateNewWorkRequest cnwr = new CreateNewWorkRequest(container, CurrentOrganization, RDOrganizations);
         container.add("CreateNewWorkRequest", cnwr);
-        CardLayout layout=(CardLayout)container.getLayout();
+        CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -215,17 +215,19 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
         // When verified is true, passing Workrequest to Purchasing Organization
         // Part2 starting....
-        if(request.getDevelopmentWorkRequest().getVerified()==true){
-            if(isWorkRequestExist(PurchaseOrganization,request)==true){
-               
-                JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Purchase Organization!","Warning",JOptionPane.WARNING_MESSAGE);
-                return;
+        if (request.getDevelopmentWorkRequest().getVerified() == true) {
+           for(Organization organization:PurchaseOrganizations){
+                if(isWorkRequestExist(organization,request)==true){
+                    JOptionPane.showMessageDialog(this, "This WorkRequest is already existed in Purcase Organization","Warning",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{ 
+                    organization.getWorkQueue().addWorkRequest(request);
+                   
+                }
             }
-            else{ PurchaseOrganization.getWorkQueue().addWorkRequest(request);
-                JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purchase Organization!");}
-
-        }else{
-            JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!","Error",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "This WorkRequest has been passed to Purcase Organizations!");
+        } else {
+            JOptionPane.showMessageDialog(this, "The DevWorkRequest is not verified!", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -240,9 +242,9 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-        ViewDevWorkRequest vdwr = new ViewDevWorkRequest(container, CurrentOrganization,request);
+        ViewDevWorkRequest vdwr = new ViewDevWorkRequest(container, CurrentOrganization, request);
         container.add("ReportDevelopeWorkRequest", vdwr);
-        CardLayout layout=(CardLayout)container.getLayout();
+        CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnDevProgressActionPerformed
 
@@ -254,36 +256,35 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
 
     private void btnWorkSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWorkSummaryActionPerformed
         // TODO add your handling code here:
-         int selectedRowIndex = tblWorkRequest.getSelectedRow();
+        int selectedRowIndex = tblWorkRequest.getSelectedRow();
         if (selectedRowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Please select a WorkRequest first.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
         WorkRequest request = (WorkRequest) tblWorkRequest.getValueAt(selectedRowIndex, 0);
 
-       ViewWorkReqeustSummary viewWorkReqeustSummary = new ViewWorkReqeustSummary(container,request);
+        ViewWorkReqeustSummary viewWorkReqeustSummary = new ViewWorkReqeustSummary(container, request);
         container.add("ViewWorkReqeustSummary", viewWorkReqeustSummary);
-        CardLayout layout=(CardLayout)container.getLayout();
+        CardLayout layout = (CardLayout) container.getLayout();
         layout.next(container);
     }//GEN-LAST:event_btnWorkSummaryActionPerformed
 
-    public void populateRequestTable(){
+    public void populateRequestTable() {
         DefaultTableModel model = (DefaultTableModel) tblWorkRequest.getModel();
-        
+
         model.setRowCount(0);
-        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()){
+        for (WorkRequest request : CurrentOrganization.getWorkQueue().getWorkRequests()) {
             Object[] row = new Object[5];
-            row[0] = request ;
+            row[0] = request;
             row[1] = request.getProduct();
             row[2] = request.getStatus();
-            if( request.getDevelopmentWorkRequest().getdevStatus()==null){
-                row[3]="N/A";
-            }
-            else{
-            row[3] = request.getDevelopmentWorkRequest().getdevStatus();
+            if (request.getDevelopmentWorkRequest().getdevStatus() == null) {
+                row[3] = "N/A";
+            } else {
+                row[3] = request.getDevelopmentWorkRequest().getdevStatus();
             }
             row[4] = request.getDevelopmentWorkRequest().getVerified();
-           
+
             model.addRow(row);
         }
     }
@@ -299,45 +300,48 @@ public class ProductManagerWorkArea extends javax.swing.JPanel {
     private javax.swing.JTable tblWorkRequest;
     // End of variables declaration//GEN-END:variables
 
-    private Organization findRDOrganizationInsystem() {
+    private ArrayList<Organization> findRDOrganizationInsystem() {
         //遍歷所有network中的enterPrise 直到找到type 是TECH
         //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
-           for(Enterprise enterprise : network.getEnterpriseList()){
-               if(enterprise.getType()==EnterpriseType.TECH){
-                   for(Organization organization : enterprise.getOrganizationDirectory()){
-                       if(organization.getName()=="Research and Development"){
-                           return organization;
-                       }
-                   }
-               }
-           }
-       }
-        return null;// return null if doesn't found
-    }
-   private Organization findPurchaseOrganizationInsystem() {
-        //遍歷所有network中的enterPrise 直到找到type 是TECH
-        //再搜尋當中Organiation 名稱符合的
-       for(Network network : system.getNetworkList()){
-           for(Enterprise enterprise : network.getEnterpriseList()){
-               if(enterprise.getType()==EnterpriseType.TECH){
-                   for(Organization organization : enterprise.getOrganizationDirectory()){
-                       if(organization.getName()=="Purchasing"){
-                           return organization;
-                       }
-                   }
-               }
-           }
-       }
-        return null;// return null if doesn't found
+        ArrayList<Organization> Organizations = new ArrayList<>();
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.TECH) {
+                    for (Organization organization : enterprise.getOrganizationDirectory()) {
+                        if (organization.getName() == "Research and Development") {
+                            Organizations.add(organization);
+                        }
+                    }
+                }
+            }
+        }
+        return Organizations;// return null if doesn't found
     }
 
-    private boolean isWorkRequestExist(Organization Organization,WorkRequest CurrentRequest) {
-        for(WorkRequest request : Organization.getWorkQueue().getWorkRequests()){
-           if(CurrentRequest==request){
-              
-               return true;
-           }
+    private ArrayList<Organization> findPurchaseOrganizationInsystem() {
+        //遍歷所有network中的enterPrise 直到找到type 是TECH
+        //再搜尋當中Organiation 名稱符合的
+        ArrayList<Organization> Organizations = new ArrayList<>();
+        for (Network network : system.getNetworkList()) {
+            for (Enterprise enterprise : network.getEnterpriseList()) {
+                if (enterprise.getType() == EnterpriseType.TECH) {
+                    for (Organization organization : enterprise.getOrganizationDirectory()) {
+                        if (organization.getName() == "Purchasing") {
+                            Organizations.add(organization);
+                        }
+                    }
+                }
+            }
+        }
+        return Organizations;// return null if doesn't found
+    }
+
+    private boolean isWorkRequestExist(Organization Organization, WorkRequest CurrentRequest) {
+        for (WorkRequest request : Organization.getWorkQueue().getWorkRequests()) {
+            if (CurrentRequest == request) {
+
+                return true;
+            }
         }
         return false;
     }

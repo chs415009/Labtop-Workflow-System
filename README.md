@@ -26,10 +26,18 @@ This workflow management simulation enables users to:
   <img src="./bin/slide2.png" width="700" alt="Process Management Interface">
 </p>
 
-### 02. Model Configuration
-- **Configuration Options**: Settings for different laptop models
-- **Component Selection**: Track hardware specifications
-- **Color-coded Interface**: Visual indicators for process status
+### 02. System Architecture
+
+- **UML Class Diagram**: Illustrates the object-oriented design and class relationships of the entire system
+- **Workflow Design**: Shows work request relationships between different departments and organizations
+- **Data Model**: Demonstrates how data is structured and related throughout the system
+
+The diagram displays:
+- Relationships between different enterprise entities (Advertising, Retail, Delivery, Manufacturing, etc.)
+- WorkQueue connections between various departments
+- How different types of WorkRequests flow through the system
+
+This architecture enables the system to track the complete lifecycle of laptop production and coordinate workflows across departments.
 
 <p align="center">
   <img src="./bin/slide4.png" width="700" alt="Model Configuration Panel">

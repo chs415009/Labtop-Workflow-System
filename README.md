@@ -3,7 +3,7 @@
 ![Java](https://img.shields.io/badge/Java-Swing-orange)
 ![Project](https://img.shields.io/badge/Project-Academic-blue)
 
-**Labtop Workflow System** is a Java Swing application developed as an academic project to simulate and manage the workflow of a laptop production process. The system demonstrates the implementation of user interfaces, database connectivity, and business logic in a desktop application environment.
+**Labtop Workflow System** is a Java Swing application developed as an academic project to simulate and manage the workflow of a laptop production process. The system demonstrates the implementation of user interfaces and business logic in a desktop application environment.
 
 ## 📋 Project Overview
 

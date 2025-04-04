@@ -133,6 +133,84 @@ The system orchestrates complex interactions between these roles through special
    - Verified by: Marketing Manager
 
 This interdependent role structure ensures proper handoffs between departments and maintains accountability throughout the laptop production lifecycle.
+<br>
+<br>
+
+
+## 🖥️ Interactive Interface Gallery
+
+<div align="center">
+  <h3>📱 Explore the Labtop Workflow System</h3>
+  <p><i>A visual journey through our intuitive user interfaces</i></p>
+</div>
+
+---
+
+### 🔐 Authentication Portal
+<p align="center"><i>The gateway to our enterprise ecosystem - secure, streamlined, and user-friendly</i></p>
+
+<p align="center">
+  <img src="./bin/demo0.png" width="700" alt="Login Screen" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</p>
+
+---
+
+### ⚙️ Administrative Command Center
+<p align="center"><i>Powerful management tools for system administrators to orchestrate the enterprise network</i></p>
+
+<div align="center">
+  <table border="0">
+    <tr>
+      <td><img src="./bin/demo1.png" width="700" alt="Enterprise Employee Management"></td>
+    </tr>
+    <tr>
+      <td><em>Enterprise Employee Management - The human element of our workflow</em></td>
+    </tr>
+  </table>
+  
+  <table border="0">
+    <tr>
+      <td><img src="./bin/demo2.png" width="700" alt="Enterprise Configuration"></td>
+    </tr>
+    <tr>
+      <td><em>Enterprise Configuration - Building the organizational backbone</em></td>
+    </tr>
+  </table>
+</div>
+
+---
+
+### 👥 Role-Optimized Workspaces
+<p align="center"><i>Tailored interfaces delivering just what each team member needs - when they need it</i></p>
+
+<div align="center">
+  <img src="./bin/demo3.png" width="700" alt="Product Manager WorkArea">
+  
+  <img src="./bin/demo4.png" width="700" alt="Manufacturing Manager WorkArea">
+  
+  <img src="./bin/demo5.png" width="700" alt="WorkRequest Summary View">
+</div>
+
+---
+
+### 🔄 Unified Workflow Visibility
+<p align="center"><i>Complete transparency across the entire laptop production lifecycle</i></p>
+
+<p align="center">
+  <img src="./bin/demo6.png" width="700" alt="Production Workflow Status">
+</p>
+
+<div align="center">
+  <h4>✨ Seamless Coordination Across Departments ✨</h4>
+  <p>The Labtop Workflow System bridges organizational boundaries, ensuring clear communication and accountability at every step of the production journey.</p>
+</div>
+
+<br>
+<br>
+
+
+
+
 
 
 ## 💻 Implementation Details
